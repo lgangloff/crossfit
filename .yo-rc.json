@@ -1,0 +1,21 @@
+{
+  "generator-jhipster": {
+    "baseName": "crossfit",
+    "packageName": "org.crossfit.app",
+    "packageFolder": "org/crossfit/app",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "no",
+    "useSass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "8",
+    "enableTranslation": true,
+    "rememberMeKey": "7ca8472b058a2023ba576ff40139793b6546c6b7"
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "crossfitApp": {
+        "crossFitBox" : {
+            "home": {
+                "title": "CrossFitBoxs",
+                "createLabel": "Create a new CrossFitBox",
+                "createOrEditLabel": "Create or edit a CrossFitBox"
+            },
+            "created": "A new CrossFitBox is created with identifier {{ param }}",
+            "updated": "A CrossFitBox is updated with identifier {{ param }}",
+            "deleted": "A CrossFitBox is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete CrossFitBox {{ id }}?"
+            },
+            "detail": {
+                "title": "CrossFitBox"
+            },
+            "name": "Name",
+            "website": "Website",
+            "logo": "Logo",
+            "administrators": "Administrators"
+        }
+    }
+}

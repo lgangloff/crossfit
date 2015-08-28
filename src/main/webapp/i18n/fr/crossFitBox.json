@@ -1,0 +1,22 @@
+{
+    "crossfitApp": {
+        "crossFitBox" : {
+            "home": {
+                "title": "CrossFitBoxs",
+                "createLabel": "Créer un nouveau CrossFitBox",
+                "createOrEditLabel": "Créer ou éditer un CrossFitBox"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le CrossFitBox {{ id }} ?"
+            },
+            "detail": {
+                "title": "CrossFitBox"
+            },
+            "name": "Name",
+            "website": "Website",
+            "logo": "Logo",
+            "administrators": "Administrators"
+        }
+    }
+}
+

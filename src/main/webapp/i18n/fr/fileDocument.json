@@ -1,0 +1,21 @@
+{
+    "crossfitApp": {
+        "fileDocument" : {
+            "home": {
+                "title": "FileDocuments",
+                "createLabel": "Créer un nouveau FileDocument",
+                "createOrEditLabel": "Créer ou éditer un FileDocument"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le FileDocument {{ id }} ?"
+            },
+            "detail": {
+                "title": "FileDocument"
+            },
+            "uuid": "Uuid",
+            "name": "Name",
+            "content": "Content"
+        }
+    }
+}
+

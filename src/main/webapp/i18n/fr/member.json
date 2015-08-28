@@ -1,0 +1,27 @@
+{
+    "crossfitApp": {
+        "member" : {
+            "home": {
+                "title": "Members",
+                "createLabel": "Créer un nouveau Member",
+                "createOrEditLabel": "Créer ou éditer un Member"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Member {{ id }} ?"
+            },
+            "detail": {
+                "title": "Member"
+            },
+            "telephonNumber": "TelephonNumber",
+            "sickNoteEndDate": "SickNoteEndDate",
+            "membershipStartDate": "MembershipStartDate",
+            "membershipEndDate": "MembershipEndDate",
+            "level": "Level",
+            "user": "User",
+            "box": "Box",
+            "sickNote": "SickNote",
+            "membershipType": "MembershipType"
+        }
+    }
+}
+

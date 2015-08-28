@@ -1,0 +1,95 @@
+
+<div>
+    <h2><span translate="crossfitApp.member.detail.title">Member</span> {{member.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.telephonNumber">TelephonNumber</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{member.telephonNumber}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.sickNoteEndDate">SickNoteEndDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{member.sickNoteEndDate}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.membershipStartDate">MembershipStartDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{member.membershipStartDate}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.membershipEndDate">MembershipEndDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{member.membershipEndDate}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.level">Level</span>
+                </td>
+                <td>
+                    <span class="input-sm form-control readonly" translate="crossfitApp.Level.SELECT"
+                          translate-interpolation="messageformat" translate-values="{ VALUE: member.level }"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.user">user</span>
+                </td>
+                <td>
+                    {{member.user.email}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.box">box</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="crossFitBox.detail({id:member.box.id})">{{member.box.name}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.sickNote">sickNote</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="fileDocument.detail({id:member.sickNote.id})">{{member.sickNote.name}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.member.membershipType">membershipType</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="membershipType.detail({id:member.membershipType.id})">{{member.membershipType.name}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

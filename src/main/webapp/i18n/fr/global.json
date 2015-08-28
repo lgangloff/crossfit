@@ -8,6 +8,8 @@
                 "main": "Entités",
                 "fileDocument": "FileDocument",
                 "crossFitBox": "CrossFitBox",
+                "membershipType": "MembershipType",
+                "member": "Member",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

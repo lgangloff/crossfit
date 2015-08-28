@@ -1,0 +1,56 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "box",
+            "otherEntityName": "crossFitBox",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "price",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "openAccess",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "numberOfSession",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "max"
+            ],
+            "fieldValidateRulesMax": 100
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "numberOfSessionPerWeek",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "max"
+            ],
+            "fieldValidateRulesMax": "20"
+        }
+    ],
+    "changelogDate": "20150828123807",
+    "dto": "no",
+    "pagination": "no"
+}

@@ -1,0 +1,71 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "email"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "box",
+            "otherEntityName": "crossFitBox",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipId": 3,
+            "relationshipName": "sickNote",
+            "otherEntityName": "fileDocument",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipId": 4,
+            "relationshipName": "membershipType",
+            "otherEntityName": "membershipType",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "telephonNumber",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "sickNoteEndDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "membershipStartDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "membershipEndDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "level",
+            "fieldType": "Level",
+            "fieldValues": "FOUNDATION,NOVICE,MIDDLE,SKILLED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20150828124537",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}

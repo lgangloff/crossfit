@@ -1,0 +1,24 @@
+{
+    "crossfitApp": {
+        "membershipType" : {
+            "home": {
+                "title": "MembershipTypes",
+                "createLabel": "Créer un nouveau MembershipType",
+                "createOrEditLabel": "Créer ou éditer un MembershipType"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le MembershipType {{ id }} ?"
+            },
+            "detail": {
+                "title": "MembershipType"
+            },
+            "name": "Name",
+            "price": "Price",
+            "openAccess": "OpenAccess",
+            "numberOfSession": "NumberOfSession",
+            "numberOfSessionPerWeek": "NumberOfSessionPerWeek",
+            "box": "Box"
+        }
+    }
+}
+

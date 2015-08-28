@@ -1,0 +1,98 @@
+<div>
+
+    <h2 translate="crossfitApp.member.home.title">Members</h2>
+    <jh-alert></jh-alert>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" ui-sref="member.new">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="crossfitApp.member.home.createLabel">Create a new Member</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteMemberConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(member.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="crossfitApp.member.delete.question" translate-values="{id: '{{member.id}}'}">Are you sure you want to delete this Member?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="global.field.id">ID</th>
+                    <th translate="crossfitApp.member.telephonNumber">TelephonNumber</th>
+                    <th translate="crossfitApp.member.sickNoteEndDate">SickNoteEndDate</th>
+                    <th translate="crossfitApp.member.membershipStartDate">MembershipStartDate</th>
+                    <th translate="crossfitApp.member.membershipEndDate">MembershipEndDate</th>
+                    <th translate="crossfitApp.member.level">Level</th>
+                    <th translate="crossfitApp.member.user">user</th>
+                    <th translate="crossfitApp.member.box">box</th>
+                    <th translate="crossfitApp.member.sickNote">sickNote</th>
+                    <th translate="crossfitApp.member.membershipType">membershipType</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
+                <tr ng-repeat="member in members">
+                    <td><a ui-sref="member.detail({id:member.id})">{{member.id}}</a></td>
+                    <td>{{member.telephonNumber}}</td>
+                    <td>{{member.sickNoteEndDate}}</td>
+                    <td>{{member.membershipStartDate}}</td>
+                    <td>{{member.membershipEndDate}}</td>
+                    <td>{{member.level}}</td>
+                    <td>
+                        {{member.user.email}}
+                    </td>
+                    <td>
+                        <a ui-sref="crossFitBox.detail({id:member.box.id})">{{member.box.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="fileDocument.detail({id:member.sickNote.id})">{{member.sickNote.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="membershipType.detail({id:member.membershipType.id})">{{member.membershipType.name}}</a>
+                    </td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="member.detail({id:member.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="member.edit({id:member.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(member.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

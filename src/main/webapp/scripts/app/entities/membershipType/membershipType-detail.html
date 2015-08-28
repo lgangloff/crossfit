@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="crossfitApp.membershipType.detail.title">MembershipType</span> {{membershipType.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.membershipType.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{membershipType.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.membershipType.price">Price</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{membershipType.price}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.membershipType.openAccess">OpenAccess</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{membershipType.openAccess}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.membershipType.numberOfSession">NumberOfSession</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{membershipType.numberOfSession}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.membershipType.numberOfSessionPerWeek">NumberOfSessionPerWeek</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{membershipType.numberOfSessionPerWeek}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.membershipType.box">box</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="crossFitBox.detail({id:membershipType.box.id})">{{membershipType.box.name}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

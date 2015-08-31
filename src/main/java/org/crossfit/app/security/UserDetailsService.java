@@ -1,18 +1,23 @@
 package org.crossfit.app.security;
 
 import org.crossfit.app.domain.Authority;
+import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.domain.User;
 import org.crossfit.app.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -30,11 +35,14 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Inject
     private UserRepository userRepository;
+    
+    @Inject
+    private CrossFitBox crossfitBox;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
-        log.debug("Authenticating {}", login);
+        log.debug("Authenticating {} for CrossFitBox {} ({})", login, crossfitBox.getName(), crossfitBox.getWebsite());
         String lowercaseLogin = login.toLowerCase();
         Optional<User> userFromDatabase =  userRepository.findOneByLogin(lowercaseLogin);
         return userFromDatabase.map(user -> {
@@ -44,9 +52,20 @@ public class UserDetailsService implements org.springframework.security.core.use
             List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
-            return new org.springframework.security.core.userdetails.User(lowercaseLogin,
+            
+            if (crossfitBox.getAdministrators().contains(user)){
+            	grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.MANAGER));
+            }
+            
+            
+            UserDetails userDetails = new org.springframework.security.core.userdetails.User(lowercaseLogin,
                     user.getPassword(),
                     grantedAuthorities);
+            
+
+            log.debug("User Authenticated {}", userDetails); 
+            
+            return userDetails;
         }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
     }
 }

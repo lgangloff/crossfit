@@ -40,7 +40,7 @@ public class CrossFitBox implements Serializable {
     @JoinTable(name = "CROSSFITBOX_ADMINISTRATORS",
                joinColumns = @JoinColumn(name="crossfitboxs_id", referencedColumnName="ID"),
                inverseJoinColumns = @JoinColumn(name="administratorss_id", referencedColumnName="ID"))
-    private Set<User> administratorss = new HashSet<>();
+    private Set<User> administrators = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -74,12 +74,12 @@ public class CrossFitBox implements Serializable {
         this.logo = fileDocument;
     }
 
-    public Set<User> getAdministratorss() {
-        return administratorss;
+    public Set<User> getAdministrators() {
+        return administrators;
     }
 
-    public void setAdministratorss(Set<User> users) {
-        this.administratorss = users;
+    public void setAdministrators(Set<User> users) {
+        this.administrators = users;
     }
 
     @Override

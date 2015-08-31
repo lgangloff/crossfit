@@ -11,10 +11,13 @@ import java.util.List;
  */
 public interface CrossFitBoxRepository extends JpaRepository<CrossFitBox,Long> {
 
-    @Query("select distinct crossFitBox from CrossFitBox crossFitBox left join fetch crossFitBox.administratorss")
+    @Query("select distinct crossFitBox from CrossFitBox crossFitBox left join fetch crossFitBox.administrators")
     List<CrossFitBox> findAllWithEagerRelationships();
 
-    @Query("select crossFitBox from CrossFitBox crossFitBox left join fetch crossFitBox.administratorss where crossFitBox.id =:id")
+    @Query("select crossFitBox from CrossFitBox crossFitBox left join fetch crossFitBox.administrators where crossFitBox.id =:id")
     CrossFitBox findOneWithEagerRelationships(@Param("id") Long id);
+
+    @Query("select crossFitBox from CrossFitBox crossFitBox left join fetch crossFitBox.administrators where crossFitBox.website =:website")
+	CrossFitBox findOneByWebsite(@Param("website") String website);
 
 }

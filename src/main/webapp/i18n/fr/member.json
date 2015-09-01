@@ -12,6 +12,10 @@
             "detail": {
                 "title": "Member"
             },
+            "user": {
+            	"firstname" : "Prénom",
+            	"lastname" : "Nom"
+            },
             "telephonNumber": "TelephonNumber",
             "sickNoteEndDate": "SickNoteEndDate",
             "membershipStartDate": "MembershipStartDate",

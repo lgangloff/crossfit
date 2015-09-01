@@ -32,6 +32,11 @@
                 "apidocs": "API",
                 "database": "Base de données"
             },
+            "manage": {
+                "main": "Gestion",
+                "members": "Gestion des ahérents",
+                "membershipTypes": "Gestion des types d'abonnement"
+            },
             "language": "Langue"
         },
         "form": {

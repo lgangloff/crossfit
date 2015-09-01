@@ -12,12 +12,15 @@
             "detail": {
                 "title": "MembershipType"
             },
-            "name": "Name",
-            "price": "Price",
-            "openAccess": "OpenAccess",
-            "numberOfSession": "NumberOfSession",
-            "numberOfSessionPerWeek": "NumberOfSessionPerWeek",
-            "box": "Box"
+            "name": "Libellé",
+            "name.placeholder": "2 Séances par semaine",
+            "price": "Tarif",
+            "price.placeholder": "65€ par mois",
+            "openAccess": "Accès libre à la box autorisé",
+            "numberOfSession": "Nombre total de séance",
+            "numberOfSession.placeholder": "Pour un abonnement de type 'carte'",
+            "numberOfSessionPerWeek": "Nombre maximum de séances par semaine",
+            "numberOfSessionPerWeek.placeholder": "-1 pour un nombre illimité"
         }
     }
 }

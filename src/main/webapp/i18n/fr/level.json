@@ -1,0 +1,10 @@
+{
+    "crossfitApp": {
+        "Level" : {
+            "FOUNDATION": "Fondation",
+            "NOVICE": "Débutant",
+            "MIDDLE": "Moyen",
+            "SKILLED": "Confirmé"
+        }
+    }
+}

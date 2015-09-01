@@ -19,6 +19,7 @@ angular.module('crossfitApp')
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('member');
+                        $translatePartialLoader.addPart('level');
                         $translatePartialLoader.addPart('global');
                         return $translate.refresh();
                     }]
@@ -37,7 +38,7 @@ angular.module('crossfitApp')
                         size: 'lg',
                         resolve: {
                             entity: function () {
-                                return {telephonNumber: null, sickNoteEndDate: null, membershipStartDate: null, membershipEndDate: null, level: null, id: null};
+                                return {telephonNumber: null, sickNoteEndDate: null, membershipStartDate: new Date(), membershipEndDate: null, level: null, id: null};
                             }
                         }
                     }).result.then(function(result) {

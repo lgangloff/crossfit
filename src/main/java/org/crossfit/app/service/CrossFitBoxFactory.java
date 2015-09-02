@@ -1,6 +1,5 @@
 package org.crossfit.app.service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.exception.CrossFitBoxConfiguration;
 import org.crossfit.app.repository.CrossFitBoxRepository;
-import org.crossfit.app.security.UserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,8 @@ public class CrossFitBoxFactory {
 
     private static final Set<String> KNOW_HOSTS = Sets.newHashSet("localhost", "127.0.0.1");
     
+    public static final CrossFitBox NO_BOX = new CrossFitBox();
+    
 	@Inject
 	private CrossFitBoxRepository crossFitBoxRepository;
 	
@@ -45,9 +45,11 @@ public class CrossFitBoxFactory {
 			if (!KNOW_HOSTS.contains(serverName)){
 				throw new CrossFitBoxConfiguration("Aucune box n'est recensée à l'adresse "+ request.getServerName());
 			}
+			box = NO_BOX;
 		}
-		
-		log.debug("Current CorssFitBox: {}", box.getName());
+		else{
+			log.debug("Current CorssFitBox: {}", box.getName());
+		}
 		
 		return box;
 	}

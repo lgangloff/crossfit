@@ -1,13 +1,17 @@
 package org.crossfit.app.security;
 
-import org.crossfit.app.domain.Authority;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
 import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.domain.User;
 import org.crossfit.app.repository.UserRepository;
+import org.crossfit.app.service.CrossFitBoxFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,16 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
-
-import javax.inject.Inject;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Authenticate a user from the database.
@@ -43,9 +37,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
-        log.debug("Authenticating {} for CrossFitBox {} ({})", login, 
-        		crossfitBox == null ? "null" : crossfitBox.getName(), 
-        				crossfitBox == null ? "null" : crossfitBox.getWebsite());
+        log.debug("Authenticating {} for CrossFitBox {} ({})", login,  crossfitBox.getName(),  crossfitBox.getWebsite());
         String lowercaseLogin = login.toLowerCase();
         Optional<User> userFromDatabase =  userRepository.findOneByLogin(lowercaseLogin);
         
@@ -57,13 +49,13 @@ public class UserDetailsService implements org.springframework.security.core.use
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
             
-            if (crossfitBox != null && crossfitBox.getAdministrators().contains(user)){
+            if (crossfitBox.getAdministrators().contains(user)){
             	grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.MANAGER));
             }
             
             boolean isSuperAdmin = grantedAuthorities.contains(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
             
-            if (crossfitBox == null && !isSuperAdmin){
+            if (crossfitBox == CrossFitBoxFactory.NO_BOX && !isSuperAdmin){
             	throw new InternalAuthenticationServiceException(
             			"Aucune box n'est configuree et l'utilisateur " + lowercaseLogin + " na pas le role " + AuthoritiesConstants.ADMIN);
             }

@@ -121,3 +121,4 @@ Desktop.ini
 # Gradle Wrapper
 ######################
 !gradle/wrapper/gradle-wrapper.jar
+src/main/resources/config/application-dev.yml

@@ -52,7 +52,8 @@
 	                    "maxlength": "L'email ne doit pas comporter plus de 100 caractères"
 	                }
 	            }
-	        }
+	        },
+	        "firstNameLastName": "Prénom Nom"
         }
     }
 }

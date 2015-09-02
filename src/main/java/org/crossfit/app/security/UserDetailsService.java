@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,9 +43,12 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
-        log.debug("Authenticating {} for CrossFitBox {} ({})", login, crossfitBox.getName(), crossfitBox.getWebsite());
+        log.debug("Authenticating {} for CrossFitBox {} ({})", login, 
+        		crossfitBox == null ? "null" : crossfitBox.getName(), 
+        				crossfitBox == null ? "null" : crossfitBox.getWebsite());
         String lowercaseLogin = login.toLowerCase();
         Optional<User> userFromDatabase =  userRepository.findOneByLogin(lowercaseLogin);
+        
         return userFromDatabase.map(user -> {
             if (!user.getActivated()) {
                 throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
@@ -53,9 +57,17 @@ public class UserDetailsService implements org.springframework.security.core.use
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
             
-            if (crossfitBox.getAdministrators().contains(user)){
+            if (crossfitBox != null && crossfitBox.getAdministrators().contains(user)){
             	grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.MANAGER));
             }
+            
+            boolean isSuperAdmin = grantedAuthorities.contains(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
+            
+            if (crossfitBox == null && !isSuperAdmin){
+            	throw new InternalAuthenticationServiceException(
+            			"Aucune box n'est configuree et l'utilisateur " + lowercaseLogin + " na pas le role " + AuthoritiesConstants.ADMIN);
+            }
+            
             
             
             UserDetails userDetails = new org.springframework.security.core.userdetails.User(lowercaseLogin,

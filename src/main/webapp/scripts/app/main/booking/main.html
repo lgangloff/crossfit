@@ -1,11 +1,12 @@
 <div ng-cloak>
     <div class="row">
         <div class="col-md-8">
-            <h1 translate="main.title">Welcome, CrossFiter!</h1>
-            <p class="lead" translate="main.subtitle">This is your homepage</p>
+        
+            <h1 translate="booking.main.title">Welcome, CrossFiter!</h1>
+            <p class="lead" translate="booking.main.subtitle">This is your homepage</p>
 
             <div ng-switch="isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true" translate="main.logged.message" translate-values="{username: '{{account.login}}'}">
+                <div class="alert alert-success" ng-switch-when="true" translate="booking.main.logged.message" translate-values="{username: '{{account.login}}'}">
                     You are logged in as user "{{account.login}}".
                 </div>
 

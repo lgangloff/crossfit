@@ -2,9 +2,11 @@ package org.crossfit.app.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,7 +46,8 @@ public class MembershipType implements Serializable {
     @Column(name = "number_of_session_per_week", nullable = false)
     private Integer numberOfSessionPerWeek;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional=false)
     private CrossFitBox box;
 
     public Long getId() {

@@ -2,6 +2,7 @@ package org.crossfit.app.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import org.crossfit.app.domain.util.CustomLocalDateSerializer;
 import org.crossfit.app.domain.util.ISO8601LocalDateDeserializer;
 import org.hibernate.annotations.Cache;
@@ -11,6 +12,7 @@ import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,16 +60,19 @@ public class Member implements Serializable {
     @Column(name = "level", nullable = false)
     private Level level;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @NotNull
+    @ManyToOne(optional=false, cascade = CascadeType.ALL)
     private User user;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional=false)
     private CrossFitBox box;
 
     @ManyToOne
     private FileDocument sickNote;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional=false)
     private MembershipType membershipType;
 
     public Long getId() {

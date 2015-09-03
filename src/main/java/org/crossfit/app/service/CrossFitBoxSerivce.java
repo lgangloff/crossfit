@@ -15,37 +15,34 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.google.common.collect.Sets;
 
 @Service
-public class CrossFitBoxFactory {
+@Transactional
+public class CrossFitBoxSerivce {
 
-    private final Logger log = LoggerFactory.getLogger(CrossFitBoxFactory.class);
+    private final Logger log = LoggerFactory.getLogger(CrossFitBoxSerivce.class);
 
     private static final Set<String> KNOW_HOSTS = Sets.newHashSet("localhost", "127.0.0.1");
     
-    public static final CrossFitBox NO_BOX = new CrossFitBox();
-    
-	@Inject
+	@Autowired
 	private CrossFitBoxRepository crossFitBoxRepository;
 	
 	@Autowired
 	private HttpServletRequest request;
 	
-	@Bean()
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-	public CrossFitBox getCurrentCrossFitBox(){
+	public CrossFitBox findCurrentCrossFitBox(){
 		String serverName = request.getServerName();
 		CrossFitBox box = crossFitBoxRepository.findOneByWebsite(serverName);
 		
 		if (box == null){
-			log.warn("Aucune box n'est recensée à l'adresse "+ request.getServerName());
+			log.error("Aucune box n'est recensée à l'adresse "+ request.getServerName());
 			if (!KNOW_HOSTS.contains(serverName)){
 				throw new CrossFitBoxConfiguration("Aucune box n'est recensée à l'adresse "+ request.getServerName());
 			}
-			box = NO_BOX;
 		}
 		else{
 			log.debug("Current CorssFitBox: {}", box.getName());

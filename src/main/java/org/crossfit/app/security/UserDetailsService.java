@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.domain.User;
 import org.crossfit.app.repository.UserRepository;
-import org.crossfit.app.service.CrossFitBoxFactory;
+import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -30,14 +30,17 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Inject
     private UserRepository userRepository;
-    
-    @Inject
-    private CrossFitBox crossfitBox;
 
+    @Inject
+    private CrossFitBoxSerivce boxService;
+    
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
-        log.debug("Authenticating {} for CrossFitBox {} ({})", login,  crossfitBox.getName(),  crossfitBox.getWebsite());
+
+    	CrossFitBox box = boxService.findCurrentCrossFitBox();
+    	
+        log.debug("Authenticating {} for CrossFitBox {} ({})", login, box ==  null ? "null" : box.getName(), box ==  null ? "null" : box.getWebsite());
         String lowercaseLogin = login.toLowerCase();
         Optional<User> userFromDatabase =  userRepository.findOneByLogin(lowercaseLogin);
         
@@ -49,13 +52,13 @@ public class UserDetailsService implements org.springframework.security.core.use
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
             
-            if (crossfitBox.getAdministrators().contains(user)){
+            if (box != null && box.getAdministrators().contains(user)){
             	grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.MANAGER));
             }
             
             boolean isSuperAdmin = grantedAuthorities.contains(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
             
-            if (crossfitBox == CrossFitBoxFactory.NO_BOX && !isSuperAdmin){
+            if (box == null && !isSuperAdmin){
             	throw new InternalAuthenticationServiceException(
             			"Aucune box n'est configuree et l'utilisateur " + lowercaseLogin + " na pas le role " + AuthoritiesConstants.ADMIN);
             }

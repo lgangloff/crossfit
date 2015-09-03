@@ -2,6 +2,7 @@
 # Project Specific
 ######################
 /src/main/webapp/dist
+/src/main/resources/config/application-dev.yml
 
 ######################
 # Node
@@ -121,4 +122,3 @@ Desktop.ini
 # Gradle Wrapper
 ######################
 !gradle/wrapper/gradle-wrapper.jar
-src/main/resources/config/application-dev.yml

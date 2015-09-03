@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('crossfitApp').controller('MemberDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Member', 'User',
-        function($scope, $stateParams, $modalInstance, entity, Member, User) {
+    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Member', 'User', 'MembershipType',
+        function($scope, $stateParams, $modalInstance, entity, Member, User,MembershipType) {
 
         $scope.member = entity;
+        $scope.membershiptypes = MembershipType.query();
         $scope.load = function(id) {
             Member.get({id : id}, function(result) {
                 $scope.member = result;

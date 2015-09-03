@@ -1,8 +1,12 @@
 package org.crossfit.app.web.rest.manage;
 
 import com.codahale.metrics.annotation.Timed;
+
+import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.domain.MembershipType;
 import org.crossfit.app.repository.MembershipTypeRepository;
+import org.crossfit.app.service.CrossFitBoxSerivce;
+import org.crossfit.app.web.rest.MembershipTypeResource;
 import org.crossfit.app.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,87 +28,37 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/manage")
-public class CrossFitBoxMembershipTypeResource {
+public class CrossFitBoxMembershipTypeResource extends MembershipTypeResource  {
 
     private final Logger log = LoggerFactory.getLogger(CrossFitBoxMembershipTypeResource.class);
 
     @Inject
     private MembershipTypeRepository membershipTypeRepository;
 
-    /**
-     * POST  /membershipTypes -> Create a new membershipType.
-     */
-    @RequestMapping(value = "/membershipTypes",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<MembershipType> create(@Valid @RequestBody MembershipType membershipType) throws URISyntaxException {
-        log.debug("REST request to save MembershipType : {}", membershipType);
-        if (membershipType.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new membershipType cannot already have an ID").body(null);
-        }
-        MembershipType result = membershipTypeRepository.save(membershipType);
-        return ResponseEntity.created(new URI("/manage/membershipTypes/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("membershipType", result.getId().toString()))
-                .body(result);
-    }
+    @Inject
+    private CrossFitBoxSerivce boxService;
 
-    /**
-     * PUT  /membershipTypes -> Updates an existing membershipType.
-     */
-    @RequestMapping(value = "/membershipTypes",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<MembershipType> update(@Valid @RequestBody MembershipType membershipType) throws URISyntaxException {
-        log.debug("REST request to update MembershipType : {}", membershipType);
-        if (membershipType.getId() == null) {
-            return create(membershipType);
-        }
-        MembershipType result = membershipTypeRepository.save(membershipType);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("membershipType", membershipType.getId().toString()))
-                .body(result);
-    }
+	@Override
+	protected MembershipType doSave(MembershipType membershipType) {
+        membershipType.setBox(boxService.findCurrentCrossFitBox());
+		return super.doSave(membershipType);
+	}
 
-    /**
-     * GET  /membershipTypes -> get all the membershipTypes.
-     */
-    @RequestMapping(value = "/membershipTypes",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public List<MembershipType> getAll() {
-        log.debug("REST request to get all MembershipTypes");
-        return membershipTypeRepository.findAll();
-    }
+	@Override
+	protected List<MembershipType> doFindAll() {
+		return membershipTypeRepository.findAll(boxService.findCurrentCrossFitBox());
+	}
 
-    /**
-     * GET  /membershipTypes/:id -> get the "id" membershipType.
-     */
-    @RequestMapping(value = "/membershipTypes/{id}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<MembershipType> get(@PathVariable Long id) {
-        log.debug("REST request to get MembershipType : {}", id);
-        return Optional.ofNullable(membershipTypeRepository.findOne(id))
-            .map(membershipType -> new ResponseEntity<>(
-                membershipType,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+	@Override
+	protected MembershipType doGet(Long id) {
+		return membershipTypeRepository.findOne(id, boxService.findCurrentCrossFitBox());
+	}
 
-    /**
-     * DELETE  /membershipTypes/:id -> delete the "id" membershipType.
-     */
-    @RequestMapping(value = "/membershipTypes/{id}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        log.debug("REST request to delete MembershipType : {}", id);
-        membershipTypeRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("membershipType", id.toString())).build();
-    }
+	@Override
+	protected void doDelete(Long id) {
+		membershipTypeRepository.delete(id, boxService.findCurrentCrossFitBox());
+	}
+
+    
+    
 }

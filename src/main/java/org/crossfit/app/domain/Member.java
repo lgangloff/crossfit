@@ -58,7 +58,7 @@ public class Member implements Serializable {
     @Column(name = "level", nullable = false)
     private Level level;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
     @ManyToOne

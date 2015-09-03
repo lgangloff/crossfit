@@ -1,0 +1,60 @@
+{
+    "crossfitApp": {
+        "subscription" : {
+            "home": {
+                "title": "Gestion des adhérents",
+                "createLabel": "Créer un nouvel adhérent",
+                "createOrEditLabel": "Créer ou éditer un adhérent"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer l'adhérent {{ id }} ?"
+            },
+            "detail": {
+                "title": "Adhérent"
+            },
+            "user": {
+            	"firstname" : "Prénom",
+            	"firstname.placeholder" : "Prénom",
+            	"lastname" : "Nom",
+            	"lastname.placeholder" : "Nom",
+            	"email" : "Email",
+            	"email.placeholder": "nom.prenom@crossfit.com",
+            	"language" : "Langue"
+            },
+            "telephonNumber": "Numéro de téléphone",
+            "sickNoteEndDate": "Date de fin de validité de l'ordonnance",
+            "subscriptionshipStartDate": "Date début d'abonnement",
+            "subscriptionshipEndDate": "Date de fin d'abonnement",
+            "level": "Niveau",
+            "sickNote": "Ordonnance",
+            "subscriptionshipType": "Type d'abonnement",
+            "messages": {
+	            "error": {
+	                "fail": "<strong>Une erreur est survenue!</strong> L'adhérent n'a pas été sauvegardé.",
+	                "emailexists": "<strong>Cet E-mail est déjà utilisé!</strong> Veuillez en choisir un autre."
+	            },
+	            "success": "<strong>L'adhérent a été sauvegardé!</strong>",
+	            "validate": {
+	                "firstname": {
+	                    "required": "Le prénom est requis.",
+	                    "minlength": "Le prénom doit comporter au moins un caractère",
+	                    "maxlength": "Le prénom ne doit pas comporter plus de 50 caractères"
+	                },
+	                "lastname": {
+	                    "required": "Le nom est requis.",
+	                    "minlength": "Le nom doit comporter au moins un caractère",
+	                    "maxlength": "Le nom ne doit pas comporter plus de 50 caractères"
+	                },
+	                "email": {
+	                    "required": "L'email est requis.",
+	                    "invalid": "L'email n'est pas valide.",
+	                    "minlength": "L'email doit comporter au moins 5 caractères",
+	                    "maxlength": "L'email ne doit pas comporter plus de 100 caractères"
+	                }
+	            }
+	        },
+	        "firstNameLastName": "Prénom Nom"
+        }
+    }
+}
+

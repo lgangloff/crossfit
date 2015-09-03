@@ -45,6 +45,6 @@ angular.module('crossfitApp')
         };
 
         $scope.clear = function () {
-            $scope.subscription = {telephonNumber: null, sickNoteEndDate: null, subscriptionshipStartDate: null, subscriptionshipEndDate: null, level: null, id: null};
+            $scope.subscription = {telephonNumber: null, sickNoteEndDate: null, subscriptionStartDate: null, subscriptionEndDate: null, level: null, id: null};
         };
     });

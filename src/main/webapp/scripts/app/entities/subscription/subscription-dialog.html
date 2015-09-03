@@ -29,22 +29,22 @@
 
         </div>
         <div class="form-group">
-            <label translate="crossfitApp.subscription.subscriptionshipStartDate" for="field_subscriptionshipStartDate">SubscriptionshipStartDate</label>
-            <input type="date" class="form-control" name="subscriptionshipStartDate" id="field_subscriptionshipStartDate"
-                    ng-model="subscription.subscriptionshipStartDate"
+            <label translate="crossfitApp.subscription.subscriptionStartDate" for="field_subscriptionStartDate">SubscriptionStartDate</label>
+            <input type="date" class="form-control" name="subscriptionStartDate" id="field_subscriptionStartDate"
+                    ng-model="subscription.subscriptionStartDate"
                     required>
 
-            <div ng-show="editForm.subscriptionshipStartDate.$invalid">
+            <div ng-show="editForm.subscriptionStartDate.$invalid">
                 <p class="help-block"
-                    ng-show="editForm.subscriptionshipStartDate.$error.required" translate="entity.validation.required">
+                    ng-show="editForm.subscriptionStartDate.$error.required" translate="entity.validation.required">
                     This field is required.
                 </p>
             </div>
         </div>
         <div class="form-group">
-            <label translate="crossfitApp.subscription.subscriptionshipEndDate" for="field_subscriptionshipEndDate">SubscriptionshipEndDate</label>
-            <input type="date" class="form-control" name="subscriptionshipEndDate" id="field_subscriptionshipEndDate"
-                    ng-model="subscription.subscriptionshipEndDate"
+            <label translate="crossfitApp.subscription.subscriptionEndDate" for="field_subscriptionEndDate">SubscriptionEndDate</label>
+            <input type="date" class="form-control" name="subscriptionEndDate" id="field_subscriptionEndDate"
+                    ng-model="subscription.subscriptionEndDate"
                     >
 
         </div>
@@ -89,9 +89,9 @@
             
         </div>
         <div class="form-group">
-            <label translate="crossfitApp.subscription.subscriptionshipType" for="field_subscriptionshipType">subscriptionshipType</label>
+            <label translate="crossfitApp.subscription.membershipType" for="field_membershipType">membershipType</label>
             
-            <select class="form-control" id="field_subscriptionshipType" name="subscriptionshipType" ng-model="subscription.subscriptionshipType" ng-options="subscriptionshipType as subscriptionshipType.name for subscriptionshipType in subscriptionshiptypes track by subscriptionshipType.id">
+            <select class="form-control" id="field_membershipType" name="membershipType" ng-model="subscription.membershipType" ng-options="membershipType as membershipType.name for membershipType in membershiptypes track by membershipType.id">
                 <option value=""></option>
             </select>
             

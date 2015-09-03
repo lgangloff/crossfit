@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crossfitApp')
-    .controller('SubscriptionDetailController', function ($scope, $rootScope, $stateParams, entity, Subscription, User, CrossFitBox, FileDocument, SubscriptionshipType) {
+    .controller('SubscriptionDetailController', function ($scope, $rootScope, $stateParams, entity, Subscription, User, CrossFitBox, FileDocument, MembershipType) {
         $scope.subscription = entity;
         $scope.load = function (id) {
             Subscription.get({id: id}, function(result) {

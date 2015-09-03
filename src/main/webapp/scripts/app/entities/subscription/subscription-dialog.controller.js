@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('crossfitApp').controller('SubscriptionDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Subscription', 'User', 'CrossFitBox', 'FileDocument', 'SubscriptionshipType',
-        function($scope, $stateParams, $modalInstance, entity, Subscription, User, CrossFitBox, FileDocument, SubscriptionshipType) {
+    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Subscription', 'User', 'CrossFitBox', 'FileDocument', 'MembershipType',
+        function($scope, $stateParams, $modalInstance, entity, Subscription, User, CrossFitBox, FileDocument, MembershipType) {
 
         $scope.subscription = entity;
         $scope.users = User.query();
         $scope.crossfitboxs = CrossFitBox.query();
         $scope.filedocuments = FileDocument.query();
-        $scope.subscriptionshiptypes = SubscriptionshipType.query();
+        $scope.membershiptypes = MembershipType.query();
         $scope.load = function(id) {
             Subscription.get({id : id}, function(result) {
                 $scope.subscription = result;

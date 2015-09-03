@@ -42,38 +42,25 @@
             <thead>
                 <tr>
                     <th translate="global.field.id">ID</th>
-                    <th translate="crossfitApp.subscription.telephonNumber">TelephonNumber</th>
-                    <th translate="crossfitApp.subscription.sickNoteEndDate">SickNoteEndDate</th>
-                    <th translate="crossfitApp.subscription.subscriptionshipStartDate">SubscriptionshipStartDate</th>
-                    <th translate="crossfitApp.subscription.subscriptionshipEndDate">SubscriptionshipEndDate</th>
-                    <th translate="crossfitApp.subscription.level">Level</th>
-                    <th translate="crossfitApp.subscription.user">user</th>
-                    <th translate="crossfitApp.subscription.box">box</th>
-                    <th translate="crossfitApp.subscription.sickNote">sickNote</th>
-                    <th translate="crossfitApp.subscription.subscriptionshipType">subscriptionshipType</th>
+                    <th translate="crossfitApp.subscription.membershipType">membershipType</th>
+                    <th translate="crossfitApp.subscription.member">member</th>
+                    <th translate="crossfitApp.subscription.subscriptionStartDate">SubscriptionStartDate</th>
+                    <th translate="crossfitApp.subscription.subscriptionEndDate">SubscriptionEndDate</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
                 <tr ng-repeat="subscription in subscriptions">
                     <td><a ui-sref="subscription.detail({id:subscription.id})">{{subscription.id}}</a></td>
-                    <td>{{subscription.telephonNumber}}</td>
-                    <td>{{subscription.sickNoteEndDate}}</td>
-                    <td>{{subscription.subscriptionshipStartDate}}</td>
-                    <td>{{subscription.subscriptionshipEndDate}}</td>
-                    <td>{{subscription.level}}</td>
                     <td>
-                        {{subscription.user.email}}
+                        <a ui-sref="member.detail({id:subscription.member.id})">{{subscription.member.user.first_name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="crossFitBox.detail({id:subscription.box.id})">{{subscription.box.name}}</a>
+                        <a ui-sref="membershipType.detail({id:subscription.membershipType.id})">{{subscription.membershipType.name}}</a>
                     </td>
-                    <td>
-                        <a ui-sref="fileDocument.detail({id:subscription.sickNote.id})">{{subscription.sickNote.name}}</a>
-                    </td>
-                    <td>
-                        <a ui-sref="subscriptionshipType.detail({id:subscription.subscriptionshipType.id})">{{subscription.subscriptionshipType.name}}</a>
-                    </td>
+                    <td>{{subscription.subscriptionStartDate}}</td>
+                    <td>{{subscription.subscriptionEndDate}}</td>
+                    
                     <td>
                         <button type="submit"
                                 ui-sref="subscription.detail({id:subscription.id})"

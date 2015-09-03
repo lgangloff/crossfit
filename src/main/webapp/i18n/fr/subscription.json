@@ -2,15 +2,15 @@
     "crossfitApp": {
         "subscription" : {
             "home": {
-                "title": "Gestion des adhérents",
-                "createLabel": "Créer un nouvel adhérent",
-                "createOrEditLabel": "Créer ou éditer un adhérent"
+                "title": "Gestion des abonnements",
+                "createLabel": "Créer un nouvel abonnement",
+                "createOrEditLabel": "Créer ou éditer un abonnement"
             },
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer l'adhérent {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer l'abonnement {{ id }} ?"
             },
             "detail": {
-                "title": "Adhérent"
+                "title": "Abonnement"
             },
             "user": {
             	"firstname" : "Prénom",
@@ -23,17 +23,17 @@
             },
             "telephonNumber": "Numéro de téléphone",
             "sickNoteEndDate": "Date de fin de validité de l'ordonnance",
-            "subscriptionshipStartDate": "Date début d'abonnement",
-            "subscriptionshipEndDate": "Date de fin d'abonnement",
+            "membershipStartDate": "Date début d'abonnement",
+            "membershipEndDate": "Date de fin d'abonnement",
             "level": "Niveau",
             "sickNote": "Ordonnance",
-            "subscriptionshipType": "Type d'abonnement",
+            "membershipType": "Type d'abonnement",
             "messages": {
 	            "error": {
-	                "fail": "<strong>Une erreur est survenue!</strong> L'adhérent n'a pas été sauvegardé.",
+	                "fail": "<strong>Une erreur est survenue!</strong> L'abonnement n'a pas été sauvegardé.",
 	                "emailexists": "<strong>Cet E-mail est déjà utilisé!</strong> Veuillez en choisir un autre."
 	            },
-	            "success": "<strong>L'adhérent a été sauvegardé!</strong>",
+	            "success": "<strong>L'abonnement a été sauvegardé!</strong>",
 	            "validate": {
 	                "firstname": {
 	                    "required": "Le prénom est requis.",

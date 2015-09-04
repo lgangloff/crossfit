@@ -34,8 +34,8 @@
             },
             "manage": {
                 "main": "Gestion",
-                "members": "Gestion des ahérents",
-                "membershipTypes": "Gestion des types d'abonnement"
+                "members": "Adhérents",
+                "membershipTypes": "Types d'abonnement"
             },
             "language": "Langue"
         },

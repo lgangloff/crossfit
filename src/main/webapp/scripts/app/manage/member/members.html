@@ -44,6 +44,7 @@
                     <th translate="global.field.id">ID</th>
                     <th translate="crossfitApp.member.firstNameLastName">Nom / Prénom</th>
                     <th translate="crossfitApp.member.membershipStartDate">MembershipStartDate</th>
+                    <th translate="crossfitApp.member.membershipEndDate">MembershipEndDate</th>
                     <th translate="crossfitApp.member.level">Level</th>
                     <th translate="crossfitApp.member.membershipType">membershipType</th>
                     <th></th>
@@ -54,18 +55,24 @@
                     <td><a ui-sref="member.detail({id:member.id})">{{member.id}}</a></td>
                     <td>{{member.user.firstName}} {{member.user.lastName}}</td>
                     <td>{{member.membershipStartDate}}</td>
+                    <td>{{member.membershipEndDate}}</td>
                     <td>{{member.level}}</td>
                     <td>{{member.membershipType.name}}</td>
                     <td>
-                        <button type="submit"
-                                ui-sref="member.detail({id:member.id})"
-                                class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
-                        </button>
+<!--                         <button type="submit" -->
+<!--                                 ui-sref="member.detail({id:member.id})" -->
+<!--                                 class="btn btn-info btn-sm"> -->
+<!--                             <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span> -->
+<!--                         </button> -->
                         <button type="submit"
                                 ui-sref="member.edit({id:member.id})"
                                 class="btn btn-primary btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="member.editMembership({id:member.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="crossfitApp.member.action.editMembership"> EditMembership</span>
                         </button>
                         <button type="submit"
                                 ng-click="delete(member.id)"

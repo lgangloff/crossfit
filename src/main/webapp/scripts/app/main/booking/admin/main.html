@@ -1,8 +1,10 @@
 <div ng-cloak>
     <div class="row">
         <div class="col-md-8">
-            <h1 translate="booking.admin.main.title">Welcome, CrossFit Trainer!</h1>
-            <p class="lead" translate="booking.admin.main.subtitle">This is your homepage</p>
+        	
+            <h1>{{currentCrossFitBox.name}}</h1>
+            <h2 translate="main.title">Welcome, CrossFit Trainer!</h2>
+            <p class="lead" translate="main.subtitle">This is your homepage</p>
 
             <div ng-switch="isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true" translate="booking.admin.main.logged.message" translate-values="{username: '{{account.login}}'}">

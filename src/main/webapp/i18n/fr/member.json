@@ -6,6 +6,11 @@
                 "createLabel": "Créer un nouvel adhérent",
                 "createOrEditLabel": "Créer ou éditer un adhérent"
             },
+            "action" : {
+            	"editMembership" : "Abonnement",
+            	"date.reinittoday" : "Réinitialiser",
+            	"date.addonemonth" : "+ 1 mois"
+        	},
             "delete": {
                 "question": "Etes-vous certain de vouloir supprimer l'adhérent {{ id }} ?"
             },

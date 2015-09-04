@@ -38,7 +38,7 @@ angular.module('crossfitApp')
                         size: 'lg',
                         resolve: {
                             entity: function () {
-                                return {telephonNumber: null, sickNoteEndDate: null, membershipStartDate: new Date(), membershipEndDate: null, level: null, id: null};
+                                return {user : {langKey: 'fr'},telephonNumber: '+336 ', sickNoteEndDate: null, membershipStartDate: new Date(), membershipEndDate: null, level: 'FOUNDATION', id: null};
                             }
                         }
                     }).result.then(function(result) {
@@ -48,4 +48,50 @@ angular.module('crossfitApp')
                     })
                 }]
             })
+            .state('member.edit', {
+                parent: 'member',
+                url: '/{id}/edit',
+                data: {
+                    roles: ['ROLE_MANAGER'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/manage/member/member-dialog.html',
+                        controller: 'MemberDialogController',
+                        size: 'lg',
+                        resolve: {
+                            entity: ['Member', function(Member) {
+                                return Member.get({id : $stateParams.id});
+                            }]
+                        }
+                    }).result.then(function(result) {
+                        $state.go('member', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    })
+                }]
+            })
+            .state('member.editMembership', {
+                parent: 'member',
+                url: '/{id}/edit/membership',
+                data: {
+                    roles: ['ROLE_MANAGER'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/manage/member/member-dialog.html',
+                        controller: 'MemberDialogController',
+                        size: 'lg',
+                        resolve: {
+                            entity: ['Member', function(Member) {
+                                return Member.get({id : $stateParams.id});
+                            }]
+                        }
+                    }).result.then(function(result) {
+                        $state.go('member', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    })
+                }]
+            });
     });

@@ -1,21 +1,8 @@
 package org.crossfit.app.domain;
 
-import java.io.Serializable;
-import java.util.Objects;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.domain.util.CustomLocalDateSerializer;
 import org.crossfit.app.domain.util.ISO8601LocalDateDeserializer;
 import org.hibernate.annotations.Cache;
@@ -23,8 +10,15 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
+
+import org.crossfit.app.domain.enumeration.Level;
 
 /**
  * A Member.
@@ -76,6 +70,10 @@ public class Member implements Serializable {
 
     @ManyToOne
     private FileDocument sickNote;
+
+    @NotNull
+    @ManyToOne(optional=false)
+    private MembershipType membershipType;
 
     public Long getId() {
         return id;
@@ -147,6 +145,14 @@ public class Member implements Serializable {
 
     public void setSickNote(FileDocument fileDocument) {
         this.sickNote = fileDocument;
+    }
+
+    public MembershipType getMembershipType() {
+        return membershipType;
+    }
+
+    public void setMembershipType(MembershipType membershipType) {
+        this.membershipType = membershipType;
     }
 
     @Override

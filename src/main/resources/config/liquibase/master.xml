@@ -9,6 +9,7 @@
     <include file="classpath:config/liquibase/changelog/20150828220843_added_entity_CrossFitBox.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20150828123807_added_entity_MembershipType.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20150828124537_added_entity_Member.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20150905202637_added_entity_TimeSlot.xml" relativeToChangelogFile="false"/>
     <!-- JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20150903163700_added_entity_Subscription.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

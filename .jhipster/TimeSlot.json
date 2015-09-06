@@ -1,0 +1,56 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "box",
+            "otherEntityName": "crossFitBox",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "dayOfWeek",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "1",
+            "fieldValidateRulesMax": "7"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "startTime",
+            "fieldType": "DateTime"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "endTime",
+            "fieldType": "DateTime"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "maxAttendees",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "requiredLevel",
+            "fieldType": "Level",
+            "fieldValues": "FOUNDATION,NOVICE,MIDDLE,SKILLED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20150905202637",
+    "dto": "no",
+    "pagination": "infinite-scroll"
+}

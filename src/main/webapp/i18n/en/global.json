@@ -10,6 +10,7 @@
                 "crossFitBox": "CrossFitBox",
                 "membershipType": "MembershipType",
                 "member": "Member",
+                "timeSlot": "TimeSlot",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

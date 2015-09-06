@@ -63,7 +63,13 @@
         <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
-
+        
+		<link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
+		<!-- jquery, moment, and angular have to get included before fullcalendar -->
+		<script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+		<script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+		<script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
+		<script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
 
     <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
     <script src="scripts/app/booking.admin.app.js"></script>
@@ -133,6 +139,13 @@
     <script src="scripts/app/manage/membershipType/membershipType-dialog.controller.js"></script>
     <script src="scripts/app/manage/membershipType/membershipType-detail.controller.js"></script>
     <script src="scripts/components/manage/membershipType/membershipType.service.js"></script>
+    
+    
+    <script src="scripts/app/manage/timeSlot/timeSlot.js"></script>
+    <script src="scripts/app/manage/timeSlot/timeSlot.controller.js"></script>
+    <script src="scripts/app/manage/timeSlot/timeSlot-dialog.controller.js"></script>
+    <script src="scripts/components/manage/timeSlot/timeSlot.service.js"></script>
+    <script src="scripts/components/manage/timeSlot/timeSlotEvent.service.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -1,0 +1,24 @@
+{
+    "crossfitApp": {
+        "timeSlot" : {
+            "home": {
+                "title": "TimeSlots",
+                "createLabel": "Créer un nouveau TimeSlot",
+                "createOrEditLabel": "Créer ou éditer un TimeSlot"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le TimeSlot {{ id }} ?"
+            },
+            "detail": {
+                "title": "TimeSlot"
+            },
+            "dayOfWeek": "DayOfWeek",
+            "startTime": "StartTime",
+            "endTime": "EndTime",
+            "maxAttendees": "MaxAttendees",
+            "requiredLevel": "RequiredLevel",
+            "box": "Box"
+        }
+    }
+}
+

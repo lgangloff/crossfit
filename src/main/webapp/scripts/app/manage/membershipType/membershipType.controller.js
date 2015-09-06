@@ -12,7 +12,7 @@ angular.module('crossfitApp')
 
         $scope.delete = function (id) {
             MembershipType.get({id: id}, function(result) {
-                $scope.membershipType = result;
+                $scope.membershipType = angular.copy(result);
                 $('#deleteMembershipTypeConfirmation').modal('show');
             });
         };

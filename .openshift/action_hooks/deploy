@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -x
+
+if [ ! -d $OPENSHIFT_DATA_DIR/m2/repository ]
+        then
+                cd $OPENSHIFT_DATA_DIR
+				mkdir m2/repository                
+fi
+
+if [ ! -d $OPENSHIFT_DATA_DIR/logs ]
+        then
+                cd $OPENSHIFT_DATA_DIR
+				mkdir logs
+fi
+
+if [ ! -d $OPENSHIFT_DATA_DIR/jdk1.8.0_60 ]
+        then
+                cd $OPENSHIFT_DATA_DIR
+                wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http://www.oracle.com/; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz"
+                tar xvf jdk-8u60-linux-x64.tar.gz
+                rm -f jdk-8u60-linux-x64.tar.gz
+fi
+
+if [ ! -d $OPENSHIFT_DATA_DIR/apache-maven-3.3.3 ]
+        then
+                cd $OPENSHIFT_DATA_DIR
+                wget http://apache.websitebeheerjd.nl/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
+                tar xvf *.tar.gz
+                rm -f *.tar.gz
+fi
+
+
+cd $OPENSHIFT_REPO_DIR
+export M2_HOME=$OPENSHIFT_DATA_DIR/apache-maven-3.3.3
+export MAVEN_OPTS="-Xms384m -Xmx412m"
+export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_60
+export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+
+mvn -s settings.xml clean install -DskipTests

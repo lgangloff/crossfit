@@ -8,6 +8,8 @@ endpoints.jolokia.enabled: false
 # security configuration (this key should be unique for your application, and kept secret)
 jhipster.security.rememberme.key: 7ca8472b058a2023ba576ff40139793b6546c6b7
 
+spring.profiles.active=prod
+
 async:
     corePoolSize: 2
     maxPoolSize: 50

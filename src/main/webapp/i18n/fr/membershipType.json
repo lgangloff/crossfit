@@ -2,15 +2,15 @@
     "crossfitApp": {
         "membershipType" : {
             "home": {
-                "title": "MembershipTypes",
-                "createLabel": "Créer un nouveau MembershipType",
-                "createOrEditLabel": "Créer ou éditer un MembershipType"
+                "title": "Gestion des types d'abonnement",
+                "createLabel": "Créer un nouveau type d'abonnement",
+                "createOrEditLabel": "Créer ou éditer un type d'abonnement"
             },
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le MembershipType {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer le type d'abonnement {{ id }} ?"
             },
             "detail": {
-                "title": "MembershipType"
+                "title": "Type d'abonnement"
             },
             "name": "Libellé",
             "name.placeholder": "2 Séances par semaine",

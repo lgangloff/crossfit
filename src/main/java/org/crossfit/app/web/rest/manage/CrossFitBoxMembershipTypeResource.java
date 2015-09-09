@@ -40,23 +40,23 @@ public class CrossFitBoxMembershipTypeResource extends MembershipTypeResource  {
 
 	@Override
 	protected MembershipType doSave(MembershipType membershipType) {
-        membershipType.setBox(boxService.findCurrentCrossFitBox());
+        membershipType.setBox(boxService.findCurrentCrossFitBox().get());
 		return super.doSave(membershipType);
 	}
 
 	@Override
 	protected List<MembershipType> doFindAll() {
-		return membershipTypeRepository.findAll(boxService.findCurrentCrossFitBox());
+		return membershipTypeRepository.findAll(boxService.findCurrentCrossFitBox().get());
 	}
 
 	@Override
 	protected MembershipType doGet(Long id) {
-		return membershipTypeRepository.findOne(id, boxService.findCurrentCrossFitBox());
+		return membershipTypeRepository.findOne(id, boxService.findCurrentCrossFitBox().get());
 	}
 
 	@Override
 	protected void doDelete(Long id) {
-		membershipTypeRepository.delete(id, boxService.findCurrentCrossFitBox());
+		membershipTypeRepository.delete(id, boxService.findCurrentCrossFitBox().get());
 	}
 
     

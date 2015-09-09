@@ -1,5 +1,6 @@
 package org.crossfit.app.service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -34,7 +35,7 @@ public class CrossFitBoxSerivce {
 	@Autowired
 	private HttpServletRequest request;
 	
-	public CrossFitBox findCurrentCrossFitBox(){
+	public Optional<CrossFitBox> findCurrentCrossFitBox(){
 		String serverName = request.getServerName();
 		CrossFitBox box = crossFitBoxRepository.findOneByWebsite(serverName);
 		
@@ -48,6 +49,6 @@ public class CrossFitBoxSerivce {
 			log.debug("Current CorssFitBox: {}", box == null ? null : box.getName());
 		}
 		
-		return box;
+		return Optional.of(box);
 	}
 }

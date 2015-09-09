@@ -8,8 +8,6 @@ angular.module('crossfitApp')
                 method: 'GET',
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
-                    data.startTime = DateUtils.convertDateTimeFromServer(data.startTime);
-                    data.endTime = DateUtils.convertDateTimeFromServer(data.endTime);
                     return data;
                 }
             },

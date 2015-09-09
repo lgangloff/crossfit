@@ -38,7 +38,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
 
-    	CrossFitBox box = boxService.findCurrentCrossFitBox();
+    	CrossFitBox box = boxService.findCurrentCrossFitBox().get();
     	
         log.debug("Authenticating {} for CrossFitBox {} ({})", login, box ==  null ? "null" : box.getName(), box ==  null ? "null" : box.getWebsite());
         String lowercaseLogin = login.toLowerCase();

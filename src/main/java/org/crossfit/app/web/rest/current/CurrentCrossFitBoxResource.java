@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.repository.CrossFitBoxRepository;
 import org.crossfit.app.service.CrossFitBoxSerivce;
+import org.crossfit.app.service.TimeZoneService;
 import org.crossfit.app.web.rest.util.HeaderUtil;
 import org.crossfit.app.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 /**
  * REST controller for managing CrossFitBox.
@@ -33,6 +35,9 @@ public class CurrentCrossFitBoxResource {
 
     @Inject
     private CrossFitBoxSerivce boxService;
+    
+    @Inject
+    private TimeZoneService timeZoneService;
 
     /**
      * GET  /currentCrossFitBox -> get the "current" crossFitBox resolve by hostname.
@@ -43,11 +48,20 @@ public class CurrentCrossFitBoxResource {
     @Timed
     public ResponseEntity<CrossFitBox> get() {
         log.debug("REST request to get current CrossFitBox");
-        return Optional.ofNullable(boxService.findCurrentCrossFitBox())
+        return boxService.findCurrentCrossFitBox()
             .map(crossFitBox -> new ResponseEntity<>(
                 crossFitBox,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+
+    @RequestMapping(value = "/timezone",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<String> getTimeZones() {
+        log.debug("REST request to get available timezone");
+        return timeZoneService.getAvailableTimeZones();
+    }
 }

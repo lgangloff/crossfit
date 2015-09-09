@@ -28,9 +28,12 @@ public class CrossFitBox implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull        
+    @NotNull
     @Column(name = "website", nullable = false)
     private String website;
+
+    @Column(name = "time_zone", nullable = false)
+    private String timeZoneId;
 
     @ManyToOne
     private FileDocument logo;
@@ -74,7 +77,15 @@ public class CrossFitBox implements Serializable {
         this.logo = fileDocument;
     }
 
-    public Set<User> getAdministrators() {
+    public String getTimeZoneId() {
+		return timeZoneId;
+	}
+
+	public void setTimeZoneId(String timeZoneId) {
+		this.timeZoneId = timeZoneId;
+	}
+
+	public Set<User> getAdministrators() {
         return administrators;
     }
 

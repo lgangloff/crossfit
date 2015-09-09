@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('crossfitApp').controller('CrossFitBoxDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'CrossFitBox', 'FileDocument', 'User',
-        function($scope, $stateParams, $modalInstance, entity, CrossFitBox, FileDocument, User) {
+    ['$scope', '$stateParams', '$modalInstance', 'entity', 'CrossFitBox', 'FileDocument', 'User', 'TimeZone',
+        function($scope, $stateParams, $modalInstance, entity, CrossFitBox, FileDocument, User, TimeZone) {
 
         $scope.crossFitBox = entity;
         $scope.filedocuments = FileDocument.query();
         $scope.users = User.query();
+        $scope.timezones = TimeZone.query();
         $scope.load = function(id) {
             CrossFitBox.get({id : id}, function(result) {
                 $scope.crossFitBox = result;

@@ -1,13 +1,9 @@
 package org.crossfit.app.web.rest.manage;
 
-import java.net.URISyntaxException;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -16,20 +12,16 @@ import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.repository.TimeSlotRepository;
 import org.crossfit.app.service.CrossFitBoxSerivce;
+import org.crossfit.app.service.TimeZoneService;
 import org.crossfit.app.web.rest.TimeSlotResource;
 import org.crossfit.app.web.rest.dto.EventSourceDTO;
 import org.crossfit.app.web.rest.dto.TimeSlotEventDTO;
-import org.crossfit.app.web.rest.util.PaginationUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -43,6 +35,8 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
 
     @Inject
     private CrossFitBoxSerivce boxService;
+    @Inject
+    private TimeZoneService timeZoneService;
 
     @Inject
     private TimeSlotRepository timeSlotRepository;
@@ -55,7 +49,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<EventSourceDTO> getAll() {
-    	DateTime now = DateTime.now();
+    	DateTime now = timeZoneService.now();
     	
     	Map<Level, List<TimeSlot>> timeSlotByLevel = timeSlotRepository.findAll().stream().collect(
     			Collectors.groupingBy(TimeSlot::getRequiredLevel));
@@ -73,6 +67,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
         		DateTime endDateTime = slotDateDay.withTime(end.getHourOfDay(), end.getMinuteOfHour(), 0, 0);
         		
         		TimeSlotEventDTO t = new TimeSlotEventDTO();
+        		t.setId(slot.getId());
         		t.setStart(startDateTime);
         		t.setEnd(endDateTime);
         		t.setTitle(slot.getRequiredLevel() + " ("+ slot.getMaxAttendees() + " places)");
@@ -108,7 +103,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     
 	@Override
 	protected TimeSlot doSave(TimeSlot timeSlot) {
-		timeSlot.setBox(boxService.findCurrentCrossFitBox());
+		timeSlot.setBox(boxService.findCurrentCrossFitBox().get());
 		return super.doSave(timeSlot);
 	}
 

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class TimeSlotEventDTO {
 
+	private Long id;
+	
 	@JsonSerialize(using = CustomDateTimeSerializer.class)
 	private DateTime start;
 
@@ -14,6 +16,15 @@ public class TimeSlotEventDTO {
 	private DateTime end;
 
 	private String title;
+
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public DateTime getStart() {
 		return start;

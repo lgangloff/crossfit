@@ -64,14 +64,12 @@ public class Member implements Serializable {
     @ManyToOne(optional=false, cascade = CascadeType.ALL)
     private User user;
 
-    @NotNull
     @ManyToOne(optional=false)
     private CrossFitBox box;
 
     @ManyToOne
     private FileDocument sickNote;
 
-    @NotNull
     @ManyToOne(optional=false)
     private MembershipType membershipType;
 

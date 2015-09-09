@@ -50,7 +50,6 @@ public class MembershipType implements Serializable {
     @Column(name = "number_of_session_per_week", nullable = false)
     private Integer numberOfSessionPerWeek;
 
-    @NotNull
     @ManyToOne(optional=false)
     private CrossFitBox box;
 

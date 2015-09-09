@@ -38,14 +38,14 @@ public class CrossFitBoxSerivce {
 		String serverName = request.getServerName();
 		CrossFitBox box = crossFitBoxRepository.findOneByWebsite(serverName);
 		
-		if (box == null){
+		if (box == null && crossFitBoxRepository.count() > 1 ){
 			log.error("Aucune box n'est recensée à l'adresse "+ request.getServerName());
 			if (!KNOW_HOSTS.contains(serverName)){
 				throw new CrossFitBoxConfiguration("Aucune box n'est recensée à l'adresse "+ request.getServerName());
 			}
 		}
 		else{
-			log.debug("Current CorssFitBox: {}", box.getName());
+			log.debug("Current CorssFitBox: {}", box == null ? null : box.getName());
 		}
 		
 		return box;

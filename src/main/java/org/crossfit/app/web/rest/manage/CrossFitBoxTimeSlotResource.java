@@ -1,6 +1,8 @@
 package org.crossfit.app.web.rest.manage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,9 +21,11 @@ import org.crossfit.app.web.rest.dto.TimeSlotEventDTO;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -48,8 +52,10 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<EventSourceDTO> getAll() {
-    	DateTime now = timeZoneService.now();
+    public List<EventSourceDTO> getAll(
+    		@RequestParam(value = "start", required = false) 
+    		@DateTimeFormat(pattern="yyyy-MM-dd") Date startAsNow) {
+    	DateTime now = startAsNow == null ? timeZoneService.now() : new DateTime(startAsNow);
     	
     	Map<Level, List<TimeSlot>> timeSlotByLevel = timeSlotRepository.findAll().stream().collect(
     			Collectors.groupingBy(TimeSlot::getRequiredLevel));

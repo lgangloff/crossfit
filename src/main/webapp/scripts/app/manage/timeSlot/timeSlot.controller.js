@@ -1,17 +1,19 @@
 'use strict';
 
 angular.module('crossfitApp')
-    .controller('TimeSlotController', function ($scope, $state, TimeSlot, TimeSlotEvent) {
+    .controller('TimeSlotController', function ($scope, $state, $stateParams, TimeSlot, TimeSlotEvent, DateUtils) {
     	$scope.eventSources = [];
-        $scope.firstDateCalendar = new Date().toISOString();
+    	var parts = $stateParams.startDate.split('-');
+    	  
         $scope.uiConfig = {
 			calendar:{
 				height: 700,
 				editable: true,
 				header:{
-					left: '', center: '', right: ''
+					left: '', center: '', right: 'today prev,next'
 				},
 				firstDay: 1,
+				defaultDate: $stateParams.startDate ? new Date(parts[0], parts[1]-1, parts[2]) : new Date(),
 				defaultView: 'agendaWeek',
 				allDaySlot: false,
 				columnFormat: 'ddd D MMM',
@@ -75,13 +77,15 @@ angular.module('crossfitApp')
 					});
 			    }, 
 			    viewRender : function(view, element){
-			    	$scope.firstDateCalendar = new Date(view.start).toISOString();
-			    	$scope.loadAll();
+			    	$scope.firstDateCalendar = new Date(view.start).toISOString().slice(0, 10);
+		            $state.go('timeSlot', {startDate:$scope.firstDateCalendar},{notify:false});
+		            $scope.loadAll();
 			    }
 			}
 		};
         
         $scope.loadAll = function() {
+        	$scope.eventSources.length = 0;
         	TimeSlotEvent.query({start:$scope.firstDateCalendar}, function(result, headers) {
                 for (var i = 0; i < result.length; i++) {
                 	 $scope.eventSources.push(result[i]);

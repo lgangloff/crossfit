@@ -2,7 +2,7 @@
 
 angular.module('crossfitApp')
     .factory('CurrentMember', function ($resource, DateUtils) {
-        return $resource('manage/members/logged', {}, {
+        return $resource('use/members/logged', {}, {
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

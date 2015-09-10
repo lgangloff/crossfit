@@ -60,6 +60,7 @@
 	            }
 	        },
 	        "firstNameLastName": "Prénom Nom",
+	        "updated" : "Vos modifications ont bien été prises en compte",
 	        "settings":{
 	        	"title": "Mon compte",
 	        	"form": {

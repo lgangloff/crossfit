@@ -17,9 +17,11 @@ import org.crossfit.app.repository.ClosedDayRepository;
 import org.crossfit.app.repository.TimeSlotRepository;
 import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.crossfit.app.service.TimeService;
+import org.crossfit.app.service.TimeSlotService;
 import org.crossfit.app.web.rest.TimeSlotResource;
 import org.crossfit.app.web.rest.dto.EventSourceDTO;
-import org.crossfit.app.web.rest.dto.TimeSlotEventDTO;
+import org.crossfit.app.web.rest.dto.EventDTO;
+import org.crossfit.app.web.rest.dto.TimeSlotInstanceDTO;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.springframework.data.domain.Page;
@@ -49,6 +51,9 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     private TimeSlotRepository timeSlotRepository;
     
     @Inject
+    private TimeSlotService timeSlotService;
+    
+    @Inject
     private ClosedDayRepository closedDayRepository;
     
     /**
@@ -70,61 +75,32 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
     	
+    	
+    	List<EventSourceDTO> eventSources =  
+    			timeSlotService.findAllTimeSlotInstance(startAt, endAt).stream() //Les timeslot instance
+			.collect(
+				Collectors.groupingBy(TimeSlotInstanceDTO::getRequiredLevel)) //Groupé par level
+			
+			.entrySet().stream() //pour chaque level
+			
+			.map(entry -> {
+	        	List<EventDTO> events = entry.getValue().stream() //On créé la liste d'evenement
+	    			.map(slotInstance ->{
+						return new EventDTO(slotInstance);
+	    			}).collect(Collectors.toList());
+				
+				EventSourceDTO evt = new EventSourceDTO(); //On met cette liste d'évènement dans EventSource
+	        	evt.setEditable(true);
+				evt.setEvents(events);
+	        	evt.setColor(getColor(entry.getKey()));
+	        	return evt;
+			})
+			.collect(Collectors.toList()); 
+    	
+    	//Pareil pour les jours fériés
     	List<ClosedDay> closedDays = closedDayRepository.findAllByBoxAndBetween(boxService.findCurrentCrossFitBox().get(), startAt, endAt);
-    	
-    	Map<Level, List<TimeSlot>> timeSlotByLevel = timeSlotRepository.findAll().stream()
-    			.filter(slot -> slotNotInAnCloseDay(startAt, slot, closedDays))
-    			.collect(
-    			Collectors.groupingBy(TimeSlot::getRequiredLevel));
-    	
-    	
-    	List<EventSourceDTO> eventSources = new ArrayList<>();
-    	for (Entry<Level, List<TimeSlot>> entry : timeSlotByLevel.entrySet()) {
-
-    		List<TimeSlotEventDTO> collect = entry.getValue().stream().map(slot->{
-        		DateTime startDateTime = slot.getStartDateTime(startAt);
-        		DateTime endDateTime = slot.getEndDateTime(startAt);
-        		
-        		TimeSlotEventDTO t = new TimeSlotEventDTO();
-        		t.setId(slot.getId());
-        		t.setStart(startDateTime);
-        		t.setEnd(endDateTime);
-        		t.setTitle(slot.getRequiredLevel() + " ("+ slot.getMaxAttendees() + " places)");
-        		
-        		return t;
-        	}).collect(Collectors.toList());
-    		
-        	EventSourceDTO evt = new EventSourceDTO();
-        	evt.setEditable(true);
-        	evt.setEvents(collect);
-        	String color = "blue";
-        	switch (entry.getKey()) {
-				case FOUNDATION:
-					color = "#0000FF";
-					break;
-				case NOVICE:
-					color = "#0174DF";
-					break;
-				case MIDDLE:
-					color = "#DF7401";
-					break;
-				case SKILLED:
-					color = "#FF4000";
-					break;
-
-			}
-        	evt.setColor(color);
-        	eventSources.add(evt);
-        	
-		}
-
-		List<TimeSlotEventDTO> closedDaysAsDTO = closedDays.stream().map(closeDay -> {
-			TimeSlotEventDTO t = new TimeSlotEventDTO();
-			t.setId(null);
-			t.setStart(closeDay.getStartAt());
-			t.setEnd(closeDay.getEndAt());
-			t.setTitle(closeDay.getName());
-			return t;
+		List<EventDTO> closedDaysAsDTO = closedDays.stream().map(closeDay -> {
+			return new EventDTO(closeDay);
 
 		}).collect(Collectors.toList());
 		EventSourceDTO evt = new EventSourceDTO();
@@ -135,11 +111,25 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     	
     	return new ResponseEntity<List<EventSourceDTO>>(eventSources, HttpStatus.OK);
     }
-    
-	private boolean slotNotInAnCloseDay(DateTime firstDateOfWeek, TimeSlot slot, List<ClosedDay> closedDays) {
-		Optional<ClosedDay> closedDayContainingSlot = closedDays.stream()
-				.filter( day-> day.isSlotInClosedDay(firstDateOfWeek, slot)).findFirst();
-		return ! closedDayContainingSlot.isPresent();
+
+	private static String getColor(Level level) {
+		String color = "blue";
+		switch (level) {
+			case FOUNDATION:
+				color = "#0000FF";
+				break;
+			case NOVICE:
+				color = "#0174DF";
+				break;
+			case MIDDLE:
+				color = "#DF7401";
+				break;
+			case SKILLED:
+				color = "#FF4000";
+				break;
+
+		}
+		return color;
 	}
 
 

@@ -9,16 +9,16 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class EventSourceDTO {
 
-	private List<TimeSlotEventDTO> events;
+	private List<EventDTO> events;
 
 	private String color;
 	boolean editable = true;
 
-	public List<TimeSlotEventDTO> getEvents() {
+	public List<EventDTO> getEvents() {
 		return events;
 	}
 
-	public void setEvents(List<TimeSlotEventDTO> events) {
+	public void setEvents(List<EventDTO> events) {
 		this.events = events;
 	}
 

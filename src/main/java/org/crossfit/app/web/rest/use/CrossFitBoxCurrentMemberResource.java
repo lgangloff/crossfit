@@ -75,7 +75,7 @@ public class CrossFitBoxCurrentMemberResource extends MemberResource {
 	}
     
 	protected Member doGetCurrent() {
-		return memberRepository.findOneByLogin(SecurityUtils.getCurrentLogin(), boxService.findCurrentCrossFitBox());
+		return memberRepository.findOneByLogin(SecurityUtils.getCurrentLogin(), boxService.findCurrentCrossFitBox().get());
 	}
 	
 }

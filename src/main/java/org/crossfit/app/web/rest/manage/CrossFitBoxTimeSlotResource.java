@@ -1,8 +1,6 @@
 package org.crossfit.app.web.rest.manage;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,15 +12,16 @@ import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.repository.TimeSlotRepository;
 import org.crossfit.app.service.CrossFitBoxSerivce;
-import org.crossfit.app.service.TimeZoneService;
+import org.crossfit.app.service.TimeService;
 import org.crossfit.app.web.rest.TimeSlotResource;
 import org.crossfit.app.web.rest.dto.EventSourceDTO;
 import org.crossfit.app.web.rest.dto.TimeSlotEventDTO;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.springframework.data.domain.Page;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +39,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     @Inject
     private CrossFitBoxSerivce boxService;
     @Inject
-    private TimeZoneService timeZoneService;
+    private TimeService timeService;
 
     @Inject
     private TimeSlotRepository timeSlotRepository;
@@ -52,10 +51,18 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<EventSourceDTO> getAll(
-    		@RequestParam(value = "start", required = false) 
-    		@DateTimeFormat(pattern="yyyy-MM-dd") Date startAsNow) {
-    	DateTime now = startAsNow == null ? timeZoneService.now() : new DateTime(startAsNow);
+    public ResponseEntity<List<EventSourceDTO>> getAll(
+    		@RequestParam(value = "start", required = false) String startStr,
+    		@RequestParam(value = "end", required = false) String endStr) {
+    	
+
+    	DateTime startAt = timeService.parseDateAsUTC("yyyy-MM-dd", startStr);
+    	DateTime endAt = timeService.parseDateAsUTC("yyyy-MM-dd", endStr);
+    	
+    	if (startAt == null || endAt == null){
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    	}
+    	
     	
     	Map<Level, List<TimeSlot>> timeSlotByLevel = timeSlotRepository.findAll().stream().collect(
     			Collectors.groupingBy(TimeSlot::getRequiredLevel));
@@ -65,7 +72,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     	for (Entry<Level, List<TimeSlot>> entry : timeSlotByLevel.entrySet()) {
 
     		List<TimeSlotEventDTO> collect = entry.getValue().stream().map(slot->{
-        		DateTime slotDateDay = now.dayOfWeek().setCopy(slot.getDayOfWeek());
+        		DateTime slotDateDay = startAt.dayOfWeek().setCopy(slot.getDayOfWeek());
         		LocalTime start = slot.getStartTime();
         		LocalTime end = slot.getEndTime();
         		
@@ -104,7 +111,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
         	eventSources.add(evt);
         	
 		}
-    	return eventSources;
+    	return new ResponseEntity<List<EventSourceDTO>>(eventSources, HttpStatus.OK);
     }
     
 	@Override

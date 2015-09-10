@@ -77,8 +77,9 @@ angular.module('crossfitApp')
 					});
 			    }, 
 			    viewRender : function(view, element){
-			    	$scope.firstDateCalendar = new Date(view.start).toISOString().slice(0, 10);
-		            $state.go('timeSlot', {startDate:$scope.firstDateCalendar},{notify:false});
+			    	$scope.startDateCalendar = new Date(view.start).toISOString().slice(0, 10);
+			    	$scope.endDateCalendar = new Date(view.end).toISOString().slice(0, 10);
+		            $state.go('timeSlot', {startDate:$scope.startDateCalendar, endDate:$scope.endDateCalendar},{notify:false});
 		            $scope.loadAll();
 			    }
 			}
@@ -86,7 +87,7 @@ angular.module('crossfitApp')
         
         $scope.loadAll = function() {
         	$scope.eventSources.length = 0;
-        	TimeSlotEvent.query({start:$scope.firstDateCalendar}, function(result, headers) {
+        	TimeSlotEvent.query({end:$scope.endDateCalendar,start:$scope.startDateCalendar}, function(result, headers) {
                 for (var i = 0; i < result.length; i++) {
                 	 $scope.eventSources.push(result[i]);
                 }

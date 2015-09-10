@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.repository.CrossFitBoxRepository;
 import org.crossfit.app.service.CrossFitBoxSerivce;
-import org.crossfit.app.service.TimeZoneService;
+import org.crossfit.app.service.TimeService;
 import org.crossfit.app.web.rest.util.HeaderUtil;
 import org.crossfit.app.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class CurrentCrossFitBoxResource {
     private CrossFitBoxSerivce boxService;
     
     @Inject
-    private TimeZoneService timeZoneService;
+    private TimeService timeZoneService;
 
     /**
      * GET  /currentCrossFitBox -> get the "current" crossFitBox resolve by hostname.

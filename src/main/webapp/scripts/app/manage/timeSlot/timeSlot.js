@@ -5,7 +5,7 @@ angular.module('crossfitApp')
         $stateProvider
             .state('timeSlot', {
                 parent: 'manage',
-                url: '/timeSlots/:startDate',
+                url: '/timeSlots/:startDate/:endDate',
                 data: {
                     roles: ['ROLE_MANAGER'],
                     pageTitle: 'crossfitApp.timeSlot.home.title'

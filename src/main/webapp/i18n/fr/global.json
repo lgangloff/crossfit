@@ -12,6 +12,7 @@
                 "member": "Member",
                 "timeSlot": "TimeSlot",
                 "closedDay": "ClosedDay",
+                "booking": "Booking",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

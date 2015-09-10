@@ -1,0 +1,25 @@
+{
+    "crossfitApp": {
+        "booking" : {
+            "home": {
+                "title": "Bookings",
+                "createLabel": "Créer un nouveau Booking",
+                "createOrEditLabel": "Créer ou éditer un Booking"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Booking {{ id }} ?"
+            },
+            "detail": {
+                "title": "Booking"
+            },
+            "startAt": "StartAt",
+            "endAt": "EndAt",
+            "status": "Status",
+            "createdDate": "CreatedDate",
+            "createdBy": "CreatedBy",
+            "box": "Box",
+            "owner": "Owner"
+        }
+    }
+}
+

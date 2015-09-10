@@ -27,6 +27,8 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Query("select m from Member m where m.user.login = :login")
     Member findOneByLogin(@Param("login") String login);
 
+    @Query("select m from Member m where m.user.login = :login and m.box = :box")
+    Member findOneByLogin(@Param("login") String login, @Param("box") CrossFitBox currentCrossFitBox);
     
 
 }

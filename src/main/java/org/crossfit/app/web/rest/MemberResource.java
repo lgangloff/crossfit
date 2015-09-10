@@ -66,9 +66,14 @@ public class MemberResource {
 		if (member.getId() == null) {
 			return create(member);
 		}
-		Member result = doSave(member);
+		Member result = doUpdate(member);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("member", member.getId().toString()))
 				.body(result);
+	}
+	
+	protected Member doUpdate(Member member) {
+		Member result = memberRepository.save(member);
+		return result;
 	}
 
 	/**

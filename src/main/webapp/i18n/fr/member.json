@@ -24,7 +24,8 @@
             	"lastname.placeholder" : "Nom",
             	"email" : "Email",
             	"email.placeholder": "nom.prenom@crossfit.com",
-            	"language" : "Langue"
+            	"language" : "Langue",
+            	"login" : "Login"
             },
             "telephonNumber": "Numéro de téléphone",
             "sickNoteEndDate": "Date de fin de validité de l'ordonnance",
@@ -58,7 +59,14 @@
 	                }
 	            }
 	        },
-	        "firstNameLastName": "Prénom Nom"
+	        "firstNameLastName": "Prénom Nom",
+	        "settings":{
+	        	"title": "Mon compte",
+	        	"form": {
+	        		"button": {
+	        			"save": "Sauvegarder"}
+	        			}
+	        		}
         }
     }
 }

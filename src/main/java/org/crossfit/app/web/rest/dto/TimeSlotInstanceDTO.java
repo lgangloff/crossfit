@@ -1,14 +1,22 @@
 package org.crossfit.app.web.rest.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.crossfit.app.domain.Booking;
 import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.domain.util.CustomDateTimeSerializer;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * C'est un créneau horaire, à une date donnée... une instance de time slot quoi !
+ * C'est un créneau horaire, à une date donnée... une instance de time slot quoi
+ * !
  * 
  * @author lgangloff
  *
@@ -16,10 +24,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class TimeSlotInstanceDTO {
 
 	private DateTime date;
-	
+
 	private TimeSlot slot;
-	
-	
+
+	private List<Booking> bookings = new ArrayList<>();
+
 	public TimeSlotInstanceDTO(DateTime date, TimeSlot slot) {
 		super();
 		this.date = date;
@@ -28,6 +37,10 @@ public class TimeSlotInstanceDTO {
 
 	public Long getId() {
 		return slot.getId();
+	}
+
+	public LocalDate getDate() {
+		return date.toLocalDate();
 	}
 
 	@JsonSerialize(using = CustomDateTimeSerializer.class)
@@ -48,10 +61,26 @@ public class TimeSlotInstanceDTO {
 		return slot.getRequiredLevel();
 	}
 
+	public List<Booking> getBookings() {
+		return new ArrayList<>(bookings);
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = new ArrayList<>(bookings);
+	}
+
 	@Override
 	public String toString() {
 		return "[" + getStart() + "->" + getEnd() + "]";
 	}
-	
-	
+
+
+	public boolean contains(DateTime start, DateTime end) {
+		return this.toInterval().contains(new Interval(start, end));
+	}
+
+	protected Interval toInterval() {
+		return new Interval(this.getStart(), this.getEnd());
+	}
+
 }

@@ -1,4 +1,4 @@
-package org.crossfit.app.web.rest.dto;
+package org.crossfit.app.web.rest.dto.calendar;
 
 import java.util.List;
 

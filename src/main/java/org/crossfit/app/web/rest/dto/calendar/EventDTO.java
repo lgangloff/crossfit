@@ -1,6 +1,7 @@
-package org.crossfit.app.web.rest.dto;
+package org.crossfit.app.web.rest.dto.calendar;
 
 import org.crossfit.app.domain.ClosedDay;
+import org.crossfit.app.web.rest.dto.TimeSlotInstanceDTO;
 import org.joda.time.DateTime;
 
 public class EventDTO {

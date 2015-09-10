@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.crossfit.app.domain.ClosedDay;
 import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.Level;
+import org.crossfit.app.repository.ClosedDayRepository;
 import org.crossfit.app.repository.TimeSlotRepository;
 import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.crossfit.app.service.TimeService;
@@ -44,6 +48,9 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     @Inject
     private TimeSlotRepository timeSlotRepository;
     
+    @Inject
+    private ClosedDayRepository closedDayRepository;
+    
     /**
      * GET  /timeSlots -> get all the timeSlots.
      */
@@ -63,8 +70,11 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
     	
+    	List<ClosedDay> closedDays = closedDayRepository.findAllByBoxAndBetween(boxService.findCurrentCrossFitBox().get(), startAt, endAt);
     	
-    	Map<Level, List<TimeSlot>> timeSlotByLevel = timeSlotRepository.findAll().stream().collect(
+    	Map<Level, List<TimeSlot>> timeSlotByLevel = timeSlotRepository.findAll().stream()
+    			.filter(slot -> slotNotInAnCloseDay(startAt, slot, closedDays))
+    			.collect(
     			Collectors.groupingBy(TimeSlot::getRequiredLevel));
     	
     	
@@ -72,12 +82,8 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
     	for (Entry<Level, List<TimeSlot>> entry : timeSlotByLevel.entrySet()) {
 
     		List<TimeSlotEventDTO> collect = entry.getValue().stream().map(slot->{
-        		DateTime slotDateDay = startAt.dayOfWeek().setCopy(slot.getDayOfWeek());
-        		LocalTime start = slot.getStartTime();
-        		LocalTime end = slot.getEndTime();
-        		
-        		DateTime startDateTime = slotDateDay.withTime(start.getHourOfDay(), start.getMinuteOfHour(), 0, 0);
-        		DateTime endDateTime = slotDateDay.withTime(end.getHourOfDay(), end.getMinuteOfHour(), 0, 0);
+        		DateTime startDateTime = slot.getStartDateTime(startAt);
+        		DateTime endDateTime = slot.getEndDateTime(startAt);
         		
         		TimeSlotEventDTO t = new TimeSlotEventDTO();
         		t.setId(slot.getId());
@@ -111,9 +117,32 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
         	eventSources.add(evt);
         	
 		}
+
+		List<TimeSlotEventDTO> closedDaysAsDTO = closedDays.stream().map(closeDay -> {
+			TimeSlotEventDTO t = new TimeSlotEventDTO();
+			t.setId(null);
+			t.setStart(closeDay.getStartAt());
+			t.setEnd(closeDay.getEndAt());
+			t.setTitle(closeDay.getName());
+			return t;
+
+		}).collect(Collectors.toList());
+		EventSourceDTO evt = new EventSourceDTO();
+    	evt.setEditable(false);
+    	evt.setEvents(closedDaysAsDTO);
+    	evt.setColor("#A0A0A0");
+    	eventSources.add(evt);
+    	
     	return new ResponseEntity<List<EventSourceDTO>>(eventSources, HttpStatus.OK);
     }
     
+	private boolean slotNotInAnCloseDay(DateTime firstDateOfWeek, TimeSlot slot, List<ClosedDay> closedDays) {
+		Optional<ClosedDay> closedDayContainingSlot = closedDays.stream()
+				.filter( day-> day.isSlotInClosedDay(firstDateOfWeek, slot)).findFirst();
+		return ! closedDayContainingSlot.isPresent();
+	}
+
+
 	@Override
 	protected TimeSlot doSave(TimeSlot timeSlot) {
 		timeSlot.setBox(boxService.findCurrentCrossFitBox().get());

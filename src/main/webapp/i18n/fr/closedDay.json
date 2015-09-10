@@ -1,0 +1,22 @@
+{
+    "crossfitApp": {
+        "closedDay" : {
+            "home": {
+                "title": "ClosedDays",
+                "createLabel": "Créer un nouveau ClosedDay",
+                "createOrEditLabel": "Créer ou éditer un ClosedDay"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le ClosedDay {{ id }} ?"
+            },
+            "detail": {
+                "title": "ClosedDay"
+            },
+            "name": "Name",
+            "startAt": "StartAt",
+            "endAt": "EndAt",
+            "box": "Box"
+        }
+    }
+}
+

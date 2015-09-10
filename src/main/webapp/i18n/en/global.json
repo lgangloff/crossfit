@@ -11,6 +11,7 @@
                 "membershipType": "MembershipType",
                 "member": "Member",
                 "timeSlot": "TimeSlot",
+                "closedDay": "ClosedDay",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

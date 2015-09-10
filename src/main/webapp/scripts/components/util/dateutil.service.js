@@ -13,6 +13,18 @@ angular.module('crossfitApp')
           return null;
         }
       };
+      this.convertLocaleDateTimeToServer = function(date) {
+          if (date) {
+            var utcDate = this.convertLocaleDateToServer(date);
+            utcDate.setUTCHours(date.getHours());
+            utcDate.setUTCMinutes(date.getMinutes());
+            utcDate.setUTCSeconds(date.getSeconds());
+            utcDate.setUTCMilliseconds(0);
+            return utcDate;
+          } else {
+            return null;
+          }
+        };
       this.convertLocaleDateFromServer = function(date) {
         if (date) {
           var dateString = date.split("-");

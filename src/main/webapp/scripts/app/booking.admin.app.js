@@ -2,7 +2,7 @@
 
 angular.module('crossfitApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 'ui.calendar',
                'ui.bootstrap', // for modal dialogs
-    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
+    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll', 'ui.bootstrap.datetimepicker'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, CurrentCrossFitBox, Language, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;

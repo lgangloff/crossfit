@@ -36,7 +36,9 @@ angular.module('crossfitApp')
 		            $state.go('timeSlot.new', {dayOfWeek:dayOfWeek,start:startTime, end:endTime});
 				},
 				eventClick: function(calEvent, jsEvent, view) {
-		            $state.go('timeSlot.edit', {id:calEvent.id});
+					if (calEvent.id){
+			            $state.go('timeSlot.edit', {id:calEvent.id});
+					}
 			    },
 				eventDrop: function(event, delta, revertFunc) {
 

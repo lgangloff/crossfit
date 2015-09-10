@@ -11,6 +11,7 @@
                 "membershipType": "MembershipType",
                 "member": "Member",
                 "timeSlot": "TimeSlot",
+                "closedDay": "ClosedDay",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -36,7 +37,9 @@
             "manage": {
                 "main": "Gestion",
                 "members": "Adhérents",
-                "membershipTypes": "Types d'abonnement"
+                "membershipTypes": "Types d'abonnement",
+                "timeSlot": "Créneaux horaires",
+                "closedDay": "Jour de fermeture"
             },
             "language": "Langue"
         },

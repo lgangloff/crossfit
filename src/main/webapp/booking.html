@@ -62,9 +62,18 @@
         <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
         <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
         <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+        <script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/angular-ui-bootstrap-datetimepicker/datetimepicker.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
+<!-- Gestion du calendrier -->
+	<link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
+	<!-- jquery, moment, and angular have to get included before fullcalendar -->
+	<script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+	<script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+	<script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
+	<script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
 
     <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
     <script src="scripts/app/booking.app.js"></script>
@@ -146,14 +155,22 @@
     <script src="scripts/app/account/sessions/sessions.js"></script>
     <script src="scripts/app/account/sessions/sessions.controller.js"></script>
     
-    <!-- Gestion du compte -->
-    <script src="scripts/components/currentCrossFitBox/currentCrossFitBox.service.js"></script>
-  
+<!--     public -->
+    <script src="scripts/components/public/currentCrossFitBox.service.js"></script>
+    <script src="scripts/components/public/timeZone.service.js"></script>
+    
     <script src="scripts/app/use/use.js"></script>
+<!--     Gestion du compte -->
     <script src="scripts/app/use/member/member.js"></script>
     <script src="scripts/app/use/member/member-settings.controller.js"></script>
     <script src="scripts/components/use/member/currentMember.service.js"></script>
     <script src="scripts/components/use/member/member.service.js"></script>
+<!--     Visualitation des créneaux -->
+	<script src="scripts/app/use/timeSlot/timeSlot.js"></script>
+    <script src="scripts/app/use/timeSlot/timeSlot.controller.js"></script>
+    <script src="scripts/app/use/timeSlot/timeSlot-dialog.controller.js"></script>
+    <script src="scripts/components/use/timeSlot/timeSlot.service.js"></script>
+    <script src="scripts/components/use/timeSlot/timeSlotEvent.service.js"></script>
 <!--     endbuild -->
     
 </body>

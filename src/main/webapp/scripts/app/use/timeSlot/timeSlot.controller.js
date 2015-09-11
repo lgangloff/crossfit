@@ -37,47 +37,9 @@ angular.module('crossfitApp')
 				},
 				eventClick: function(calEvent, jsEvent, view) {
 					if (calEvent.id){
-			            $state.go('timeSlot.edit', {id:calEvent.id});
+//			            $state.go('timeSlot.edit', {id:calEvent.id});
 					}
 			    },
-				eventDrop: function(event, delta, revertFunc) {
-
-					var startD = new Date(event.start);
-					var endD = new Date(event.end);
-
-					var dayOfWeek = startD.getDay();
-					if (dayOfWeek == 0){
-						dayOfWeek = 7;
-					}
-
-					var startTime = startD.getUTCHours() + ":" + startD.getUTCMinutes() + ":" + startD.getUTCSeconds();
-					var endTime = endD.getUTCHours() + ":" + endD.getUTCMinutes() + ":" + endD.getUTCSeconds();
-					TimeSlot.get({id : event.id}, function(result) {
-						result.startTime = startTime;
-						result.endTime = endTime;
-						result.dayOfWeek = dayOfWeek;
-		                TimeSlot.update(result);
-					});
-					 
-			    },
-				eventResize:  function(event, delta, revertFunc) {
-
-					var startD = new Date(event.start);
-					var endD = new Date(event.end);
-
-					var dayOfWeek = startD.getDay();
-					if (dayOfWeek == 0){
-						dayOfWeek = 7;
-					}
-					var startTime = startD.getUTCHours() + ":" + startD.getUTCMinutes() + ":" + startD.getUTCSeconds();
-					var endTime = endD.getUTCHours() + ":" + endD.getUTCMinutes() + ":" + endD.getUTCSeconds();
-					TimeSlot.get({id : event.id}, function(result) {
-						result.startTime = startTime;
-						result.endTime = endTime;
-						result.dayOfWeek = dayOfWeek;
-		                TimeSlot.update(result);
-					});
-			    }, 
 			    viewRender : function(view, element){
 			    	$scope.startDateCalendar = new Date(view.start).toISOString().slice(0, 10);
 			    	$scope.endDateCalendar = new Date(view.end).toISOString().slice(0, 10);
@@ -97,22 +59,6 @@ angular.module('crossfitApp')
         };
         $scope.reset = function() {
             $scope.loadAll();
-        };
-
-        $scope.delete = function (id) {
-            TimeSlot.get({id: id}, function(result) {
-                $scope.timeSlot = result;
-                $('#deleteTimeSlotConfirmation').modal('show');
-            });
-        };
-
-        $scope.confirmDelete = function (id) {
-            TimeSlot.delete({id: id},
-                function () {
-                    $scope.reset();
-                    $('#deleteTimeSlotConfirmation').modal('hide');
-                    $scope.clear();
-                });
         };
 
         $scope.refresh = function () {

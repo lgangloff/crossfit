@@ -6,6 +6,7 @@ import com.codahale.metrics.servlets.MetricsServlet;
 
 import org.crossfit.app.web.filter.CachingHttpHeadersFilter;
 import org.crossfit.app.web.filter.StaticResourcesProductionFilter;
+import org.crossfit.app.web.filter.SubDomainFilter;
 import org.crossfit.app.web.filter.gzip.GZipServletFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,9 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
         servletContext.addListener(RequestContextListener.class);
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
+       
+        initSubDomainFilter(servletContext, disps);
+        
         if (!env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) {
             initMetrics(servletContext, disps);
         }
@@ -69,6 +73,18 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
         mappings.add("json", "text/html;charset=utf-8");
         container.setMimeMappings(mappings);
+    }
+    
+
+    private void initSubDomainFilter(ServletContext servletContext,
+                                              EnumSet<DispatcherType> disps) {
+        log.debug("Registering SubDomain Filter");
+        FilterRegistration.Dynamic subDomainFilter =
+                servletContext.addFilter("subDomainFilter",
+                        new SubDomainFilter());
+
+        subDomainFilter.addMappingForUrlPatterns(disps, true, "/");
+        subDomainFilter.setAsyncSupported(true);
     }
 
     /**
@@ -102,7 +118,9 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
                         new StaticResourcesProductionFilter());
 
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
-        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.html");
+        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/booking.admin.html");
+        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/superadmin.html");
+        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/booking.html");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
         staticResourcesProductionFilter.setAsyncSupported(true);

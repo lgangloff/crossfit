@@ -67,7 +67,7 @@ public class CrossFitBoxBookingResource {
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
 
-    	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox().get(), start, end);
+    	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), start, end);
     	List<TimeSlotInstanceDTO> slotInstances = timeSlotService.findAllTimeSlotInstance(start, end);
     	
     	List<PlanningDayDTO> days = 

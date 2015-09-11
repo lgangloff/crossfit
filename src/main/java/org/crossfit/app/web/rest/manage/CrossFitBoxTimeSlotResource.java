@@ -98,7 +98,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
 			.collect(Collectors.toList()); 
     	
     	//Pareil pour les jours fériés
-    	List<ClosedDay> closedDays = closedDayRepository.findAllByBoxAndBetween(boxService.findCurrentCrossFitBox().get(), startAt, endAt);
+    	List<ClosedDay> closedDays = closedDayRepository.findAllByBoxAndBetween(boxService.findCurrentCrossFitBox(), startAt, endAt);
 		List<EventDTO> closedDaysAsDTO = closedDays.stream().map(closeDay -> {
 			return new EventDTO(closeDay);
 
@@ -135,7 +135,7 @@ public class CrossFitBoxTimeSlotResource extends TimeSlotResource {
 
 	@Override
 	protected TimeSlot doSave(TimeSlot timeSlot) {
-		timeSlot.setBox(boxService.findCurrentCrossFitBox().get());
+		timeSlot.setBox(boxService.findCurrentCrossFitBox());
 		return super.doSave(timeSlot);
 	}
 

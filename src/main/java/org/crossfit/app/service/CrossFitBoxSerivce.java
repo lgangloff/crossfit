@@ -1,7 +1,10 @@
 package org.crossfit.app.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +30,7 @@ public class CrossFitBoxSerivce {
 
     private final Logger log = LoggerFactory.getLogger(CrossFitBoxSerivce.class);
 
-    private static final Set<String> KNOW_HOSTS = Sets.newHashSet("localhost", "127.0.0.1");
+    private static final Set<String> KNOW_HOSTS = Sets.newHashSet("(.*).rhcloud.com", "(.*).localhost", "127.0.0.1");
     
 	@Autowired
 	private CrossFitBoxRepository crossFitBoxRepository;
@@ -35,20 +38,47 @@ public class CrossFitBoxSerivce {
 	@Autowired
 	private HttpServletRequest request;
 	
-	public Optional<CrossFitBox> findCurrentCrossFitBox(){
+	public CrossFitBox findCurrentCrossFitBox(){
 		String serverName = request.getServerName();
-		CrossFitBox box = crossFitBoxRepository.findOneByWebsite(serverName);
 		
-		if (box == null && crossFitBoxRepository.count() > 1 ){
-			log.error("Aucune box n'est recensée à l'adresse "+ request.getServerName());
-			if (!KNOW_HOSTS.contains(serverName)){
+		log.debug("Recherche d'une box associé à {}", serverName);
+		
+		List<CrossFitBox> boxs = crossFitBoxRepository.findAll();
+		
+		Optional<CrossFitBox> box = boxs.stream().filter(b->{
+			try{
+				return Pattern.matches(b.getWebsite(), serverName);
+			}
+			catch (Exception e) {
+				log.error("Erreur sur le pattern {} de la box {}: {}", b.getWebsite(), b.getId(), e.getMessage());
+				return false;
+			}
+		}).findFirst();
+		
+		//On a pas trouve la box avec le servername, alors qu'il y a des box ?
+		if (!box.isPresent() && boxs.size() > 0 ){
+			log.warn("Aucune box n'est recensée à l'adresse "+ request.getServerName());
+			if (boxs.size() == 1){
+				log.debug("Une seule box dans la base, on l'utilise");
+				box = Optional.ofNullable(boxs.get(0));
+			}
+		}
+
+		log.debug("Current CorssFitBox: {}", box.isPresent() ? box.get().getName() + " ("+box.get().getWebsite()+")" : "null");
+		
+		
+		if (!box.isPresent()){
+
+			boolean matchKnowHost = KNOW_HOSTS.stream().anyMatch(knowHost->{return Pattern.matches(knowHost, serverName);});
+
+			if (matchKnowHost){
+				log.warn("Parmis {}, aucune box n'a ete trouve, par contre le serveur {} fait parti des serveurs de confiance {}, donc on laisse passer.", boxs.stream().map(CrossFitBox::getWebsite).collect(Collectors.toList()), serverName, KNOW_HOSTS);
+			}
+			else{
 				throw new CrossFitBoxConfiguration("Aucune box n'est recensée à l'adresse "+ request.getServerName());
 			}
 		}
-		else{
-			log.debug("Current CorssFitBox: {}", box == null ? null : box.getName());
-		}
 		
-		return Optional.of(box);
+		return box.isPresent() ? box.get() : null;
 	}
 }

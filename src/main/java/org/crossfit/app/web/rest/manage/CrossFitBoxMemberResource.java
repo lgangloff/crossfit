@@ -68,7 +68,7 @@ public class CrossFitBoxMemberResource extends MemberResource {
 		member.getUser().setLogin(login);
 		member.getUser().setPassword(passwordEncoder.encode(login + DateTime.now().getYear()));
 		
-		member.setBox(boxService.findCurrentCrossFitBox().get());
+		member.setBox(boxService.findCurrentCrossFitBox());
 		return super.doSave(member);
 	}
 	
@@ -94,18 +94,18 @@ public class CrossFitBoxMemberResource extends MemberResource {
 
 	@Override
 	protected Page<Member> doFindAll(Pageable generatePageRequest) {
-		return memberRepository.findAll(boxService.findCurrentCrossFitBox().get(), generatePageRequest);
+		return memberRepository.findAll(boxService.findCurrentCrossFitBox(), generatePageRequest);
 	}
 
 	@Override
 	protected Member doGet(Long id) {
-		return memberRepository.findOne(id, boxService.findCurrentCrossFitBox().get());
+		return memberRepository.findOne(id, boxService.findCurrentCrossFitBox());
 	}
 
 	@Override
 	protected void doDelete(Long id) {
 		Member memberToDelete = memberRepository.findOne(id);
-		if (memberToDelete.getBox().equals(boxService.findCurrentCrossFitBox().get())){
+		if (memberToDelete.getBox().equals(boxService.findCurrentCrossFitBox())){
 			memberRepository.delete(memberToDelete);
 		}
 	}
@@ -127,7 +127,7 @@ public class CrossFitBoxMemberResource extends MemberResource {
 	}
     
 	protected Member doGetCurrent() {
-		return memberRepository.findOneByLogin(SecurityUtils.getCurrentLogin(), boxService.findCurrentCrossFitBox().get());
+		return memberRepository.findOneByLogin(SecurityUtils.getCurrentLogin(), boxService.findCurrentCrossFitBox());
 	}
 	
 }

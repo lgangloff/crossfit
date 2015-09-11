@@ -31,23 +31,23 @@ public class CrossFitBoxClosedDayResource extends ClosedDayResource {
 
 	@Override
 	protected ClosedDay doSave(ClosedDay closedDay) {
-		closedDay.setBox(boxService.findCurrentCrossFitBox().get());
+		closedDay.setBox(boxService.findCurrentCrossFitBox());
 		return super.doSave(closedDay);
 	}
 
 	@Override
 	protected List<ClosedDay> doFindAll() {
-		return closedDayRepository.findAll(boxService.findCurrentCrossFitBox().get());
+		return closedDayRepository.findAll(boxService.findCurrentCrossFitBox());
 	}
 
 	@Override
 	protected ClosedDay doGet(Long id) {
-		return closedDayRepository.findOne(id, boxService.findCurrentCrossFitBox().get());
+		return closedDayRepository.findOne(id, boxService.findCurrentCrossFitBox());
 	}
 
 	@Override
 	protected void doDelete(Long id) {
-		closedDayRepository.delete(id, boxService.findCurrentCrossFitBox().get());
+		closedDayRepository.delete(id, boxService.findCurrentCrossFitBox());
 	}
 
     

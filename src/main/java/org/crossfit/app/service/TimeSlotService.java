@@ -56,7 +56,7 @@ public class TimeSlotService {
 		}
 		
 		List<TimeSlot> allSlots = timeSlotRepository.findAll();
-		List<ClosedDay> closedDays = closedDayRepository.findAllByBoxAndBetween(boxService.findCurrentCrossFitBox().get(), start, end);
+		List<ClosedDay> closedDays = closedDayRepository.findAllByBoxAndBetween(boxService.findCurrentCrossFitBox(), start, end);
 		
 		while(!start.isAfter(end)){
 			final DateTime startF = start;

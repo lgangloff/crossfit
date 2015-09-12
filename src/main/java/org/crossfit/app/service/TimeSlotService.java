@@ -1,30 +1,22 @@
 package org.crossfit.app.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import org.crossfit.app.domain.ClosedDay;
 import org.crossfit.app.domain.TimeSlot;
-import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.repository.ClosedDayRepository;
 import org.crossfit.app.repository.TimeSlotRepository;
 import org.crossfit.app.web.rest.dto.TimeSlotInstanceDTO;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import scala.reflect.internal.util.Statistics.TimerStack;
 
 @Service
 @Transactional

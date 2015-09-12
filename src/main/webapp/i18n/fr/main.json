@@ -32,7 +32,7 @@
 		        "title": "Bienvenue, CrossFit Trainer !",
 		        "subtitle": "Ceci est l'interface d'administration des membres",
 		        "logged": {
-		            "message": "Vous êtes connecté en tant que \"{{username}}\"."
+           			"message": "Bienvenue {{username}}, voici le planning à venir de la box:"
 		        },
 		        "question": "Si vous avez des questions à propos de JHipster:",
 		        "link": {

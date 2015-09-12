@@ -1,19 +1,57 @@
 <div ng-cloak>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
         	
             <h1>{{currentCrossFitBox.name}}</h1>
-            <h2 translate="booking.admin.main.title">Welcome, CrossFit Trainer!</h2>
-            <p class="lead" translate="booking.admin.main.subtitle">This is your homepage</p>
 
             <div ng-switch="isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true" translate="booking.admin.main.logged.message" translate-values="{username: '{{account.login}}'}">
-                    You are logged in as user "{{account.login}}".
+                <div class="alert alert-success" ng-switch-when="true" translate="booking.admin.main.logged.message" translate-values="{username: '{{account.firstName}} {{account.lastName}}'}">
+                	Welcome, {{account.firstName}} {{account.lastName}} !
                 </div>
 
                 <div class="alert alert-warning" ng-switch-when="false" translate="global.messages.info.authenticated">
                     Vous devez vous <a href=\"#/login\">connecter</a> pour accéder à l'interface d'administration
                 </div>
+            </div>
+            
+            
+            <div ng-switch="isAuthenticated()">
+                <div class="planning" ng-switch-when="true">
+					<table class="table" cellspacing="0" cellpadding="0">
+						<tbody ng-repeat="day in planning">
+							<tr ng-repeat="slot in day.slots">
+								<th ng-if="!($index%day.slots.length)" rowspan="{{day.slots.length}}" width="30px">
+									{{day.date | date:'dd MMM'}}
+								</th>
+								<td  width="50px">
+									{{slot.start | date:'HH:mm'}}
+									{{slot.end   | date:'HH:mm'}}</td>
+								<td>
+									<div class="panel panel-default collapsed in">
+										<div class="panel-heading">
+											{{slot.requiredLevel}}. Inscrits: {{slot.validatedBookings.length}}/{{slot.maxAttendees}}. En liste d'attente: {{slot.waitingBookings.length}}
+										</div>
+										<ul class="list-group hidden" >
+										
+											<li class="list-group-item "
+												ng-repeat="booking in slot.validatedBookings">
+												{{booking.owner.user.firstName}}
+												{{booking.owner.user.lastName}} 
+												<span class="badge">{{booking.owner.level}}</span></li>
+												
+											<li class="list-group-item list-group-item-warning"
+												ng-repeat="booking in slot.waitingBookings">
+												{{booking.owner.user.firstName}}
+												{{booking.owner.user.lastName}} 
+												<span class="badge">{{booking.owner.level}}</span></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+                </div>
+
             </div>
 
         </div>

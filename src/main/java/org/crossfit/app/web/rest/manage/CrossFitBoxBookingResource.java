@@ -81,7 +81,11 @@ public class CrossFitBoxBookingResource {
     	
     	List<PlanningDayDTO> days = 
 			slotInstances.stream().map(slot ->{
-	    		slot.setBookings(bookings.stream().filter(b -> {return slot.contains(b.getStartAt(), b.getEndAt());}).collect(Collectors.toList()));
+	    		slot.setBookings(
+	    				bookings.stream()
+	    				.filter(b -> {return slot.contains(b.getStartAt(), b.getEndAt());})
+	    	    		.sorted( (b1, b2) -> { return b1.getCreatedDate().compareTo(b2.getCreatedDate());} )
+	    				.collect(Collectors.toList()));
 	    		return slot;
 	    	})
     		.sorted( (s1, s2) -> { return s1.getStart().compareTo(s2.getStart());} )
@@ -90,6 +94,7 @@ public class CrossFitBoxBookingResource {
     		.map(entry -> {
     			return new PlanningDayDTO(entry.getKey(), entry.getValue());
     		})
+    		.sorted( (d1, d2) -> { return d1.getDate().compareTo(d2.getDate());} )
     		.collect(Collectors.toList());
     	
     	

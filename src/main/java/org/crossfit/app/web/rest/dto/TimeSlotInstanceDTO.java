@@ -2,10 +2,11 @@ package org.crossfit.app.web.rest.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import org.crossfit.app.domain.Booking;
 import org.crossfit.app.domain.TimeSlot;
+import org.crossfit.app.domain.enumeration.BookingStatus;
 import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.domain.util.CustomDateTimeSerializer;
 import org.joda.time.DateTime;
@@ -61,8 +62,11 @@ public class TimeSlotInstanceDTO {
 		return slot.getRequiredLevel();
 	}
 
-	public List<Booking> getBookings() {
-		return new ArrayList<>(bookings);
+	public List<Booking> getValidatedBookings() {
+		return bookings.stream().filter(b->{return b.getStatus() == BookingStatus.VALIDATED;}).collect(Collectors.toList());
+	}
+	public List<Booking> getWaitingBookings() {
+		return bookings.stream().filter(b->{return b.getStatus() == BookingStatus.ON_WAINTING_LIST;}).collect(Collectors.toList());
 	}
 
 	public void setBookings(List<Booking> bookings) {

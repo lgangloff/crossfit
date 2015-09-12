@@ -1,8 +1,17 @@
+
 'use strict';
 
 angular.module('crossfitApp')
-    .factory('TimeSlotEvent', function ($resource, DateUtils) {
-        return $resource('manage/timeSlotsAsEvent', {}, {
-            'query': { method: 'GET', isArray: true}
+    .factory('TimeSlot', function ($resource, DateUtils) {
+        return $resource('manage/timeSlots/:id', {}, {
+            'query': { method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            },
+            'update': { method:'PUT' }
         });
     });

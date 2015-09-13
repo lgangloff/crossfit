@@ -8,7 +8,7 @@ angular.module('crossfitApp')
         $scope.uiConfig = {
 			calendar:{
 				height: 700,
-				editable: true,
+				editable: false,
 				header:{
 					left: '', center: '', right: 'today prev,next'
 				},
@@ -21,23 +21,12 @@ angular.module('crossfitApp')
 				timeFormat: {
 				    agenda: 'H:mm'
 				},
-				selectable: true,
+				selectable: false,
 				selectHelper: true,
-				select: function(start, end) {
-					var startD = new Date(start);
-					var endD = new Date(end);
-
-					var dayOfWeek = startD.getDay();
-					if (dayOfWeek == 0){
-						dayOfWeek = 7;
-					}
-					var startTime = startD.getUTCHours() + ":" + startD.getUTCMinutes() + ":" + startD.getUTCSeconds();
-					var endTime = endD.getUTCHours() + ":" + endD.getUTCMinutes() + ":" + endD.getUTCSeconds();
-		            $state.go('timeSlot.new', {dayOfWeek:dayOfWeek,start:startTime, end:endTime});
-				},
+				
 				eventClick: function(calEvent, jsEvent, view) {
 					if (calEvent.id){
-//			            $state.go('timeSlot.edit', {id:calEvent.id});
+			            $state.go('timeSlot.edit', {id:calEvent.id});
 					}
 			    },
 			    viewRender : function(view, element){
@@ -51,7 +40,7 @@ angular.module('crossfitApp')
         
         $scope.loadAll = function() {
         	$scope.eventSources.length = 0;
-        	TimeSlotEvent.query({end:$scope.endDateCalendar,start:$scope.startDateCalendar}, function(result, headers) {
+        	TimeSlotEvent.query({end:$scope.endDateCalendar,start:$scope.startDateCalendar, editable:false}, function(result, headers) {
                 for (var i = 0; i < result.length; i++) {
                 	 $scope.eventSources.push(result[i]);
                 }

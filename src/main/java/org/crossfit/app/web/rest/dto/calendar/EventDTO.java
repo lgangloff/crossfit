@@ -16,7 +16,7 @@ public class EventDTO {
 		this.id = slotInstance.getId();
 		this.start = slotInstance.getStart();
 		this.end = slotInstance.getEnd();
-		this.title = slotInstance.getRequiredLevel() + " ("+ slotInstance.getMaxAttendees() + ")";
+		this.title = slotInstance.getRequiredLevel() + " ("+ slotInstance.getValidatedBookings().size() + "/" + slotInstance.getMaxAttendees() + ")";
 	}
 	
 	public EventDTO(ClosedDay closedDay) {

@@ -42,9 +42,7 @@ angular.module('crossfitApp')
         	$scope.eventSources.length = 0;
         	TimeSlotEvent.query({end:$scope.endDateCalendar,start:$scope.startDateCalendar}, function(result, headers) {
                 for (var i = 0; i < result.length; i++) {
-                	var event = result[i];
-                	event.editable = false;
-                	 $scope.eventSources.push(event);
+                	 $scope.eventSources.push(result[i]);
                 }
             });
         };

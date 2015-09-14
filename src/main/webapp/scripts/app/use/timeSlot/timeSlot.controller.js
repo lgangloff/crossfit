@@ -26,7 +26,7 @@ angular.module('crossfitApp')
 				
 				eventClick: function(calEvent, jsEvent, view) {
 					if (calEvent.id){
-			            $state.go('timeSlot.edit', {id:calEvent.id});
+			            $state.go('timeSlot.subscribe', {id:calEvent.id, start:calEvent.start, end: calEvent.end});
 					}
 			    },
 			    viewRender : function(view, element){
@@ -40,9 +40,11 @@ angular.module('crossfitApp')
         
         $scope.loadAll = function() {
         	$scope.eventSources.length = 0;
-        	TimeSlotEvent.query({end:$scope.endDateCalendar,start:$scope.startDateCalendar, editable:false}, function(result, headers) {
+        	TimeSlotEvent.query({end:$scope.endDateCalendar,start:$scope.startDateCalendar}, function(result, headers) {
                 for (var i = 0; i < result.length; i++) {
-                	 $scope.eventSources.push(result[i]);
+                	var event = result[i];
+                	event.editable = false;
+                	 $scope.eventSources.push(event);
                 }
             });
         };

@@ -24,5 +24,28 @@ angular.module('crossfitApp')
                         return $translate.refresh();
                     }]
                 }
+            })
+            .state('timeSlot.subscribe', {
+                parent: 'timeSlot',
+                url: '/{id}/subscribe/:start/:end',
+                data: {
+                    roles: ['ROLE_USER'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/use/timeSlot/timeSlot-dialog.html',
+                        controller: 'TimeSlotDialogController',
+                        size: 'sm',
+                        resolve: {
+                        	entity: function () {
+                                return {id: null, startAt: $stateParams.start, endAt: $stateParams.end, status: null, createdDate: null, createdBy: null};
+                            }
+                        }
+                    }).result.then(function(result) {
+                        $state.go('timeSlot', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    })
+                }]
             });
     });

@@ -19,7 +19,9 @@
             "requiredLevel": "RequiredLevel",
             "box": "Box",
             "booking": {
-            	"title": "Réservation"
+            	"title": "Réservation",
+            	"subscribe" : "Réserver",
+            	"unSubscribe" : "Annuler la réservation"
             }
         }
     }

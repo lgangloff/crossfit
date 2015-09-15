@@ -7,15 +7,19 @@ import javax.inject.Inject;
 
 import org.crossfit.app.domain.Booking;
 import org.crossfit.app.domain.ClosedDay;
+import org.crossfit.app.domain.Member;
 import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.repository.BookingRepository;
 import org.crossfit.app.repository.ClosedDayRepository;
+import org.crossfit.app.repository.MemberRepository;
 import org.crossfit.app.repository.TimeSlotRepository;
+import org.crossfit.app.security.SecurityUtils;
 import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.crossfit.app.service.TimeService;
 import org.crossfit.app.service.TimeSlotService;
 import org.crossfit.app.web.rest.TimeSlotResource;
+import org.crossfit.app.web.rest.dto.CurrentTimeSlotInstanceDTO;
 import org.crossfit.app.web.rest.dto.TimeSlotInstanceDTO;
 import org.crossfit.app.web.rest.dto.calendar.EventDTO;
 import org.crossfit.app.web.rest.dto.calendar.EventSourceDTO;
@@ -27,6 +31,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +66,9 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
     @Inject
     private BookingRepository bookingRepository;
     
+    @Inject
+    private MemberRepository memberRepository;
+    
     /**
      * GET  /timeSlots -> get all the timeSlots.
      */
@@ -81,7 +89,6 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
     	}
     	
     	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), startAt, endAt);
-    	List<TimeSlotInstanceDTO> slotInstances = timeSlotService.findAllTimeSlotInstance(startAt, endAt);
     	
     	List<EventSourceDTO> eventSources =  
     			timeSlotService.findAllTimeSlotInstance(startAt, endAt).stream() //Les timeslot instance
@@ -170,6 +177,36 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
 		if (timeSlot.getBox().equals(boxService.findCurrentCrossFitBox())){
 			timeSlotRepository.delete(timeSlot);
 		}
+	}
+	
+	/**
+     * GET  /timeSlots/:id/availability -> get all availability info for timeslot.
+     */
+    @RequestMapping(value = "/timeSlots/{id}/availability",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<CurrentTimeSlotInstanceDTO> getAvailability(@PathVariable Long id,
+    		@RequestParam(value = "date", required = true) String date) {
+    	
+    	TimeSlot timeSlot = timeSlotRepository.findOne(id);
+
+    	DateTime dateDispo = timeService.parseDateAsUTC("yyyy-MM-dd", date);
+    	
+    	CurrentTimeSlotInstanceDTO dispo = new CurrentTimeSlotInstanceDTO(dateDispo, timeSlot);
+    	
+    	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), dispo.getStart(), dispo.getEnd());
+    	List<Booking> memberBookings = bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), dispo.getStart(), dispo.getEnd());
+    	
+    	dispo.setBookings(bookings);				// Réservation de tout les membres
+    	dispo.setMemberBookings(memberBookings);	// Réservation du membre courant
+    	
+    	return new ResponseEntity<CurrentTimeSlotInstanceDTO>(dispo, HttpStatus.OK);
+
+    }
+    
+    protected Member doGetCurrentMember() {
+		return memberRepository.findOneByLogin(SecurityUtils.getCurrentLogin(), boxService.findCurrentCrossFitBox());
 	}
 
 }

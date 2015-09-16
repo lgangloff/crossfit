@@ -85,6 +85,13 @@ public class CurrentTimeSlotInstanceDTO {
 	public void setMemberBookings(List<Booking> bookings) {
 		this.memberBookings = new ArrayList<>(bookings);
 	}
+	
+	public Booking getMemberBooking(){
+		if(!this.memberBookings.isEmpty()){
+			return this.memberBookings.get(0);
+		}
+		return null;
+	}
 
 	@Override
 	public String toString() {

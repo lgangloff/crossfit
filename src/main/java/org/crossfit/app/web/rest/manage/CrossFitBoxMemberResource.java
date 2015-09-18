@@ -5,11 +5,15 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.crossfit.app.domain.Member;
+import org.crossfit.app.domain.User;
 import org.crossfit.app.repository.AuthorityRepository;
 import org.crossfit.app.repository.MemberRepository;
+import org.crossfit.app.repository.UserRepository;
 import org.crossfit.app.security.AuthoritiesConstants;
 import org.crossfit.app.security.SecurityUtils;
 import org.crossfit.app.service.CrossFitBoxSerivce;
+import org.crossfit.app.service.MailService;
+import org.crossfit.app.service.util.RandomUtil;
 import org.crossfit.app.web.rest.MemberResource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -40,56 +44,68 @@ public class CrossFitBoxMemberResource extends MemberResource {
 
     @Inject
     private MemberRepository memberRepository;
+    @Inject
+    private UserRepository userRepository;
 
     @Inject
     private CrossFitBoxSerivce boxService;
 
     @Inject
     private AuthorityRepository authorityRepository;
-
+	
     @Inject
     private PasswordEncoder passwordEncoder;
 
+    @Inject
+	private MailService mailService;
+
 	@Override
 	protected Member doSave(Member member) {
-		String baselogin =
-				member.getUser().getFirstName().substring(0, 1).toLowerCase() +
-				member.getUser().getLastName().toLowerCase();
-		String login = baselogin;
-		int i = 2;
-		while (memberRepository.findOneByLogin(login) != null) {
-			login = baselogin + i;
-			i++;
+		if (member.getId() == null){
+			
+			member.getUser().setAuthorities(Sets.newHashSet(authorityRepository.findOne(AuthoritiesConstants.USER)));
+			member.getUser().setCreatedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+			member.getUser().setCreatedDate(DateTime.now());
+			member.getUser().setLogin(member.getUser().getEmail());
+			
+			
+			member.setBox(boxService.findCurrentCrossFitBox());
+			
+
+			initAccountAndSendMail(member);
 		}
-		member.getUser().setActivated(true);
-		member.getUser().setAuthorities(Sets.newHashSet(authorityRepository.findOne(AuthoritiesConstants.USER)));
-		member.getUser().setCreatedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-		member.getUser().setCreatedDate(DateTime.now());
-		member.getUser().setLogin(login);
-		member.getUser().setPassword(passwordEncoder.encode(login + DateTime.now().getYear()));
+		else{
+			//Les seuls champs modifiable de user, c'est le nom, le prénom & l'email
+			String firstName = member.getUser().getFirstName();
+			String lastName = member.getUser().getLastName();
+			String email = member.getUser().getEmail();
+			User user = userRepository.findOne(member.getUser().getId());
+			user.setFirstName(firstName);
+			user.setLastName(lastName);
+			user.setLastModifiedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+			user.setLastModifiedDate(DateTime.now());
+			
+			member.setUser(user);		
+			
+			//L'email a changé ? on repasse par une validation d'email
+			if (!email.equals(user.getEmail())){
+				user.setEmail(email);
+				user.setLogin(email);
+				initAccountAndSendMail(member);
+			}
+		}
+
 		
-		member.setBox(boxService.findCurrentCrossFitBox());
 		return super.doSave(member);
 	}
-	
-	@Override
-	protected Member doUpdate(Member member) {
-		Member oldMember = doGet(member.getId());
-		
-		oldMember.setLevel(member.getLevel());
-		oldMember.setMembershipEndDate(member.getMembershipEndDate());
-		oldMember.setMembershipStartDate(member.getMembershipStartDate());
-		oldMember.setSickNote(member.getSickNote());
-		oldMember.setTelephonNumber(member.getTelephonNumber());
-		
-		oldMember.getUser().setFirstName(member.getUser().getFirstName());
-		oldMember.getUser().setLastName(member.getUser().getLastName());
-		oldMember.getUser().setLangKey(member.getUser().getLangKey());
-		oldMember.getUser().setLastModifiedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-		oldMember.getUser().setLastModifiedDate(DateTime.now());
-		
-		Member result = memberRepository.save(oldMember);
-		return result;
+
+	protected void initAccountAndSendMail(Member member) {
+		String generatePassword = RandomUtil.generatePassword();
+		member.getUser().setPassword(passwordEncoder.encode(generatePassword));
+		member.getUser().setActivated(false);
+		member.getUser().setActivationKey(RandomUtil.generateActivationKey());
+
+		mailService.sendActivationEmail(member.getUser(), generatePassword, member.getBox());
 	}
 
 	@Override

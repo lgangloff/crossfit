@@ -44,6 +44,12 @@ public class CrossFitBoxResourceTest {
     private static final String UPDATED_NAME = "UPDATED_TEXT";
     private static final String DEFAULT_WEBSITE = "SAMPLE_TEXT";
     private static final String UPDATED_WEBSITE = "UPDATED_TEXT";
+    private static final String DEFAULT_ADMINWEBSITE = "SAMPLE_TEXT";
+    private static final String UPDATED_ADMINWEBSITE = "UPDATED_TEXT";
+    private static final String DEFAULT_BOOKINGWEBSITE = "SAMPLE_TEXT";
+    private static final String UPDATED_BOOKINGWEBSITE = "UPDATED_TEXT";
+    private static final String DEFAULT_ROOTWEBSITE = "SAMPLE_TEXT";
+    private static final String UPDATED_ROOTWEBSITE = "UPDATED_TEXT";
 
     @Inject
     private CrossFitBoxRepository crossFitBoxRepository;
@@ -68,6 +74,9 @@ public class CrossFitBoxResourceTest {
         crossFitBox = new CrossFitBox();
         crossFitBox.setName(DEFAULT_NAME);
         crossFitBox.setWebsite(DEFAULT_WEBSITE);
+        crossFitBox.setAdminwebsite(DEFAULT_ADMINWEBSITE);
+        crossFitBox.setBookingwebsite(DEFAULT_BOOKINGWEBSITE);
+        crossFitBox.setRootwebsite(DEFAULT_ROOTWEBSITE);
     }
 
     @Test
@@ -88,6 +97,9 @@ public class CrossFitBoxResourceTest {
         CrossFitBox testCrossFitBox = crossFitBoxs.get(crossFitBoxs.size() - 1);
         assertThat(testCrossFitBox.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCrossFitBox.getWebsite()).isEqualTo(DEFAULT_WEBSITE);
+        assertThat(testCrossFitBox.getAdminwebsite()).isEqualTo(DEFAULT_ADMINWEBSITE);
+        assertThat(testCrossFitBox.getBookingwebsite()).isEqualTo(DEFAULT_BOOKINGWEBSITE);
+        assertThat(testCrossFitBox.getRootwebsite()).isEqualTo(DEFAULT_ROOTWEBSITE);
     }
 
     @Test
@@ -128,6 +140,60 @@ public class CrossFitBoxResourceTest {
 
     @Test
     @Transactional
+    public void checkAdminwebsiteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = crossFitBoxRepository.findAll().size();
+        // set the field null
+        crossFitBox.setAdminwebsite(null);
+
+        // Create the CrossFitBox, which fails.
+
+        restCrossFitBoxMockMvc.perform(post("/api/crossFitBoxs")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(crossFitBox)))
+                .andExpect(status().isBadRequest());
+
+        List<CrossFitBox> crossFitBoxs = crossFitBoxRepository.findAll();
+        assertThat(crossFitBoxs).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkBookingwebsiteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = crossFitBoxRepository.findAll().size();
+        // set the field null
+        crossFitBox.setBookingwebsite(null);
+
+        // Create the CrossFitBox, which fails.
+
+        restCrossFitBoxMockMvc.perform(post("/api/crossFitBoxs")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(crossFitBox)))
+                .andExpect(status().isBadRequest());
+
+        List<CrossFitBox> crossFitBoxs = crossFitBoxRepository.findAll();
+        assertThat(crossFitBoxs).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkRootwebsiteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = crossFitBoxRepository.findAll().size();
+        // set the field null
+        crossFitBox.setRootwebsite(null);
+
+        // Create the CrossFitBox, which fails.
+
+        restCrossFitBoxMockMvc.perform(post("/api/crossFitBoxs")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(crossFitBox)))
+                .andExpect(status().isBadRequest());
+
+        List<CrossFitBox> crossFitBoxs = crossFitBoxRepository.findAll();
+        assertThat(crossFitBoxs).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCrossFitBoxs() throws Exception {
         // Initialize the database
         crossFitBoxRepository.saveAndFlush(crossFitBox);
@@ -138,7 +204,10 @@ public class CrossFitBoxResourceTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(crossFitBox.getId().intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].website").value(hasItem(DEFAULT_WEBSITE.toString())));
+                .andExpect(jsonPath("$.[*].website").value(hasItem(DEFAULT_WEBSITE.toString())))
+                .andExpect(jsonPath("$.[*].adminwebsite").value(hasItem(DEFAULT_ADMINWEBSITE.toString())))
+                .andExpect(jsonPath("$.[*].bookingwebsite").value(hasItem(DEFAULT_BOOKINGWEBSITE.toString())))
+                .andExpect(jsonPath("$.[*].rootwebsite").value(hasItem(DEFAULT_ROOTWEBSITE.toString())));
     }
 
     @Test
@@ -153,7 +222,10 @@ public class CrossFitBoxResourceTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(crossFitBox.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.website").value(DEFAULT_WEBSITE.toString()));
+            .andExpect(jsonPath("$.website").value(DEFAULT_WEBSITE.toString()))
+            .andExpect(jsonPath("$.adminwebsite").value(DEFAULT_ADMINWEBSITE.toString()))
+            .andExpect(jsonPath("$.bookingwebsite").value(DEFAULT_BOOKINGWEBSITE.toString()))
+            .andExpect(jsonPath("$.rootwebsite").value(DEFAULT_ROOTWEBSITE.toString()));
     }
 
     @Test
@@ -175,6 +247,9 @@ public class CrossFitBoxResourceTest {
         // Update the crossFitBox
         crossFitBox.setName(UPDATED_NAME);
         crossFitBox.setWebsite(UPDATED_WEBSITE);
+        crossFitBox.setAdminwebsite(UPDATED_ADMINWEBSITE);
+        crossFitBox.setBookingwebsite(UPDATED_BOOKINGWEBSITE);
+        crossFitBox.setRootwebsite(UPDATED_ROOTWEBSITE);
         
 
         restCrossFitBoxMockMvc.perform(put("/api/crossFitBoxs")
@@ -188,6 +263,9 @@ public class CrossFitBoxResourceTest {
         CrossFitBox testCrossFitBox = crossFitBoxs.get(crossFitBoxs.size() - 1);
         assertThat(testCrossFitBox.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCrossFitBox.getWebsite()).isEqualTo(UPDATED_WEBSITE);
+        assertThat(testCrossFitBox.getAdminwebsite()).isEqualTo(UPDATED_ADMINWEBSITE);
+        assertThat(testCrossFitBox.getBookingwebsite()).isEqualTo(UPDATED_BOOKINGWEBSITE);
+        assertThat(testCrossFitBox.getRootwebsite()).isEqualTo(UPDATED_ROOTWEBSITE);
     }
 
     @Test

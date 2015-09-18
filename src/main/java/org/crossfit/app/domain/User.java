@@ -29,9 +29,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "^[a-z0-9]*$")
-    @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
+    @Email
+    @Size(max = 100)
+    @Column(length = 100, unique = true)
     private String login;
 
     @JsonIgnore
@@ -48,6 +48,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @NotNull
     @Email
     @Size(max = 100)
     @Column(length = 100, unique = true)

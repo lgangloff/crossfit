@@ -14,8 +14,11 @@
             },
             "name": "Name",
             "website": "Website",
+            "adminwebsite": "Adminwebsite",
+            "bookingwebsite": "Bookingwebsite",
+            "rootwebsite": "Rootwebsite",
             "logo": "Logo",
-            "administrators": "Administrators"
+            "administrator": "Administrator"
         }
     }
 }

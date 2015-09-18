@@ -28,10 +28,26 @@
             </tr>
             <tr>
                 <td>
-                    <span translate="crossfitApp.crossFitBox.timezone">TimeZone</span>
+                    <span translate="crossfitApp.crossFitBox.adminwebsite">Adminwebsite</span>
                 </td>
                 <td>
-                    <span class="form-control-static">{{crossFitBox.timeZoneId}}</span>
+                    <span class="form-control-static">{{crossFitBox.adminwebsite}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.crossFitBox.bookingwebsite">Bookingwebsite</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{crossFitBox.bookingwebsite}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="crossfitApp.crossFitBox.rootwebsite">Rootwebsite</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{crossFitBox.rootwebsite}}</span>
                 </td>
             </tr>
             <tr>
@@ -44,11 +60,11 @@
             </tr>
             <tr>
                 <td>
-                    <span translate="crossfitApp.crossFitBox.administrators">administrators</span>
+                    <span translate="crossfitApp.crossFitBox.administrator">administrator</span>
                 </td>
                 <td>
-                    <span ng-repeat="administrators in crossFitBox.administrators">
-                        {{administrators.lastName}}{{$last ? '' : ', '}}
+                    <span ng-repeat="administrator in crossFitBox.administrators">
+                        {{administrator.lastName}}{{$last ? '' : ', '}}
                     <span>
                 </td>
             </tr>

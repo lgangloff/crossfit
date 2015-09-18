@@ -21,7 +21,7 @@ mail:
     protocol: smtp
     tls: false
     auth: false
-    from: crossfit@localhost
+    from: no-reply@crossfit-webapp.com
 
 
 swagger:

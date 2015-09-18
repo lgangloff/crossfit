@@ -166,3 +166,8 @@ ul#strengthBar {
     background-color: #eee;
     opacity: 1;
 }
+
+.table-striped > tbody > tr.disabled{
+	background: gray;
+	color: white;
+}

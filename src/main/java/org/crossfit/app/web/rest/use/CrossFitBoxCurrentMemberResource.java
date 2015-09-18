@@ -41,7 +41,7 @@ public class CrossFitBoxCurrentMemberResource extends MemberResource {
     private CrossFitBoxSerivce boxService;
 	
 	@Override
-	protected Member doUpdate(Member member) {
+	protected Member doSave(Member member) {
 		Member oldMember = doGet(member.getId());
 		
 		oldMember.setLevel(member.getLevel());

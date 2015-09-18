@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.crossfit.app.domain.CrossFitBox;
@@ -15,12 +14,8 @@ import org.crossfit.app.repository.CrossFitBoxRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.google.common.collect.Sets;
 
@@ -39,6 +34,9 @@ public class CrossFitBoxSerivce {
 	private HttpServletRequest request;
 	
 	public CrossFitBox findCurrentCrossFitBox(){
+		if (request.getAttribute("currentBox") != null){
+			return (CrossFitBox) request.getAttribute("currentBox");
+		}
 		String serverName = request.getServerName();
 		
 		log.debug("Recherche d'une box associé à {}", serverName);
@@ -79,6 +77,14 @@ public class CrossFitBoxSerivce {
 			}
 		}
 		
-		return box.isPresent() ? box.get() : null;
+		
+		
+		if (box.isPresent()){
+			request.setAttribute("currentBox", box.get());
+			return box.get();
+		}
+		else{
+			return null;
+		}
 	}
 }

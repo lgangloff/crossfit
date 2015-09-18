@@ -29,7 +29,8 @@ public class TimeService {
     }
     
     public TimeZone getCurrentTimeZome(){
-    	String boxTimeZoneID = boxService.findCurrentCrossFitBox().getTimeZoneId();
+//    	String boxTimeZoneID = boxService.findCurrentCrossFitBox().getTimeZoneId();
+    	String boxTimeZoneID = null;
     	TimeZone res = boxTimeZoneID != null ? TimeZone.getTimeZone(boxTimeZoneID) : UTC.toTimeZone();
     	log.debug("Using TimeZone " + res.getDisplayName());
     	return res;

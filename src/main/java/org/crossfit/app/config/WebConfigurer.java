@@ -1,8 +1,16 @@
 package org.crossfit.app.config;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 import org.crossfit.app.web.filter.CachingHttpHeadersFilter;
 import org.crossfit.app.web.filter.StaticResourcesProductionFilter;
@@ -19,14 +27,11 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
-import javax.inject.Inject;
-import javax.servlet.*;
-
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlet.InstrumentedFilter;
+import com.codahale.metrics.servlets.MetricsServlet;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -79,9 +84,14 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     private void initSubDomainFilter(ServletContext servletContext,
                                               EnumSet<DispatcherType> disps) {
         log.debug("Registering SubDomain Filter");
+
+        //Spring security config
+        FilterRegistration.Dynamic springSecurityFilterChain = 
+        		servletContext.addFilter(
+        				"securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"));
+
         FilterRegistration.Dynamic subDomainFilter =
-                servletContext.addFilter("subDomainFilter",
-                        new SubDomainFilter());
+                servletContext.addFilter("subDomainFilter",SubDomainFilter.class);
 
         subDomainFilter.addMappingForUrlPatterns(disps, true, "/");
         subDomainFilter.setAsyncSupported(true);

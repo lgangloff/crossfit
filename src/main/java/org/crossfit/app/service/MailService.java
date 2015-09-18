@@ -1,5 +1,6 @@
 package org.crossfit.app.service;
 
+import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.domain.User;
 import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
@@ -12,6 +13,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+
+import com.sendgrid.SendGrid;
+import com.sendgrid.SendGridException;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -41,7 +45,7 @@ public class MailService {
 
     @Inject
     private SpringTemplateEngine templateEngine;
-
+    
     /**
      * System default email address that sends the e-mails.
      */
@@ -57,30 +61,57 @@ public class MailService {
         log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
                 isMultipart, isHtml, to, subject, content);
 
-        // Prepare message using a Spring helper
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        try {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
-            message.setTo(to);
-            message.setFrom(from);
-            message.setSubject(subject);
-            message.setText(content, isHtml);
-            javaMailSender.send(mimeMessage);
-            log.debug("Sent e-mail to User '{}'", to);
-        } catch (Exception e) {
-            log.warn("E-mail could not be sent to user '{}', exception is: {}", to, e.getMessage());
+        if (System.getenv("SENDGRID_USERNAME") != null && System.getenv("SENDGRID_PASSWORD") != null){
+            try {
+                SendGrid sendgrid = new SendGrid(System.getenv("SENDGRID_USERNAME"), System.getenv("SENDGRID_PASSWORD"));
+
+                SendGrid.Email email = new SendGrid.Email();
+
+                email.addTo(to);
+                email.setFrom(from);
+                email.setSubject(subject);
+                if (isHtml){
+                    email.setHtml(content);
+                }
+                else{
+                    email.setText(content);
+                }
+                
+				SendGrid.Response response = sendgrid.send(email);
+                log.debug("Sent e-mail to User '{}'. SendGrid.Response:'{}'", to, response.getMessage());
+			} catch (SendGridException e) {
+                log.warn("E-mail could not be sent to user '{}' with SendGrid, exception is: {}", to, e.getMessage());
+			}
         }
+        else{
+
+            // Prepare message using a Spring helper
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            try {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
+                message.setTo(to);
+                message.setFrom(from);
+                message.setSubject(subject);
+                message.setText(content, isHtml);
+                javaMailSender.send(mimeMessage);
+                log.debug("Sent e-mail to User '{}'", to);
+            } catch (Exception e) {
+                log.warn("E-mail could not be sent to user '{}', exception is: {}", to, e.getMessage());
+            }
+        }
+        
     }
 
     @Async
-    public void sendActivationEmail(User user, String baseUrl) {
+    public void sendActivationEmail(User user, String clearPassword, CrossFitBox box) {
         log.debug("Sending activation e-mail to '{}'", user.getEmail());
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
         context.setVariable("user", user);
-        context.setVariable("baseUrl", baseUrl);
+        context.setVariable("clearPassword", clearPassword);
+        context.setVariable("box", box);
         String content = templateEngine.process("activationEmail", context);
-        String subject = messageSource.getMessage("email.activation.title", null, locale);
+        String subject = messageSource.getMessage("email.activation.title", new Object[]{box.getName()}, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
     }
 

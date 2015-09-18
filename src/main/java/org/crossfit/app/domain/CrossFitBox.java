@@ -2,6 +2,7 @@ package org.crossfit.app.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -28,21 +29,30 @@ public class CrossFitBox implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
+    @NotNull        
     @Column(name = "website", nullable = false)
     private String website;
 
-    @Column(name = "time_zone", nullable = false)
-    private String timeZoneId;
+    @NotNull        
+    @Column(name = "adminwebsite", nullable = false)
+    private String adminwebsite;
+
+    @NotNull        
+    @Column(name = "bookingwebsite", nullable = false)
+    private String bookingwebsite;
+
+    @NotNull        
+    @Column(name = "rootwebsite", nullable = false)
+    private String rootwebsite;
 
     @ManyToOne
     private FileDocument logo;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "CROSSFITBOX_ADMINISTRATORS",
+    @JoinTable(name = "CROSSFITBOX_ADMINISTRATOR",
                joinColumns = @JoinColumn(name="crossfitboxs_id", referencedColumnName="ID"),
-               inverseJoinColumns = @JoinColumn(name="administratorss_id", referencedColumnName="ID"))
+               inverseJoinColumns = @JoinColumn(name="administrators_id", referencedColumnName="ID"))
     private Set<User> administrators = new HashSet<>();
 
     public Long getId() {
@@ -69,6 +79,30 @@ public class CrossFitBox implements Serializable {
         this.website = website;
     }
 
+    public String getAdminwebsite() {
+        return adminwebsite;
+    }
+
+    public void setAdminwebsite(String adminwebsite) {
+        this.adminwebsite = adminwebsite;
+    }
+
+    public String getBookingwebsite() {
+        return bookingwebsite;
+    }
+
+    public void setBookingwebsite(String bookingwebsite) {
+        this.bookingwebsite = bookingwebsite;
+    }
+
+    public String getRootwebsite() {
+        return rootwebsite;
+    }
+
+    public void setRootwebsite(String rootwebsite) {
+        this.rootwebsite = rootwebsite;
+    }
+
     public FileDocument getLogo() {
         return logo;
     }
@@ -77,15 +111,7 @@ public class CrossFitBox implements Serializable {
         this.logo = fileDocument;
     }
 
-    public String getTimeZoneId() {
-		return timeZoneId;
-	}
-
-	public void setTimeZoneId(String timeZoneId) {
-		this.timeZoneId = timeZoneId;
-	}
-
-	public Set<User> getAdministrators() {
+    public Set<User> getAdministrators() {
         return administrators;
     }
 
@@ -120,6 +146,9 @@ public class CrossFitBox implements Serializable {
                 "id=" + id +
                 ", name='" + name + "'" +
                 ", website='" + website + "'" +
+                ", adminwebsite='" + adminwebsite + "'" +
+                ", bookingwebsite='" + bookingwebsite + "'" +
+                ", rootwebsite='" + rootwebsite + "'" +
                 '}';
     }
 }

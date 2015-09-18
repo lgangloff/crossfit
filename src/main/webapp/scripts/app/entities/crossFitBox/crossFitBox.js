@@ -60,7 +60,7 @@ angular.module('crossfitApp')
                         size: 'lg',
                         resolve: {
                             entity: function () {
-                                return {name: null, website: null, id: null};
+                                return {name: null, website: null, adminwebsite: null, bookingwebsite: null, rootwebsite: null, id: null};
                             }
                         }
                     }).result.then(function(result) {

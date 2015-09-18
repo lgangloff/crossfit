@@ -38,6 +38,6 @@ angular.module('crossfitApp')
         };
 
         $scope.clear = function () {
-            $scope.crossFitBox = {name: null, website: null, id: null};
+            $scope.crossFitBox = {name: null, website: null, adminwebsite: null, bookingwebsite: null, rootwebsite: null, id: null};
         };
     });

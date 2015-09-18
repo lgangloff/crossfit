@@ -9,7 +9,7 @@
         },
         {
             "relationshipId": 2,
-            "relationshipName": "administrators",
+            "relationshipName": "administrator",
             "otherEntityName": "user",
             "relationshipType": "many-to-many",
             "otherEntityField": "lastName",
@@ -28,6 +28,30 @@
         {
             "fieldId": 2,
             "fieldName": "website",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "adminwebsite",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "bookingwebsite",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "rootwebsite",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"

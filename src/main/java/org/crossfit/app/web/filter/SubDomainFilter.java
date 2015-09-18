@@ -2,7 +2,11 @@ package org.crossfit.app.web.filter;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.crossfit.app.domain.CrossFitBox;
+import org.crossfit.app.service.CrossFitBoxSerivce;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +22,17 @@ import java.io.IOException;
  */
 public class SubDomainFilter implements Filter {
 
+	private static final String ADMIN_VIEW = "/booking.admin.html";
+	private static final String BOOKING_VIEW = "/booking.html";
+	private static final String ROOT_VIEW = "/superadmin.html";
+	
+	private static final String ROOT_SUBDOMAIN = "root";
+	private static final String BOOKING_SUBDOMAIN = "booking";
+	private static final String ADMIN_SUBDOMAIN = "admin";
+	
+	@Autowired
+	private CrossFitBoxSerivce boxService;
+	
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Nothing to initialize
@@ -34,21 +49,24 @@ public class SubDomainFilter implements Filter {
         String contextPath = ((HttpServletRequest) request).getContextPath();
         String requestURI = httpRequest.getRequestURI();
         requestURI = StringUtils.substringAfter(requestURI, contextPath);
-        if (StringUtils.equals("/", requestURI)) {
+
+    	CrossFitBox box = boxService.findCurrentCrossFitBox();
+		
+        if (StringUtils.equals("/", requestURI) && box != null) {
             String[] domains = httpRequest.getServerName().split("\\.");
             
 			String subdomain = domains.length > 0 ? domains[0] : httpRequest.getServerName();
 			
-			if (subdomain.equals("admin")){
-	            request.getRequestDispatcher("/booking.admin.html").forward(request, response);
+			if (subdomain.equals(ADMIN_SUBDOMAIN) || box.getAdminwebsite().equals(httpRequest.getServerName())){
+	            request.getRequestDispatcher(ADMIN_VIEW).forward(request, response);
 	            return;
 			}
-			else if(subdomain.equals("booking")){
-	            request.getRequestDispatcher("/booking.html").forward(request, response);
+			else if(subdomain.equals(BOOKING_SUBDOMAIN) || box.getBookingwebsite().equals(httpRequest.getServerName())){
+	            request.getRequestDispatcher(BOOKING_VIEW).forward(request, response);
 	            return;
 			}
-			else if(subdomain.equals("root")){
-	            request.getRequestDispatcher("/superadmin.html").forward(request, response);
+			else if(subdomain.equals(ROOT_SUBDOMAIN) || box.getRootwebsite().equals(httpRequest.getServerName())){
+	            request.getRequestDispatcher(ROOT_VIEW).forward(request, response);
 	            return;
 			}
 

@@ -41,7 +41,6 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th translate="global.field.id">ID</th>
                     <th translate="crossfitApp.member.firstNameLastName">Nom / Prénom</th>
                     <th translate="crossfitApp.member.membershipStartDate">MembershipStartDate</th>
                     <th translate="crossfitApp.member.membershipEndDate">MembershipEndDate</th>
@@ -51,8 +50,7 @@
                 </tr>
             </thead>
             <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
-                <tr ng-repeat="member in members">
-                    <td><a ui-sref="member.detail({id:member.id})">{{member.id}}</a></td>
+                <tr ng-repeat="member in members" ng-class="{'disabled': !member.user.activated}">
                     <td>{{member.user.firstName}} {{member.user.lastName}}</td>
                     <td>{{member.membershipStartDate}}</td>
                     <td>{{member.membershipEndDate}}</td>

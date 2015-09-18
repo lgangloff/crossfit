@@ -70,7 +70,7 @@ public class AccountResource {
                     ":" +                                  // ":"
                     request.getServerPort();               // "80"
 
-                    mailService.sendActivationEmail(user, baseUrl);
+//                    mailService.sendActivationEmail(user, baseUrl);
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 })
         );

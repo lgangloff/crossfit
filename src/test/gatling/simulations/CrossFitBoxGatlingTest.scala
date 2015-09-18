@@ -67,7 +67,7 @@ class CrossFitBoxGatlingTest extends Simulation {
             .exec(http("Create new crossFitBox")
             .post("/api/crossFitBoxs")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "website":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "website":"SAMPLE_TEXT", "adminwebsite":"SAMPLE_TEXT", "bookingwebsite":"SAMPLE_TEXT", "rootwebsite":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_crossFitBox_url")))
             .pause(10)

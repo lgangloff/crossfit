@@ -72,7 +72,7 @@ public class AccountResourceTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        doNothing().when(mockMailService).sendActivationEmail(anyObject(), anyString());
+        doNothing().when(mockMailService).sendActivationEmail(anyObject(), anyString(), anyObject());
 
         AccountResource accountResource = new AccountResource();
         ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);

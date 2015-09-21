@@ -9,7 +9,6 @@ import org.crossfit.app.domain.Booking;
 import org.crossfit.app.domain.ClosedDay;
 import org.crossfit.app.domain.Member;
 import org.crossfit.app.domain.TimeSlot;
-import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.domain.enumeration.TimeSlotStatus;
 import org.crossfit.app.repository.BookingRepository;
 import org.crossfit.app.repository.ClosedDayRepository;
@@ -21,14 +20,12 @@ import org.crossfit.app.service.TimeService;
 import org.crossfit.app.service.TimeSlotService;
 import org.crossfit.app.web.rest.TimeSlotResource;
 import org.crossfit.app.web.rest.dto.CurrentTimeSlotInstanceDTO;
-import org.crossfit.app.web.rest.dto.TimeSlotInstanceDTO;
 import org.crossfit.app.web.rest.dto.calendar.EventDTO;
 import org.crossfit.app.web.rest.dto.calendar.EventSourceDTO;
 import org.crossfit.app.web.rest.manage.CrossFitBoxBookingResource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -92,19 +89,20 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
     	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), startAt, endAt);
     	
     	List<EventSourceDTO> eventSources =  
-    			timeSlotService.findAllTimeSlotInstance(startAt, endAt).stream() //Les timeslot instance
+    			timeSlotService.findAllTimeSlotInstance(startAt, endAt, doGetCurrentMember()).stream() //Les timeslot instance
 			.map(event -> {
 				event.setBookings(
     				bookings.stream()
     				.filter(b -> {return event.contains(b.getStartAt(), b.getEndAt());})
     	    		.sorted( (b1, b2) -> { return b1.getCreatedDate().compareTo(b2.getCreatedDate());} )
     				.collect(Collectors.toList()));
+				event.setMemberBookings(bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), event.getStart(), event.getEnd()));
 				return event;
 			})
     		.collect(
-				Collectors.groupingBy(TimeSlotInstanceDTO::getAvailability)) //Groupé par level
+				Collectors.groupingBy(CurrentTimeSlotInstanceDTO::getAvailability)) //Groupé par disponibilité
 			
-			.entrySet().stream() //pour chaque level
+			.entrySet().stream() //pour chaque disponibilité
 			
 			.map(entry -> {
 	        	List<EventDTO> events = entry.getValue().stream() //On créé la liste d'evenement
@@ -141,6 +139,9 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
 			case NOT_ABLE:
 				color = "#000000";
 				break;
+			case WAITING:
+				color = "#D1D100";
+				break;
 			case BOOKED:
 				color = "#0078B0";
 				break;
@@ -152,6 +153,7 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
 				break;
 			case FREE:
 				color = "#2AC400";
+				break;
 
 		}
 		return color;
@@ -172,7 +174,7 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
 
     	DateTime dateDispo = timeService.parseDateAsUTC("yyyy-MM-dd", date);
     	
-    	CurrentTimeSlotInstanceDTO dispo = new CurrentTimeSlotInstanceDTO(dateDispo, timeSlot);
+    	CurrentTimeSlotInstanceDTO dispo = new CurrentTimeSlotInstanceDTO(dateDispo, timeSlot, doGetCurrentMember().getLevel());
     	
     	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), dispo.getStart(), dispo.getEnd());
     	List<Booking> memberBookings = bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), dispo.getStart(), dispo.getEnd());

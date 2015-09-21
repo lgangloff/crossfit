@@ -74,27 +74,6 @@ public class TimeSlotInstanceDTO {
 		this.bookings = new ArrayList<>(bookings);
 	}
 	
-	public TimeSlotStatus getAvailability(){
-		// Si le membre n'a pas le droit
-		if(true){
-			return TimeSlotStatus.NOT_ABLE;
-		}
-		// Si le membre a déjà reservé
-		if(false){
-			return TimeSlotStatus.BOOKED;
-		}
-		// retourne l'état de la dispo
-		if(getPercentFree()>25){
-			return TimeSlotStatus.ALMOST_FULL;
-		}else if(getPercentFree()<25){
-			return TimeSlotStatus.ALMOST_FULL;
-		}else{
-			return TimeSlotStatus.FULL;
-		}
-	}
-	private int getPercentFree(){
-		return 100-(Integer.divideUnsigned(100, this.getMaxAttendees())) * this.getValidatedBookings().size();
-	}
 
 	@Override
 	public String toString() {

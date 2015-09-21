@@ -42,7 +42,11 @@
                 "timeSlot": "Créneaux horaires",
                 "closedDay": "Jour de fermeture"
             },
-            "language": "Langue"
+            "language": "Langue",
+            "use": {
+            	"timeSlot": "Planning",
+            	"booking": "Mes réservations"
+            }
         },
         "form": {
             "username": "Nom d'utilisateur",

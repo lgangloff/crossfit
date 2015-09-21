@@ -2,23 +2,26 @@
     "crossfitApp": {
         "booking" : {
             "home": {
-                "title": "Bookings",
-                "createLabel": "Créer un nouveau Booking",
-                "createOrEditLabel": "Créer ou éditer un Booking"
+                "title": "Réservations",
+                "createLabel": "Créer une nouvelle réservation",
+                "createOrEditLabel": "Créer ou éditer une réservation"
             },
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Booking {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la réservation{{ id }} ?"
             },
             "detail": {
-                "title": "Booking"
+                "title": "Réservation"
             },
-            "startAt": "StartAt",
-            "endAt": "EndAt",
+            "startAt": "Début",
+            "endAt": "Fin",
             "status": "Status",
-            "createdDate": "CreatedDate",
-            "createdBy": "CreatedBy",
+            "createdDate": "Réservé le",
+            "createdBy": "Réservé par",
             "box": "Box",
-            "owner": "Owner"
+            "owner": "Owner",
+            "action": {
+            	"delete": "Se désinscrire"
+            }
         }
     }
 }

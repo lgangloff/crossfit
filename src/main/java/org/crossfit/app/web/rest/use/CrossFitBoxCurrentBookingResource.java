@@ -82,9 +82,13 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
         booking.setCreatedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         booking.setCreatedDate(DateTime.now());
         booking.setOwner(doGetCurrentMember());
-        booking.setStatus(BookingStatus.VALIDATED); // TODO: à changer en fonction de la dispo
         booking.setBox(boxService.findCurrentCrossFitBox());
         
+        if(isAvailable(booking)){
+        	booking.setStatus(BookingStatus.VALIDATED);
+        }else{
+        	booking.setStatus(BookingStatus.ON_WAINTING_LIST);
+        }
         
         Booking result = bookingRepository.save(booking);
         return ResponseEntity.created(new URI("/use/bookings/" + result.getId()))
@@ -198,7 +202,6 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
     }
 
     
-
 	private static String getColor(Level level) {
 		String color = "blue";
 		switch (level) {
@@ -219,4 +222,9 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
 		return color;
 	}
 
+	protected boolean isAvailable(Booking booking){
+		List<Booking> memberBookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), booking.getStartAt(), booking.getEndAt());
+
+		return memberBookings.isEmpty();
+	}
 }

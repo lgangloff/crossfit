@@ -10,6 +10,7 @@ import org.crossfit.app.domain.ClosedDay;
 import org.crossfit.app.domain.Member;
 import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.Level;
+import org.crossfit.app.domain.enumeration.TimeSlotStatus;
 import org.crossfit.app.repository.BookingRepository;
 import org.crossfit.app.repository.ClosedDayRepository;
 import org.crossfit.app.repository.MemberRepository;
@@ -101,7 +102,7 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
 				return event;
 			})
     		.collect(
-				Collectors.groupingBy(TimeSlotInstanceDTO::getRequiredLevel)) //Groupé par level
+				Collectors.groupingBy(TimeSlotInstanceDTO::getAvailability)) //Groupé par level
 			
 			.entrySet().stream() //pour chaque level
 			
@@ -134,50 +135,28 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
     	return new ResponseEntity<List<EventSourceDTO>>(eventSources, HttpStatus.OK);
     }
 
-	private static String getColor(Level level) {
-		String color = "blue";
+	private static String getColor(TimeSlotStatus level) {
+		String color = "black";
 		switch (level) {
-			case FOUNDATION:
-				color = "#0000FF";
+			case NOT_ABLE:
+				color = "#000000";
 				break;
-			case NOVICE:
-				color = "#0174DF";
+			case BOOKED:
+				color = "#0078B0";
 				break;
-			case MIDDLE:
-				color = "#DF7401";
+			case FULL:
+				color = "#CA2933";
 				break;
-			case SKILLED:
-				color = "#FF4000";
+			case ALMOST_FULL:
+				color = "#FF672C";
 				break;
+			case FREE:
+				color = "#2AC400";
 
 		}
 		return color;
 	}
 
-
-	@Override
-	protected TimeSlot doSave(TimeSlot timeSlot) {
-		timeSlot.setBox(boxService.findCurrentCrossFitBox());
-		return super.doSave(timeSlot);
-	}
-
-	@Override
-	protected Page<TimeSlot> doFindAll(Integer offset, Integer limit) {
-		return super.doFindAll(offset, limit); //TODO: Filtrer par box
-	}
-
-	@Override
-	protected TimeSlot doGet(Long id) {
-		return super.doGet(id); //TODO: Filtrer par box
-	}
-
-	@Override
-	protected void doDelete(Long id) {
-		TimeSlot timeSlot = timeSlotRepository.findOne(id);
-		if (timeSlot.getBox().equals(boxService.findCurrentCrossFitBox())){
-			timeSlotRepository.delete(timeSlot);
-		}
-	}
 	
 	/**
      * GET  /timeSlots/:id/availability -> get all availability info for timeslot.

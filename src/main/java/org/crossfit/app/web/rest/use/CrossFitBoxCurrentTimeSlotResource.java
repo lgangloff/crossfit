@@ -136,23 +136,23 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
 	private static String getColor(TimeSlotStatus level) {
 		String color = "black";
 		switch (level) {
-			case NOT_ABLE:
+			case NO_ABLE:
 				color = "#000000";
 				break;
 			case WAITING:
-				color = "#D1D100";
+				color = "#5bc0de";
 				break;
 			case BOOKED:
-				color = "#0078B0";
+				color = "#337ab7";
 				break;
 			case FULL:
-				color = "#CA2933";
+				color = "#d9534f";
 				break;
 			case ALMOST_FULL:
-				color = "#FF672C";
+				color = "#f0ad4e";
 				break;
 			case FREE:
-				color = "#2AC400";
+				color = "#5cb85c";
 				break;
 
 		}

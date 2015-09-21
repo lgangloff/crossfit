@@ -67,7 +67,7 @@ public class CurrentTimeSlotInstanceDTO extends TimeSlotInstanceDTO {
 		}else if(isWaitingBooking()){
 				return TimeSlotStatus.WAITING;
 		}else if(!isLevelAuthorized()){ // Si le membre n'a pas le droit
-			return TimeSlotStatus.NOT_ABLE;
+			return TimeSlotStatus.NO_ABLE;
 		}// retourne l'état de la dispo
 		else if(getPercentFree()>25){
 			return TimeSlotStatus.FREE;

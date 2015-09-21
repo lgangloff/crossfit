@@ -166,3 +166,39 @@ ul#strengthBar {
     background-color: #eee;
     opacity: 1;
 }
+
+.label-no_able{
+	background-color: #000000;
+	font-weight: normal;
+	font-size: 100%;
+}
+.label-booked{
+	background-color: #337ab7;
+	font-weight: normal;
+	font-size: 100%;
+}
+.label-waiting{
+	background-color: #5bc0de;
+	font-weight: normal;
+	font-size: 100%;
+}
+.label-free{
+	background-color: #5cb85c;
+	font-weight: normal;
+	font-size: 100%;
+}
+.label-almost_full{
+	background-color: #f0ad4e;
+	font-weight: normal;
+	font-size: 100%;
+}
+.label-full{
+	background-color: #d9534f;
+	font-weight: normal;
+	font-size: 100%;
+}
+.label-closed{
+	background-color: #777;
+	font-weight: normal;
+	font-size: 100%;
+}

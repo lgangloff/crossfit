@@ -23,6 +23,11 @@ angular.module('crossfitApp')
                     return angular.toJson(data);
                 }
             },
+            'resetaccount': {
+                method: 'PUT',
+                url: 'manage/members/:id/resetaccount', 
+                params : {id: '@id'}
+            },
             'save': {
                 method: 'POST',
                 transformRequest: function (data) {

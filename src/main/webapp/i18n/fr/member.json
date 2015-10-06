@@ -7,12 +7,18 @@
                 "createOrEditLabel": "Créer ou éditer un adhérent"
             },
             "action" : {
-            	"editMembership" : "Abonnement",
+            	"editMembership" : "Abo.",
+            	"reset" : "Réinit.",
             	"date.reinittoday" : "Réinitialiser",
             	"date.addonemonth" : "+ 1 mois"
         	},
             "delete": {
                 "question": "Etes-vous certain de vouloir supprimer l'adhérent {{ id }} ?"
+            },
+            "reset": {
+                "title": "Confirmer la réinitialisation du compte",
+                "question": "Etes-vous certain de vouloir réinitialiser le compte de l'adhérent {{ id }} ? (Un mail & un nouveau mot de passe lui seront envoyés)"
+                
             },
             "detail": {
                 "title": "Adhérent"

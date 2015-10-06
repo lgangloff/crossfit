@@ -96,8 +96,8 @@
             "addimage": "ajouter image",
             "back": "Retour",
             "cancel": "Annuler",
-            "edit": "Editer",
-            "delete": "Supprimer",
+            "edit": "",
+            "delete": "Suppr.",
             "save": "Sauvegarder",
             "view": "Voir"
         },

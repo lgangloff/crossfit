@@ -15,6 +15,7 @@ import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.crossfit.app.service.MailService;
 import org.crossfit.app.service.util.RandomUtil;
 import org.crossfit.app.web.rest.MemberResource;
+import org.crossfit.app.web.rest.util.HeaderUtil;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -101,6 +103,7 @@ public class CrossFitBoxMemberResource extends MemberResource {
 
 	protected void initAccountAndSendMail(Member member) {
 		String generatePassword = RandomUtil.generatePassword();
+		member.getUser().setLogin(member.getUser().getEmail());
 		member.getUser().setPassword(passwordEncoder.encode(generatePassword));
 		member.getUser().setActivated(false);
 		member.getUser().setActivationKey(RandomUtil.generateActivationKey());
@@ -125,7 +128,26 @@ public class CrossFitBoxMemberResource extends MemberResource {
 			memberRepository.delete(memberToDelete);
 		}
 	}
+	
+	@RequestMapping(value = "/members/{id}/resetaccount", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public ResponseEntity<Void> reset(@PathVariable Long id) {
+		log.debug("REST request to reset Member : {}", id);
+		Member member = doGet(id);
+		if (member != null){
+			member.getUser().setLastModifiedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+			member.getUser().setLastModifiedDate(DateTime.now());
+		
+			initAccountAndSendMail(member);
+
+			super.doSave(member);
+		}
+		return ResponseEntity.ok().build();
+	}
     
+	
+	
+	//TODO: Guillaume: C'est utile cette méthode ? sachant qu'il y a déjà GET /api/account ? Faut peut être faire évoluer l'autre ?
 
 	/**
 	 * GET /members/logged -> get the current member.

@@ -99,7 +99,12 @@ public class CustomPersistentRememberMeServices extends
             log.error("Failed to update token: ", e);
             throw new RememberMeAuthenticationException("Autologin failed due to data access problem", e);
         }
-        return getUserDetailsService().loadUserByUsername(login);
+        try {
+			return getUserDetailsService().loadUserByUsername(login);
+		} catch (UserNotActivatedException e) {
+            log.error("Failed to update token: ", e);
+            throw new RememberMeAuthenticationException("Autologin failed due to data access problem", e);
+		}
     }
 
     @Override

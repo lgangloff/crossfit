@@ -91,9 +91,9 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         				"securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"));
 
         FilterRegistration.Dynamic subDomainFilter =
-                servletContext.addFilter("subDomainFilter",SubDomainFilter.class);
+                servletContext.addFilter("subDomainFilter", new DelegatingFilterProxy("subDomainFilter"));
 
-        subDomainFilter.addMappingForUrlPatterns(disps, true, "/");
+        subDomainFilter.addMappingForUrlPatterns(disps, true, "*");
         subDomainFilter.setAsyncSupported(true);
     }
 

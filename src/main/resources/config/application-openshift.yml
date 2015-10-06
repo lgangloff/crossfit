@@ -36,7 +36,7 @@ spring:
         cache: true
 
 metrics:
-    jmx.enabled: true
+    jmx.enabled: false
     spark:
         enabled: false
         host: localhost

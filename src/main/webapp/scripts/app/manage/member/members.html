@@ -36,6 +36,33 @@
             </div>
         </div>
     </div>
+    
+    
+
+    <div class="modal fade" id="resetAccountMemberConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="resetAccountForm" ng-submit="confirmResetAccount(member.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="crossfitApp.member.reset.title">Confirm reset operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="crossfitApp.member.reset.question" translate-values="{id: '{{member.id}}'}">Are you sure you want to reset this Member?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="resetAccountForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="crossfitApp.member.action.reset">Reset</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -76,6 +103,11 @@
                                 ng-click="delete(member.id)"
                                 class="btn btn-danger btn-sm">
                             <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="resetAccount(member.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="crossfitApp.member.action.reset"> Reset</span>
                         </button>
                     </td>
                 </tr>

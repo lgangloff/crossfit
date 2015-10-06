@@ -712,7 +712,7 @@
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
                             <arguments>
-                                <argument>--spring.profiles.active=prod</argument>
+                                <argument>--spring.profiles.active=openshit</argument>
                             </arguments>
                         </configuration>
                     </plugin>
@@ -720,7 +720,7 @@
             </build>
             <properties>
                 <!-- log configuration -->
-                <logback.loglevel>DEBUG</logback.loglevel>
+                <logback.loglevel>INFO</logback.loglevel>
             </properties>
         </profile>
     </profiles>

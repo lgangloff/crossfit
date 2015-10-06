@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -20,6 +21,7 @@ import java.io.IOException;
  * destination directory.
  * </p>
  */
+@Component
 public class SubDomainFilter implements Filter {
 
 	private static final String ADMIN_VIEW = "/booking.admin.html";
@@ -50,9 +52,15 @@ public class SubDomainFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
         requestURI = StringUtils.substringAfter(requestURI, contextPath);
 
-    	CrossFitBox box = boxService.findCurrentCrossFitBox();
 		
-        if (StringUtils.equals("/", requestURI) && box != null) {
+        if (StringUtils.equals("/", requestURI)) {
+
+        	CrossFitBox box = boxService.findCurrentCrossFitBox();
+        	if (box == null){
+                chain.doFilter(request, response);
+                return;
+        	}
+        	
             String[] domains = httpRequest.getServerName().split("\\.");
             
 			String subdomain = domains.length > 0 ? domains[0] : httpRequest.getServerName();

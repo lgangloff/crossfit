@@ -38,6 +38,22 @@ angular.module('crossfitApp')
                     $scope.clear();
                 });
         };
+        
+        $scope.resetAccount = function (id){
+            Member.get({id: id}, function(result) {
+                $scope.member = result;
+                $('#resetAccountMemberConfirmation').modal('show');
+            });
+        };
+        
+        $scope.confirmResetAccount = function (id) {
+            Member.resetaccount({id: id},
+                function () {
+                    $scope.reset();
+                    $('#resetAccountMemberConfirmation').modal('hide');
+                    $scope.clear();
+                });
+        };
 
         $scope.refresh = function () {
             $scope.reset();

@@ -1,7 +1,6 @@
-<div>
+<div class="visible-md-block visible-lg-block">
 
     <h2 translate="crossfitApp.timeSlot.home.title">TimeSlots</h2>
-	
 	<div>   
 		
 		<span class="label label-booked">Inscrit</span>		
@@ -14,6 +13,25 @@
 		
 	</div>
 	
-	<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+	<div ui-calendar="uiConfig.calendar" ng-model="eventSources" ></div>
+
+</div>
+
+<div class="visible-xs-block visible-sm-block">
+
+    <h2 translate="crossfitApp.timeSlot.home.title">TimeSlots</h2>
+	<div>   
+		
+		<span class="label label-booked">Inscrit</span>		
+		<span class="label label-waiting">En liste d'attente</span>
+		<span class="label label-free">Libre</span>
+		<span class="label label-almost_full">Bientôt complet</span>
+		<span class="label label-full">Complet</span>
+		<span class="label label-no_able">Pas le niveau</span>
+		<span class="label label-closed">Fermé</span>
+		
+	</div>
+	
+	<div ui-calendar="uiConfig.calendarMobile" ng-model="eventSources" ></div>
 
 </div>

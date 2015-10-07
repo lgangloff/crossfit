@@ -35,6 +35,36 @@ angular.module('crossfitApp')
 		            $state.go('timeSlot', {startDate:$scope.startDateCalendar, endDate:$scope.endDateCalendar},{notify:false});
 		            $scope.loadAll();
 			    }
+			},
+			calendarMobile:{
+				height: 350,
+				editable: false,
+				header:{
+					left: '', center: '', right: 'today prev,next'
+				},
+				firstDay: 1,
+				defaultDate: $stateParams.startDate ? new Date(parts[0], parts[1]-1, parts[2]) : new Date(),
+				defaultView: 'agendaDay',
+				allDaySlot: false,
+				columnFormat: 'ddd D MMM',
+				axisFormat: 'HH:mm',
+				timeFormat: {
+				    agenda: 'H:mm'
+				},
+				selectable: false,
+				selectHelper: true,
+				
+				eventClick: function(calEvent, jsEvent, view) {
+					if (calEvent.id){
+			            $state.go('timeSlot.subscribe', {id:calEvent.id, start:calEvent.start, end: calEvent.end});
+					}
+			    },
+			    viewRender : function(view, element){
+			    	$scope.startDateCalendar = new Date(view.start).toISOString().slice(0, 10);
+			    	$scope.endDateCalendar = new Date(view.end).toISOString().slice(0, 10);
+		            $state.go('timeSlot', {startDate:$scope.startDateCalendar, endDate:$scope.endDateCalendar},{notify:false});
+		            $scope.loadAll();
+			    }
 			}
 		};
         

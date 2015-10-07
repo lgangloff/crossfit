@@ -37,20 +37,20 @@ angular.module('crossfitApp')
 			    }
 			},
 			calendarMobile:{
-				height: 350,
+				height: "auto",
+				contentHeight: 100,
 				editable: false,
 				header:{
-					left: '', center: '', right: 'today prev,next'
+					left: '', center: 'prev,today,next', right: ''
 				},
-				firstDay: 1,
+//				firstDay: 1,
 				defaultDate: $stateParams.startDate ? new Date(parts[0], parts[1]-1, parts[2]) : new Date(),
-				defaultView: 'agendaDay',
-				allDaySlot: false,
+				defaultView: 'basicDay',
+//				allDaySlot: false,
 				columnFormat: 'ddd D MMM',
-				axisFormat: 'HH:mm',
-				timeFormat: {
-				    agenda: 'H:mm'
-				},
+//				axisFormat: 'HH:mm',
+				timeFormat: 'H:mm',
+//				minTime: "06:00:00",
 				selectable: false,
 				selectHelper: true,
 				
@@ -64,6 +64,18 @@ angular.module('crossfitApp')
 			    	$scope.endDateCalendar = new Date(view.end).toISOString().slice(0, 10);
 		            $state.go('timeSlot', {startDate:$scope.startDateCalendar, endDate:$scope.endDateCalendar},{notify:false});
 		            $scope.loadAll();
+			    },
+			    eventAfterRender : function(event, element){
+			    	$(".fc-time").css("font-size","x-large");
+			    	$(".fc-time").css("display","block");
+			    	$(".fc-time").css("text-align","center");
+			    	
+			    	$(".fc-title").css("font-size","small");
+			    	$(".fc-title").css("display","block");
+			    	$(".fc-title").css("text-align","center");
+			    	
+		            element.height(50);
+		            $('.fc-time').css('display:block;');
 			    }
 			}
 		};

@@ -10,20 +10,23 @@ angular.module('crossfitApp')
 				height: 700,
 				editable: false,
 				header:{
-					left: '', center: '', right: 'today prev,next'
+					left: 'prev,today,next', center: 'title', right: 'agendaDay,agendaWeek,month'
 				},
 				firstDay: 1,
 				defaultDate: $stateParams.startDate ? new Date(parts[0], parts[1]-1, parts[2]) : new Date(),
 				defaultView: 'agendaWeek',
 				allDaySlot: false,
-				columnFormat: 'ddd D MMM',
+				columnFormat: 'dddd D',
 				axisFormat: 'HH:mm',
-				timeFormat: {
-				    agenda: 'H:mm'
+				timeFormat: 'H:mm',
+				titleFormat : {
+					agenda : 'MMMM',
+					month : 'MMMM'
 				},
+				minTime: "06:00:00",
 				selectable: false,
 				selectHelper: true,
-				
+				    
 				eventClick: function(calEvent, jsEvent, view) {
 					if (calEvent.id){
 			            $state.go('timeSlot.subscribe', {id:calEvent.id, start:calEvent.start, end: calEvent.end});
@@ -38,19 +41,14 @@ angular.module('crossfitApp')
 			},
 			calendarMobile:{
 				height: "auto",
-				contentHeight: 100,
 				editable: false,
 				header:{
 					left: '', center: 'prev,today,next', right: ''
 				},
-//				firstDay: 1,
 				defaultDate: $stateParams.startDate ? new Date(parts[0], parts[1]-1, parts[2]) : new Date(),
 				defaultView: 'basicDay',
-//				allDaySlot: false,
 				columnFormat: 'ddd D MMM',
-//				axisFormat: 'HH:mm',
 				timeFormat: 'H:mm',
-//				minTime: "06:00:00",
 				selectable: false,
 				selectHelper: true,
 				

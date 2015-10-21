@@ -7,7 +7,7 @@ angular.module('crossfitApp')
     	  
         $scope.uiConfig = {
 			calendar:{
-				height: 700,
+				height: 865,
 				editable: false,
 				header:{
 					left: 'prev,today,next', center: 'title', right: 'agendaDay,agendaWeek,month'

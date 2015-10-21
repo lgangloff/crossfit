@@ -7,7 +7,7 @@ angular.module('crossfitApp')
     	  
         $scope.uiConfig = {
 			calendar:{
-				height: 700,
+				height: 865,
 				editable: true,
 				header:{
 					left: '', center: '', right: 'today prev,next'
@@ -21,6 +21,7 @@ angular.module('crossfitApp')
 				timeFormat: {
 				    agenda: 'H:mm'
 				},
+				minTime: "06:00:00",
 				selectable: true,
 				selectHelper: true,
 				select: function(start, end) {

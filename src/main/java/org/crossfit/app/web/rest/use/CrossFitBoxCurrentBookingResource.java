@@ -11,11 +11,13 @@ import javax.validation.Valid;
 import org.crossfit.app.domain.Booking;
 import org.crossfit.app.domain.ClosedDay;
 import org.crossfit.app.domain.Member;
+import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.BookingStatus;
 import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.repository.BookingRepository;
 import org.crossfit.app.repository.ClosedDayRepository;
 import org.crossfit.app.repository.MemberRepository;
+import org.crossfit.app.repository.TimeSlotRepository;
 import org.crossfit.app.security.SecurityUtils;
 import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.crossfit.app.service.TimeService;
@@ -55,6 +57,9 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
 
     @Inject
     private BookingRepository bookingRepository;
+    
+    @Inject
+    private TimeSlotRepository timeSlotRepository;
 
     @Inject
     private TimeService timeService;
@@ -72,6 +77,37 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
     private MemberRepository memberRepository;
 
 
+    public ResponseEntity<Booking> saveBooking(@RequestBody Long idTimeSlot, DateTime dateDeb, DateTime dateFin) throws URISyntaxException {
+        log.debug("REST request to save Booking for the current user: {}", dateDeb, dateFin);
+        
+        // On recherche le créneau
+        TimeSlot creneau = timeSlotRepository.findByIdAndTime(boxService.findCurrentCrossFitBox(), dateDeb.toLocalTime(), dateFin.toLocalTime());
+        
+        if(creneau == null){
+            return ResponseEntity.badRequest().header("Failure", "TimeSlot introuvable").body(null);
+        }
+        
+        if(bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), dateDeb, dateFin) != null){
+        	return ResponseEntity.badRequest().header("Failure", "Une réservation existe déjà pour ce créneau").body(null);
+        }
+    	Booking booking  = new Booking();
+        
+    	booking.setCreatedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+        booking.setCreatedDate(DateTime.now());
+        booking.setOwner(doGetCurrentMember());
+        booking.setBox(boxService.findCurrentCrossFitBox());
+        
+        if(isAvailable(booking)){
+        	booking.setStatus(BookingStatus.VALIDATED);
+        }else{
+        	booking.setStatus(BookingStatus.ON_WAINTING_LIST);
+        }
+        
+        Booking result = bookingRepository.save(booking);
+        return ResponseEntity.created(new URI("/use/bookings/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert("booking", result.getId().toString()))
+                .body(result);
+    }
     
     @Override
     public ResponseEntity<Booking> create(@RequestBody Booking booking) throws URISyntaxException {
@@ -118,7 +154,7 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
 
-    	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), start, end);
+    	List<Booking> bookings = bookingRepository.findAllByMemberForPlanning(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), start, end);
     	List<TimeSlotInstanceDTO> slotInstances = timeSlotService.findAllTimeSlotInstance(start, end);
     	
     	List<PlanningDayDTO> days = 
@@ -130,6 +166,7 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
 	    				.collect(Collectors.toList()));
 	    		return slot;
 	    	})
+			.filter(s -> {return !s.getValidatedBookings().isEmpty() || !s.getWaitingBookings().isEmpty();})
     		.sorted( (s1, s2) -> { return s1.getStart().compareTo(s2.getStart());} )
     		.collect(Collectors.groupingBy(TimeSlotInstanceDTO::getDate))
     		.entrySet().stream()

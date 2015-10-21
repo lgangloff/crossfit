@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('crossfitApp').controller('TimeSlotDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Booking', 'Availability', 'DateUtils',
-        function($scope, $stateParams, $modalInstance, entity, Booking, Availability, DateUtils) {
+    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Booking', 'Availability', 'TimeSlot', 'DateUtils',
+        function($scope, $stateParams, $modalInstance, entity, Booking, Availability, TimeSlot, DateUtils) {
 
         $scope.subscription = entity; // id du timeSlot, date de début date de fin
         
@@ -18,7 +18,7 @@ angular.module('crossfitApp').controller('TimeSlotDialogController',
 
         $scope.subscribe = function () {
             if ($scope.subscription.bookingId == null) {
-                Booking.save($scope.subscription, onSaveFinished);
+                TimeSlot.booking({id: $stateParams.id, date : (DateUtils.convertDateTimeFromServer($stateParams.start)).toISOString().slice(0, 10)}, onSaveFinished);
             } 
         };
         

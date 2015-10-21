@@ -31,6 +31,11 @@ body {
 
 /* Top Navigation */
 
+.navbar-inverse{
+	background-color: #00334a;
+	color: #FFFFFF;
+}
+
 .logo>img{
 	height:115px; 
 	float:left; 
@@ -52,7 +57,7 @@ body {
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 20px;
-    color: #999;
+    color: #fff;
 }
 
 .top-nav>li>a:hover,
@@ -127,7 +132,7 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color: #222;
+        background-color: #00334a;
         bottom: 0;
         overflow-x: hidden;
         padding-bottom: 40px;
@@ -136,6 +141,7 @@ ul.alert-dropdown {
 
     .side-nav>li>a {
         width: 225px;
+        color: #fff;
     }
 
     .side-nav li a:hover,
@@ -145,6 +151,10 @@ ul.alert-dropdown {
     }
 }
 
+.navbar .side-nav>li>a {
+        color: #fff;
+    }
+
 .side-nav>li>ul {
     padding: 0;
 }
@@ -153,7 +163,7 @@ ul.alert-dropdown {
     display: block;
     padding: 10px 15px 10px 38px;
     text-decoration: none;
-    color: #999;
+    color: #fff;
 }
 
 .side-nav>li>ul>li>a:hover {

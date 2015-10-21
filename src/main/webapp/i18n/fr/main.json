@@ -15,7 +15,7 @@
     
     "booking": {
     	"main": {
-	        "title": "Bienvenue, CrossFiter !",
+	        "title": "Bienvenue, {{prenom}} !",
 	        "subtitle": "Ceci est l'interface d'administration de votre compte",
 	        "logged": {
 	            "message": "Vous êtes connecté en tant que \"{{username}}\"."

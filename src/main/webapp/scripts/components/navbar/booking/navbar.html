@@ -16,8 +16,11 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">
                             <span>
                                 <span class="glyphicon glyphicon-user"></span>
-                                <span class="hidden-tablet" translate="global.menu.account.main">
+                                <span class="hidden-tablet" translate="global.menu.account.main" ui-sref-active="active" ng-switch-when="false">                                
                                     Account
+                                </span>
+                                <span class="hidden-tablet" ui-sref-active="active" ng-switch-when="true">
+                                    {{account.firstName}} {{account.lastName}}
                                 </span>
                                 <b class="caret"></b>
                             </span>
@@ -63,9 +66,9 @@
                              </span>
                  </a>
                  <ul id="demo" class="collapse">
-                 	<li ui-sref-active="active"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-wrench"></span>
+                 	<li ui-sref-active="active"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-calendar"></span>
                          &#xA0;<span translate="global.menu.use.timeSlot">TimeSlot</span></a></li>
-                     <li ui-sref-active="active"><a ui-sref="booking"><span class="glyphicon glyphicon-wrench"></span>
+                     <li ui-sref-active="active"><a ui-sref="booking"><span class="glyphicon glyphicon-hourglass"></span>
                          &#xA0;<span translate="global.menu.use.booking">Booking</span></a></li>
                                        
                  </ul>

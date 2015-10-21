@@ -41,6 +41,10 @@ public class TimeSlotInstanceDTO {
 		return slot.getId();
 	}
 
+	public String getName() {
+		return slot.getName();
+	}
+
 	public LocalDate getDate() {
 		return date.toLocalDate();
 	}

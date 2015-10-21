@@ -40,6 +40,10 @@ public class TimeSlot implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    
+
+    @Column(name = "name")
+    private String name;
 
     @NotNull
     @Min(value = 1)
@@ -78,8 +82,16 @@ public class TimeSlot implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public String getName() {
+		return name;
+	}
 
-    public Integer getDayOfWeek() {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getDayOfWeek() {
         return dayOfWeek;
     }
 

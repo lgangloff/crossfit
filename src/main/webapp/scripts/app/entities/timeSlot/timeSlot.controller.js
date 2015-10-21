@@ -45,6 +45,6 @@ angular.module('crossfitApp')
         };
 
         $scope.clear = function () {
-            $scope.timeSlot = {dayOfWeek: null, startTime: null, endTime: null, maxAttendees: null, requiredLevel: null, id: null};
+            $scope.timeSlot = {dayOfWeek: null, name: null, startTime: null, endTime: null, maxAttendees: null, requiredLevel: null, id: null};
         };
     });

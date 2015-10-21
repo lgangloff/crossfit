@@ -43,6 +43,7 @@
                 <tr>
                     <th translate="global.field.id">ID</th>
                     <th translate="crossfitApp.timeSlot.dayOfWeek">DayOfWeek</th>
+                    <th translate="crossfitApp.timeSlot.name">Name</th>
                     <th translate="crossfitApp.timeSlot.startTime">StartTime</th>
                     <th translate="crossfitApp.timeSlot.endTime">EndTime</th>
                     <th translate="crossfitApp.timeSlot.maxAttendees">MaxAttendees</th>
@@ -55,6 +56,7 @@
                 <tr ng-repeat="timeSlot in timeSlots">
                     <td><a ui-sref="timeSlot.detail({id:timeSlot.id})">{{timeSlot.id}}</a></td>
                     <td>{{timeSlot.dayOfWeek}}</td>
+                    <td>{{timeSlot.name}}</td>
                     <td>{{timeSlot.startTime}}</td>
                     <td>{{timeSlot.endTime}}</td>
                     <td>{{timeSlot.maxAttendees}}</td>

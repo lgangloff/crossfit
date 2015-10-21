@@ -1,5 +1,6 @@
 package org.crossfit.app.web.rest.dto.calendar;
 
+import org.apache.commons.lang3.StringUtils;
 import org.crossfit.app.domain.ClosedDay;
 import org.crossfit.app.web.rest.dto.TimeSlotInstanceDTO;
 import org.joda.time.DateTime;
@@ -16,7 +17,10 @@ public class EventDTO {
 		this.id = slotInstance.getId();
 		this.start = slotInstance.getStart();
 		this.end = slotInstance.getEnd();
-		this.title = slotInstance.getRequiredLevel() + " ("+ slotInstance.getValidatedBookings().size() + "/" + slotInstance.getMaxAttendees() + ")";
+		this.title = 
+				(StringUtils.isBlank(slotInstance.getName()) ? slotInstance.getRequiredLevel() : slotInstance.getName() )
+						
+				+ " ("+ slotInstance.getValidatedBookings().size() + "/" + slotInstance.getMaxAttendees() + ")";
 	}
 	
 	public EventDTO(ClosedDay closedDay) {

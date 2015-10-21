@@ -17,4 +17,5 @@
     <include file="classpath:config/liquibase/changelog/20150909_added_timezone_CrossFitBox.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20150916_removed_timezone_added_website_rename_admin_CrossFitBox.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20150918_alter_login_jhi_user.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20151021_added_name_TimeSlot.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

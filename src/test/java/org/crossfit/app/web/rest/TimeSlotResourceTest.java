@@ -22,11 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import org.joda.time.LocalTime;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,11 +47,13 @@ import org.crossfit.app.domain.enumeration.Level;
 @IntegrationTest
 public class TimeSlotResourceTest {
 
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm:ss");
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 
     private static final Integer DEFAULT_DAY_OF_WEEK = 1;
     private static final Integer UPDATED_DAY_OF_WEEK = 2;
+    private static final String DEFAULT_NAME = "SAMPLE_TEXT";
+    private static final String UPDATED_NAME = "UPDATED_TEXT";
 
     private static final LocalTime DEFAULT_START_TIME = new LocalTime(0L, DateTimeZone.UTC);
     private static final LocalTime UPDATED_START_TIME = new LocalTime(DateTimeZone.UTC).withMillisOfSecond(0);
@@ -88,6 +91,7 @@ public class TimeSlotResourceTest {
     public void initTest() {
         timeSlot = new TimeSlot();
         timeSlot.setDayOfWeek(DEFAULT_DAY_OF_WEEK);
+        timeSlot.setName(DEFAULT_NAME);
         timeSlot.setStartTime(DEFAULT_START_TIME);
         timeSlot.setEndTime(DEFAULT_END_TIME);
         timeSlot.setMaxAttendees(DEFAULT_MAX_ATTENDEES);
@@ -111,6 +115,7 @@ public class TimeSlotResourceTest {
         assertThat(timeSlots).hasSize(databaseSizeBeforeCreate + 1);
         TimeSlot testTimeSlot = timeSlots.get(timeSlots.size() - 1);
         assertThat(testTimeSlot.getDayOfWeek()).isEqualTo(DEFAULT_DAY_OF_WEEK);
+        assertThat(testTimeSlot.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testTimeSlot.getStartTime()).isEqualTo(DEFAULT_START_TIME);
         assertThat(testTimeSlot.getEndTime()).isEqualTo(DEFAULT_END_TIME);
         assertThat(testTimeSlot.getMaxAttendees()).isEqualTo(DEFAULT_MAX_ATTENDEES);
@@ -165,6 +170,7 @@ public class TimeSlotResourceTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(timeSlot.getId().intValue())))
                 .andExpect(jsonPath("$.[*].dayOfWeek").value(hasItem(DEFAULT_DAY_OF_WEEK)))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME_STR)))
                 .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME_STR)))
                 .andExpect(jsonPath("$.[*].maxAttendees").value(hasItem(DEFAULT_MAX_ATTENDEES)))
@@ -183,6 +189,7 @@ public class TimeSlotResourceTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(timeSlot.getId().intValue()))
             .andExpect(jsonPath("$.dayOfWeek").value(DEFAULT_DAY_OF_WEEK))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME_STR))
             .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME_STR))
             .andExpect(jsonPath("$.maxAttendees").value(DEFAULT_MAX_ATTENDEES))
@@ -207,6 +214,7 @@ public class TimeSlotResourceTest {
 
         // Update the timeSlot
         timeSlot.setDayOfWeek(UPDATED_DAY_OF_WEEK);
+        timeSlot.setName(UPDATED_NAME);
         timeSlot.setStartTime(UPDATED_START_TIME);
         timeSlot.setEndTime(UPDATED_END_TIME);
         timeSlot.setMaxAttendees(UPDATED_MAX_ATTENDEES);
@@ -223,6 +231,7 @@ public class TimeSlotResourceTest {
         assertThat(timeSlots).hasSize(databaseSizeBeforeUpdate);
         TimeSlot testTimeSlot = timeSlots.get(timeSlots.size() - 1);
         assertThat(testTimeSlot.getDayOfWeek()).isEqualTo(UPDATED_DAY_OF_WEEK);
+        assertThat(testTimeSlot.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testTimeSlot.getStartTime()).isEqualTo(UPDATED_START_TIME);
         assertThat(testTimeSlot.getEndTime()).isEqualTo(UPDATED_END_TIME);
         assertThat(testTimeSlot.getMaxAttendees()).isEqualTo(UPDATED_MAX_ATTENDEES);

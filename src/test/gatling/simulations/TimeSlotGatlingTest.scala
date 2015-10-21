@@ -67,7 +67,7 @@ class TimeSlotGatlingTest extends Simulation {
             .exec(http("Create new timeSlot")
             .post("/api/timeSlots")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "dayOfWeek":"0", "startTime":"2020-01-01T00:00:00.000Z", "endTime":"2020-01-01T00:00:00.000Z", "maxAttendees":"0", "requiredLevel":null}""")).asJSON
+            .body(StringBody("""{"id":null, "dayOfWeek":"0", "name":"SAMPLE_TEXT", "startTime":"2020-01-01T00:00:00.000Z", "endTime":"2020-01-01T00:00:00.000Z", "maxAttendees":"0", "requiredLevel":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_timeSlot_url")))
             .pause(10)

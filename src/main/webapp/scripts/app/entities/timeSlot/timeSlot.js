@@ -62,7 +62,7 @@ angular.module('crossfitApp')
                         size: 'lg',
                         resolve: {
                             entity: function () {
-                                return {dayOfWeek: null, startTime: null, endTime: null, maxAttendees: null, requiredLevel: null, id: null};
+                                return {dayOfWeek: null, name: null, startTime: null, endTime: null, maxAttendees: null, requiredLevel: null, id: null};
                             }
                         }
                     }).result.then(function(result) {

@@ -16,6 +16,7 @@
                 "title": "TimeSlot"
             },
             "dayOfWeek": "DayOfWeek",
+            "name": "Name",
             "startTime": "StartTime",
             "endTime": "EndTime",
             "maxAttendees": "MaxAttendees",

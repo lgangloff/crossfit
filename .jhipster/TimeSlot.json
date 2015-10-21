@@ -23,16 +23,21 @@
         },
         {
             "fieldId": 2,
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 3,
             "fieldName": "startTime",
             "fieldType": "DateTime"
         },
         {
-            "fieldId": 3,
+            "fieldId": 4,
             "fieldName": "endTime",
             "fieldType": "DateTime"
         },
         {
-            "fieldId": 4,
+            "fieldId": 5,
             "fieldName": "maxAttendees",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -41,7 +46,7 @@
             "fieldValidateRulesMin": 0
         },
         {
-            "fieldId": 5,
+            "fieldId": 6,
             "fieldName": "requiredLevel",
             "fieldType": "Level",
             "fieldValues": "FOUNDATION,NOVICE,MIDDLE,SKILLED",

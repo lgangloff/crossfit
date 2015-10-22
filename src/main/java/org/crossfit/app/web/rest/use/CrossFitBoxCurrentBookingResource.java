@@ -112,7 +112,7 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
 	    				.filter(b -> {return slot.contains(b.getStartAt(), b.getEndAt());})
 	    	    		.sorted( (b1, b2) -> { return b1.getCreatedDate().compareTo(b2.getCreatedDate());} )
 	    				.collect(Collectors.toList()));
-	    		slot.setMemberBookings(bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), slot.getStart(), slot.getEnd()));
+	    		slot.setMemberBookings(bookingRepository.findAllByMemberAndDate(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), slot.getStart(), slot.getEnd()));
 	    		return slot;
 	    	})
 			.filter(s -> {return !s.getValidatedBookings().isEmpty() || !s.getWaitingBookings().isEmpty();})
@@ -251,7 +251,7 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
     	DateTime endAt = dateDispo.withTime(timeSlot.getEndTime().getHourOfDay(), timeSlot.getEndTime().getMinuteOfHour(), 0, 0);
     	
     	// Si il y a déjà une réservation pour ce créneau
-    	List<Booking> bookings = bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), startAt, endAt);
+    	List<Booking> bookings = bookingRepository.findAllByMemberAndDate(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), startAt, endAt);
     	if(bookings == null || !bookings.isEmpty()){
     		return ResponseEntity.badRequest().header("Failure", "Une réservation existe déjà pour ce créneau").body(null);
     	}
@@ -286,7 +286,8 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
 
     @Override
     public ResponseEntity<List<Booking>> getAll(Integer offset, Integer limit) throws URISyntaxException {
-        Page<Booking> page = bookingRepository.findAllByMember(box, member, ); //(PaginationUtil.generatePageRequest(offset, limit));
+        Page<Booking> page = bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), PaginationUtil.generatePageRequest(offset, limit));
+        
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/use/bookings", offset, limit);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

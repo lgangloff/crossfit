@@ -96,7 +96,7 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
     				.filter(b -> {return event.contains(b.getStartAt(), b.getEndAt());})
     	    		.sorted( (b1, b2) -> { return b1.getCreatedDate().compareTo(b2.getCreatedDate());} )
     				.collect(Collectors.toList()));
-				event.setMemberBookings(bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), event.getStart(), event.getEnd()));
+				event.setMemberBookings(bookingRepository.findAllByMemberAndDate(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), event.getStart(), event.getEnd()));
 				return event;
 			})
     		.collect(
@@ -177,7 +177,7 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
     	CurrentTimeSlotInstanceDTO dispo = new CurrentTimeSlotInstanceDTO(dateDispo, timeSlot, doGetCurrentMember().getLevel());
     	
     	List<Booking> bookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), dispo.getStart(), dispo.getEnd());
-    	List<Booking> memberBookings = bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), dispo.getStart(), dispo.getEnd());
+    	List<Booking> memberBookings = bookingRepository.findAllByMemberAndDate(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), dispo.getStart(), dispo.getEnd());
     	
     	dispo.setBookings(bookings);				// Réservation de tout les membres
     	dispo.setMemberBookings(memberBookings);	// Réservation du membre courant

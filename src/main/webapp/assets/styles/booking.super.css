@@ -169,3 +169,22 @@ ul.alert-dropdown {
 .side-nav>li>ul>li>a:hover {
     color: #fff;
 }
+
+/* Button */
+
+.btn-circle {
+    border-radius: 15px;
+    font-size: 12px;
+    height: 30px;
+    line-height: 1.42857;
+    padding: 6px 0;
+    text-align: center;
+    width: 30px;
+}
+
+
+/* Tricks */
+.vertical-center{
+	display:inline-block;
+  	vertical-align:middle;
+}

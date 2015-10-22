@@ -21,15 +21,19 @@ import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.crossfit.app.service.TimeService;
 import org.crossfit.app.service.TimeSlotService;
 import org.crossfit.app.web.rest.BookingResource;
+import org.crossfit.app.web.rest.dto.CurrentTimeSlotInstanceDTO;
 import org.crossfit.app.web.rest.dto.TimeSlotInstanceDTO;
 import org.crossfit.app.web.rest.dto.calendar.EventDTO;
 import org.crossfit.app.web.rest.dto.calendar.EventSourceDTO;
-import org.crossfit.app.web.rest.dto.planning.PlanningDTO;
-import org.crossfit.app.web.rest.dto.planning.PlanningDayDTO;
+import org.crossfit.app.web.rest.dto.planning.CurrentPlanningDTO;
+import org.crossfit.app.web.rest.dto.planning.CurrentPlanningDayDTO;
+import org.crossfit.app.web.rest.util.PaginationUtil;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -86,7 +90,7 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<PlanningDTO> get(@RequestParam(value = "page" , required = false, defaultValue = "0") Integer offset,
+    public ResponseEntity<CurrentPlanningDTO> getPlanning(@RequestParam(value = "page" , required = false, defaultValue = "0") Integer offset,
                                   @RequestParam(value = "per_page", required = false, defaultValue = "7") Integer limit)
         throws URISyntaxException {
         
@@ -99,30 +103,31 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
     	}
 
     	List<Booking> bookings = bookingRepository.findAllByMemberForPlanning(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), start, end);
-    	List<TimeSlotInstanceDTO> slotInstances = timeSlotService.findAllTimeSlotInstance(start, end);
+    	List<CurrentTimeSlotInstanceDTO> slotInstances = timeSlotService.findAllTimeSlotInstance(start, end, doGetCurrentMember());
     	
-    	List<PlanningDayDTO> days = 
+    	List<CurrentPlanningDayDTO> days = 
 			slotInstances.stream().map(slot ->{
 	    		slot.setBookings(
 	    				bookings.stream()
 	    				.filter(b -> {return slot.contains(b.getStartAt(), b.getEndAt());})
 	    	    		.sorted( (b1, b2) -> { return b1.getCreatedDate().compareTo(b2.getCreatedDate());} )
 	    				.collect(Collectors.toList()));
+	    		slot.setMemberBookings(bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), slot.getStart(), slot.getEnd()));
 	    		return slot;
 	    	})
 			.filter(s -> {return !s.getValidatedBookings().isEmpty() || !s.getWaitingBookings().isEmpty();})
     		.sorted( (s1, s2) -> { return s1.getStart().compareTo(s2.getStart());} )
-    		.collect(Collectors.groupingBy(TimeSlotInstanceDTO::getDate))
+    		.collect(Collectors.groupingBy(CurrentTimeSlotInstanceDTO::getDate))
     		.entrySet().stream()
     		.map(entry -> {
-    			return new PlanningDayDTO(entry.getKey(), entry.getValue());
+    			return new CurrentPlanningDayDTO(entry.getKey(), entry.getValue());
     		})
     		.sorted( (d1, d2) -> { return d1.getDate().compareTo(d2.getDate());} )
     		.collect(Collectors.toList());
     	
     	
     	
-    	return new ResponseEntity<>(new PlanningDTO(days) , HttpStatus.OK);
+    	return new ResponseEntity<CurrentPlanningDTO>(new CurrentPlanningDTO(days) , HttpStatus.OK);
     }
 
     
@@ -279,4 +284,10 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
 		return false;
 	}
 
+    @Override
+    public ResponseEntity<List<Booking>> getAll(Integer offset, Integer limit) throws URISyntaxException {
+        Page<Booking> page = bookingRepository.findAllByMember(box, member, ); //(PaginationUtil.generatePageRequest(offset, limit));
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/use/bookings", offset, limit);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

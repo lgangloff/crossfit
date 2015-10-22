@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crossfitApp')
-    .controller('MainController', function ($scope, Principal, Planning) {
+    .controller('MainController', function ($scope, Principal, Planning, Booking) {
     	$scope.planning = [];
         $scope.page = 0;
         Principal.identity().then(function(account) {
@@ -26,5 +26,21 @@ angular.module('crossfitApp')
         $scope.loadPage = function(page) {
             $scope.page = page;
             $scope.loadAll();
+        };
+        
+        
+        $scope.delete = function (id) {
+            Booking.get({id: id}, function(result) {
+                $scope.booking = result;
+                $('#deleteBookingConfirmation').modal('show');
+            });
+        };
+
+        $scope.confirmDelete = function (id) {
+            Booking.delete({id: id},
+                function () {
+                    $scope.reset();
+                    $('#deleteBookingConfirmation').modal('hide');
+                });
         };
     });

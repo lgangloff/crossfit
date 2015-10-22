@@ -8,7 +8,6 @@ import org.crossfit.app.domain.Booking;
 import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.BookingStatus;
 import org.crossfit.app.domain.enumeration.Level;
-import org.crossfit.app.domain.enumeration.TimeSlotStatus;
 import org.crossfit.app.domain.util.CustomDateTimeSerializer;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -78,6 +77,9 @@ public class TimeSlotInstanceDTO {
 		this.bookings = new ArrayList<>(bookings);
 	}
 	
+	public boolean isPast(){
+		return getStart().isBeforeNow();
+	}
 
 	@Override
 	public String toString() {

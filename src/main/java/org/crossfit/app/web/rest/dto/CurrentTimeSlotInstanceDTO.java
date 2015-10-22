@@ -9,12 +9,7 @@ import org.crossfit.app.domain.TimeSlot;
 import org.crossfit.app.domain.enumeration.BookingStatus;
 import org.crossfit.app.domain.enumeration.Level;
 import org.crossfit.app.domain.enumeration.TimeSlotStatus;
-import org.crossfit.app.domain.util.CustomDateTimeSerializer;
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * C'est un créneau horaire, à une date donnée... une instance de time slot quoi

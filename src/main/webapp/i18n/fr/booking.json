@@ -14,14 +14,15 @@
             },
             "startAt": "Début",
             "endAt": "Fin",
-            "status": "Status",
+            "status": "Etat",
             "createdDate": "Réservé le",
             "createdBy": "Réservé par",
             "box": "Box",
             "owner": "Owner",
             "action": {
             	"delete": "Se désinscrire"
-            }
+            },
+            "date": "Date"
         }
     }
 }

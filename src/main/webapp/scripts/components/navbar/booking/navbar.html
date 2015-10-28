@@ -53,25 +53,11 @@
             </li>
         </ul>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-              <li ng-class="{active: $state.includes('use')}" ng-switch-when="true" class="dropdown pointer">
-                 <a href="javascript:;" data-toggle="collapse" data-target="#demo">
-                             <span>
-                                 <span class="glyphicon glyphicon-dashboard"></span>
-                                 <span class="hidden-tablet" translate="global.menu.manage.main">
-                                     Manage
-                                 </span>
-                                 <b class="caret"></b>
-                             </span>
-                 </a>
-                 <ul id="demo" class="collapse">
-                 	<li ui-sref-active="active"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-calendar"></span>
-                         &#xA0;<span translate="global.menu.use.timeSlot">TimeSlot</span></a></li>
-                     <li ui-sref-active="active"><a ui-sref="booking"><span class="glyphicon glyphicon-hourglass"></span>
-                         &#xA0;<span translate="global.menu.use.booking">Booking</span></a></li>
-                                       
-                 </ul>
-             </li>
+            <ul class="nav navbar-nav side-nav">                 
+				<li ui-sref-active="active"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-calendar"></span>
+					&#xA0;<span translate="global.menu.use.timeSlot">TimeSlot</span></a></li>
+				<li ui-sref-active="active"><a ui-sref="booking"><span class="glyphicon glyphicon-hourglass"></span>
+					&#xA0;<span translate="global.menu.use.booking">Booking</span></a></li>
             </ul>
         </div>
 </nav>

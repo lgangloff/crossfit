@@ -68,7 +68,7 @@ public class CrossFitBoxCurrentTimeSlotResource extends TimeSlotResource {
     private MemberRepository memberRepository;
     
     /**
-     * GET  /timeSlots -> get all the timeSlots.
+     * GET  /timeSlotsAsEvent -> get all the timeSlots.
      */
     @RequestMapping(value = "/timeSlotsAsEvent",
             method = RequestMethod.GET,

@@ -285,7 +285,8 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
 	}
 
     @Override
-    public ResponseEntity<List<Booking>> getAll(Integer offset, Integer limit) throws URISyntaxException {
+    public ResponseEntity<List<Booking>> getAll(@RequestParam(value = "page", required = false) Integer offset,
+			@RequestParam(value = "per_page", required = false) Integer limit) throws URISyntaxException {
         Page<Booking> page = bookingRepository.findAllByMember(boxService.findCurrentCrossFitBox(), doGetCurrentMember(), PaginationUtil.generatePageRequest(offset, limit));
         
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/use/bookings", offset, limit);

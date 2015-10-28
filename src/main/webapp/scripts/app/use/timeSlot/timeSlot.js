@@ -27,7 +27,7 @@ angular.module('crossfitApp')
             })
             .state('timeSlot.subscribe', {
                 parent: 'timeSlot',
-                url: '/{id}/subscribe/:start/:end',
+                url: '/{id}/subscribe/:date',
                 data: {
                     roles: ['ROLE_USER'],
                 },

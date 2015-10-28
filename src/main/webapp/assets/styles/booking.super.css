@@ -122,6 +122,10 @@ ul.alert-dropdown {
 
 /* Side Navigation */
 
+.navbar-collapse.in{
+	padding-top: 30px;
+}
+
 @media(min-width:768px) {
     .side-nav {
         position: fixed;
@@ -170,7 +174,12 @@ ul.alert-dropdown {
     color: #fff;
 }
 
-/* Button */
+/* Liste des wods à venir*/
+.pointer{
+	cursor: pointer;
+}
+
+
 
 .btn-circle {
     border-radius: 15px;

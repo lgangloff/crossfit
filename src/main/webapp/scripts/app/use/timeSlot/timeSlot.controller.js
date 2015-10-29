@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('crossfitApp')
-    .controller('TimeSlotController', function ($scope, $state, $stateParams, TimeSlot, TimeSlotEvent, DateUtils) {
+    .controller('TimeSlotController', function ($scope, $state, $stateParams, $window, TimeSlot, TimeSlotEvent, DateUtils) {
+    	
     	$scope.eventSources = [];
     	var parts = $stateParams.startDate.split('-');
-    	  
-        $scope.uiConfig = {
-			calendar:{
+    	
+    	var uiConfigDesktop = { calendar:{
 				height: 865,
 				editable: false,
 				header:{
@@ -38,8 +38,10 @@ angular.module('crossfitApp')
 		            $state.go('timeSlot', {startDate:$scope.startDateCalendar, endDate:$scope.endDateCalendar},{notify:false});
 		            $scope.loadAll();
 			    }
-			},
-			calendarMobile:{
+			}
+    	};
+    		
+    	var uiConfigMobile = { calendar:{
 				height: "auto",
 				editable: false,
 				header:{
@@ -54,7 +56,7 @@ angular.module('crossfitApp')
 				
 				eventClick: function(calEvent, jsEvent, view) {
 					if (calEvent.id){
-			            $state.go('timeSlot.subscribe', {id:calEvent.id, start:(DateUtils.convertDateTimeFromServer(calEvent.start)).toISOString().slice(0, 10)});
+			            $state.go('timeSlot.subscribe', {id:calEvent.id, date:(new Date(calEvent.start)).toISOString().slice(0, 10)});
 					}
 			    },
 			    viewRender : function(view, element){
@@ -76,7 +78,8 @@ angular.module('crossfitApp')
 		            $('.fc-time').css('display:block;');
 			    }
 			}
-		};
+    	};
+
         
         $scope.loadAll = function() {
         	$scope.eventSources.length = 0;
@@ -98,4 +101,28 @@ angular.module('crossfitApp')
         $scope.clear = function () {
             $scope.timeSlot = {dayOfWeek: null, startTime: null, endTime: null, maxAttendees: null, requiredLevel: null, id: null};
         };
+        
+        
+        var w = angular.element($window);
+        $scope.getWindowDimensions = function () {
+
+            return {
+                'w': w.width()
+            };
+        };
+        $scope.$watch($scope.getWindowDimensions, function (newValue, oldValue) {
+            
+            $scope.windowWidth = newValue.w;
+
+            if($scope.windowWidth >= 991){
+            	$scope.uiConfig = uiConfigDesktop;
+            }else{
+            	$scope.uiConfig = uiConfigMobile;
+            }
+        }, true);
+
+        w.bind('resize', function () {
+            $scope.$apply();
+        });
+        
     });

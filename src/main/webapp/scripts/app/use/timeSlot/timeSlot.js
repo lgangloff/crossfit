@@ -38,7 +38,7 @@ angular.module('crossfitApp')
                         size: 'sm',
                         resolve: {
                         	entity: function () {
-                                return {id: null, startAt: $stateParams.start, endAt: $stateParams.end, status: null, createdDate: null, createdBy: null};
+                                return {id: null, startAt: $stateParams.start, endAt: $stateParams.end};
                             }
                         }
                     }).result.then(function(result) {

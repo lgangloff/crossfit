@@ -28,7 +28,7 @@ angular.module('crossfitApp')
 				selectHelper: true,
 				    
 				eventClick: function(calEvent, jsEvent, view) {
-					if (calEvent.id){
+					if (calEvent.id && (new Date(calEvent.start)) > new Date()){
 			            $state.go('timeSlot.subscribe', {id:calEvent.id, date:(new Date(calEvent.start)).toISOString().slice(0, 10)});
 					}
 			    },

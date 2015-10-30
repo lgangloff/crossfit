@@ -5,7 +5,6 @@ angular.module('crossfitApp').controller('TimeSlotDialogController',
         function($scope, $stateParams, $modalInstance, entity, Booking, Availability, TimeSlot, DateUtils) {
 
     	Availability.availability({id : $stateParams.id, date : $stateParams.date}, function(result) {
-    		console.log("availability");
     		$scope.availability = result;
         });
 

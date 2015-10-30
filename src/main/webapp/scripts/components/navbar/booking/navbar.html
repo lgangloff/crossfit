@@ -61,9 +61,9 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex2-collapse">
             <ul class="nav navbar-nav side-nav">                 
-				<li ui-sref-active="active"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-calendar"></span>
+				<li ng-class="{active: $state.includes('use')}" ng-switch-when="true"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-calendar"></span>
 					&#xA0;<span translate="global.menu.use.timeSlot">TimeSlot</span></a></li>
-				<li ui-sref-active="active"><a ui-sref="booking"><span class="glyphicon glyphicon-hourglass"></span>
+				<li ng-class="{active: $state.includes('use')}" ng-switch-when="true"><a ui-sref="booking"><span class="glyphicon glyphicon-hourglass"></span>
 					&#xA0;<span translate="global.menu.use.booking">Booking</span></a></li>
             </ul>
         </div>

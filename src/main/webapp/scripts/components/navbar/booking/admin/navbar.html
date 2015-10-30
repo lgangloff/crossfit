@@ -55,32 +55,18 @@
             </li>
         </ul>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-              <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true" class="dropdown pointer">
-                 <a href="javascript:;" data-toggle="collapse" data-target="#demo">
-                             <span>
-                                 <span class="glyphicon glyphicon-dashboard"></span>
-                                 <span class="hidden-tablet" translate="global.menu.manage.main">
-                                     Manage
-                                 </span>
-                                 <b class="caret"></b>
-                             </span>
-                 </a>
-                 <ul id="demo" class="collapse">
-                     <li ui-sref-active="active"><a ui-sref="member"><span class="glyphicon glyphicon-user"></span>
-                            &#xA0;<span translate="global.menu.manage.members">Members</span></a></li>
+            <ul class="nav navbar-nav side-nav">              
+                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="member"><span class="glyphicon glyphicon-user"></span>
+                       &#xA0;<span translate="global.menu.manage.members">Members</span></a></li>
 
-                     <li ui-sref-active="active"><a ui-sref="membershipType"><span class="glyphicon glyphicon-barcode"></span>
-                         &#xA0;<span translate="global.menu.manage.membershipTypes">MembershipTypes</span></a></li>
+                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="membershipType"><span class="glyphicon glyphicon-barcode"></span>
+                    &#xA0;<span translate="global.menu.manage.membershipTypes">MembershipTypes</span></a></li>
 
-                     <li ui-sref-active="active"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-time"></span>
-                         &#xA0;<span translate="global.menu.manage.timeSlot">TimeSlot</span></a></li>
-                         
-                     <li ui-sref-active="active"><a ui-sref="closedDay"><span class="glyphicon glyphicon-bed"></span>
-                         &#xA0;<span translate="global.menu.manage.closedDay">ClosedDay</span></a></li>
-                                       
-                 </ul>
-             </li>
+                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-time"></span>
+                    &#xA0;<span translate="global.menu.manage.timeSlot">TimeSlot</span></a></li>
+                    
+                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="closedDay"><span class="glyphicon glyphicon-bed"></span>
+                    &#xA0;<span translate="global.menu.manage.closedDay">ClosedDay</span></a></li>
             </ul>
         </div>
 </nav>

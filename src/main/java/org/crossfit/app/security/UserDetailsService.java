@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.crossfit.app.domain.CrossFitBox;
+import org.crossfit.app.domain.Member;
 import org.crossfit.app.domain.User;
+import org.crossfit.app.repository.MemberRepository;
 import org.crossfit.app.repository.UserRepository;
 import org.crossfit.app.service.CrossFitBoxSerivce;
 import org.slf4j.Logger;
@@ -34,6 +36,9 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Inject
     private CrossFitBoxSerivce boxService;
     
+    @Inject
+    private MemberRepository memberRepository;
+    
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
@@ -57,6 +62,14 @@ public class UserDetailsService implements org.springframework.security.core.use
             }
             
             boolean isSuperAdmin = grantedAuthorities.contains(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
+            
+            if(box != null && !isSuperAdmin){
+            	// On charge le membre pour voir si il a accès à la box
+            	Member membre = memberRepository.findOneByLogin(lowercaseLogin, box);
+            	if(membre == null){
+            		throw new InternalAuthenticationServiceException("L'utilisateur " + lowercaseLogin + " n'a pas le droit d'accéder à la box " + box.getName());
+            	}
+            }
             
             if (box == null && !isSuperAdmin){
             	throw new InternalAuthenticationServiceException(

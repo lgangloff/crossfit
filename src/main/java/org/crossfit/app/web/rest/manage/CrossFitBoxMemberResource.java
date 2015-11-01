@@ -127,12 +127,8 @@ public class CrossFitBoxMemberResource extends MemberResource {
 
 	@Override
 	protected void doDelete(Long id) {
-		Member memberToDelete = memberRepository.findOne(id);
-		CrossFitBox currentCrossFitBox = boxService.findCurrentCrossFitBox();
-		if (memberToDelete.getBox().equals(currentCrossFitBox)){
-			bookingRepository.deleteAllByMember(currentCrossFitBox, memberToDelete);
-			memberRepository.delete(memberToDelete);
-		}
+		
+		boxService.deleteMember(id);
 	}
 	
 	@RequestMapping(value = "/members/{id}/resetaccount", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -9,8 +9,11 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.crossfit.app.domain.CrossFitBox;
+import org.crossfit.app.domain.Member;
 import org.crossfit.app.exception.CrossFitBoxConfiguration;
+import org.crossfit.app.repository.BookingRepository;
 import org.crossfit.app.repository.CrossFitBoxRepository;
+import org.crossfit.app.repository.MemberRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,12 @@ public class CrossFitBoxSerivce {
 	
 	@Autowired
 	private HttpServletRequest request;
+
+	@Autowired
+	private MemberRepository memberRepository;
+	
+	@Autowired
+	private BookingRepository bookingRepository;
 	
 	public CrossFitBox findCurrentCrossFitBox(){
 		if (request.getAttribute("currentBox") != null){
@@ -85,6 +94,17 @@ public class CrossFitBoxSerivce {
 		}
 		else{
 			return null;
+		}
+	}
+
+	public void deleteMember(Long id) {
+		Member memberToDelete = memberRepository.findOne(id);
+		CrossFitBox currentCrossFitBox = findCurrentCrossFitBox();
+		if (memberToDelete.getBox().equals(currentCrossFitBox)){
+			currentCrossFitBox.getAdministrators().remove(memberToDelete);
+			bookingRepository.deleteAllByMember(currentCrossFitBox, memberToDelete);
+			memberRepository.delete(memberToDelete);
+			crossFitBoxRepository.save(currentCrossFitBox);
 		}
 	}
 }

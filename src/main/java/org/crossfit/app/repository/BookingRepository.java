@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,4 +29,8 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Query("select b from Booking b where b.box =:box AND b.owner = :member AND b.startAt between :start and :end")
 	List<Booking> findAllByMemberForPlanning(@Param("box") CrossFitBox box, @Param("member") Member member, @Param("start") DateTime start, @Param("end") DateTime end);
 
+    @Modifying
+	@Transactional
+	@Query("delete from Booking b where b.box =:box AND b.owner = :member")
+	void deleteAllByMember(@Param("box") CrossFitBox currentCrossFitBox, @Param("member") Member member);
 }

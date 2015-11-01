@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.crossfit.app.domain.CrossFitBox;
 import org.crossfit.app.domain.Member;
 import org.crossfit.app.domain.User;
 import org.crossfit.app.repository.AuthorityRepository;
+import org.crossfit.app.repository.BookingRepository;
 import org.crossfit.app.repository.MemberRepository;
 import org.crossfit.app.repository.UserRepository;
 import org.crossfit.app.security.AuthoritiesConstants;
@@ -46,6 +48,8 @@ public class CrossFitBoxMemberResource extends MemberResource {
 
     @Inject
     private MemberRepository memberRepository;
+    @Inject
+    private BookingRepository bookingRepository;
     @Inject
     private UserRepository userRepository;
 
@@ -124,7 +128,9 @@ public class CrossFitBoxMemberResource extends MemberResource {
 	@Override
 	protected void doDelete(Long id) {
 		Member memberToDelete = memberRepository.findOne(id);
-		if (memberToDelete.getBox().equals(boxService.findCurrentCrossFitBox())){
+		CrossFitBox currentCrossFitBox = boxService.findCurrentCrossFitBox();
+		if (memberToDelete.getBox().equals(currentCrossFitBox)){
+			bookingRepository.deleteAllByMember(currentCrossFitBox, memberToDelete);
 			memberRepository.delete(memberToDelete);
 		}
 	}

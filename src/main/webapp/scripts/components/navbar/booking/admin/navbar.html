@@ -56,16 +56,16 @@
         </ul>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">              
-                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="member"><span class="glyphicon glyphicon-user"></span>
+                <li ng-class="{active: $state.includes('member')}" ng-switch-when="true"><a ui-sref="member"><span class="glyphicon glyphicon-user"></span>
                        &#xA0;<span translate="global.menu.manage.members">Members</span></a></li>
 
-                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="membershipType"><span class="glyphicon glyphicon-barcode"></span>
+                <li ng-class="{active: $state.includes('memberShipType')}" ng-switch-when="true"><a ui-sref="membershipType"><span class="glyphicon glyphicon-barcode"></span>
                     &#xA0;<span translate="global.menu.manage.membershipTypes">MembershipTypes</span></a></li>
 
-                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-time"></span>
+                <li ng-class="{active: $state.includes('timeslot')}" ng-switch-when="true"><a ui-sref="timeSlot"><span class="glyphicon glyphicon-time"></span>
                     &#xA0;<span translate="global.menu.manage.timeSlot">TimeSlot</span></a></li>
                     
-                <li ng-class="{active: $state.includes('manage')}" ng-switch-when="true"><a ui-sref="closedDay"><span class="glyphicon glyphicon-bed"></span>
+                <li ng-class="{active: $state.includes('closeDay')}" ng-switch-when="true"><a ui-sref="closedDay"><span class="glyphicon glyphicon-bed"></span>
                     &#xA0;<span translate="global.menu.manage.closedDay">ClosedDay</span></a></li>
             </ul>
         </div>

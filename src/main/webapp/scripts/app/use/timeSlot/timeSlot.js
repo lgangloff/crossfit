@@ -32,19 +32,21 @@ angular.module('crossfitApp')
                     roles: ['ROLE_USER'],
                 },
                 onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+
                     $modal.open({
                         templateUrl: 'scripts/app/use/timeSlot/timeSlot-dialog.html',
                         controller: 'TimeSlotDialogController',
                         size: 'sm',
                         resolve: {
+                        	
                         	entity: function () {
-                                return {id: null, startAt: $stateParams.start, endAt: $stateParams.end};
+                        		return {id: $stateParams.id, date: $stateParams.date};
                             }
                         }
                     }).result.then(function(result) {
                         $state.go('timeSlot', null, { reload: true });
                     }, function() {
-                        $state.go('^');
+                    	$state.go('timeSlot', null, { reload: true });
                     })
                 }]
             });

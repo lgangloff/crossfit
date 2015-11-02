@@ -29,7 +29,7 @@ angular.module('crossfitApp')
 				    
 				eventClick: function(calEvent, jsEvent, view) {
 					if (calEvent.id && (new Date(calEvent.start)) > new Date()){
-			            $state.go('timeSlot.subscribe', {id:calEvent.id, date:(new Date(calEvent.start)).toISOString().slice(0, 10)});
+					    $state.go('timeSlot.subscribe', {id:calEvent.id, date:(new Date(calEvent.start)).toISOString().slice(0, 10)});
 					}
 			    },
 			    viewRender : function(view, element){
@@ -55,8 +55,8 @@ angular.module('crossfitApp')
 				selectHelper: true,
 				
 				eventClick: function(calEvent, jsEvent, view) {
-					if (calEvent.id){
-			            $state.go('timeSlot.subscribe', {id:calEvent.id, date:(new Date(calEvent.start)).toISOString().slice(0, 10)});
+					if (calEvent.id && (new Date(calEvent.start)) > new Date()){
+						$state.go('timeSlot.subscribe', {id:calEvent.id, date:(new Date(calEvent.start)).toISOString().slice(0, 10)});
 					}
 			    },
 			    viewRender : function(view, element){

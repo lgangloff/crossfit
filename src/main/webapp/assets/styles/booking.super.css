@@ -124,6 +124,7 @@ ul.alert-dropdown {
 
 .navbar-collapse.in{
 	padding-top: 30px;
+	overflow-y: visible;
 }
 
 @media(min-width:768px) {

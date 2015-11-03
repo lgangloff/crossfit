@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('crossfitApp')
-    .controller('TimeSlotController', function ($scope, $state, $stateParams, $window, TimeSlot, TimeSlotEvent, DateUtils) {
+    .controller('TimeSlotController', function ($rootScope, $scope, $state, $stateParams, $window, TimeSlot, TimeSlotEvent, DateUtils) {
     	
     	$scope.eventSources = [];
     	var parts = $stateParams.startDate.split('-');
+
+    	var viewName = $rootScope.viewName == null ? 'agendaWeek' : $rootScope.viewName;
     	
     	var uiConfigDesktop = { calendar:{
 				height: 865,
@@ -14,7 +16,7 @@ angular.module('crossfitApp')
 				},
 				firstDay: 1,
 				defaultDate: $stateParams.startDate ? new Date(parts[0], parts[1]-1, parts[2]) : new Date(),
-				defaultView: 'agendaWeek',
+				defaultView: viewName,
 				allDaySlot: false,
 				columnFormat: 'dddd D',
 				axisFormat: 'HH:mm',
@@ -28,11 +30,14 @@ angular.module('crossfitApp')
 				selectHelper: true,
 				    
 				eventClick: function(calEvent, jsEvent, view) {
+
+					$rootScope.viewName = view.name;
 					if (calEvent.id && (new Date(calEvent.start)) > new Date()){
 					    $state.go('timeSlot.subscribe', {id:calEvent.id, date:(new Date(calEvent.start)).toISOString().slice(0, 10)});
 					}
 			    },
 			    viewRender : function(view, element){
+
 			    	$scope.startDateCalendar = new Date(view.start).toISOString().slice(0, 10);
 			    	$scope.endDateCalendar = new Date(view.end).toISOString().slice(0, 10);
 		            $state.go('timeSlot', {startDate:$scope.startDateCalendar, endDate:$scope.endDateCalendar},{notify:false});
@@ -90,11 +95,11 @@ angular.module('crossfitApp')
             });
         };
         $scope.reset = function() {
-            $scope.loadAll();
+        	$scope.loadAll();
         };
 
         $scope.refresh = function () {
-            $scope.reset();
+        	$scope.reset();
             $scope.clear();
         };
 

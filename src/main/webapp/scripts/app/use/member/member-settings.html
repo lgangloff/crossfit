@@ -88,13 +88,12 @@
 			
 					<div class="form-group">
 						<label translate="crossfitApp.member.level" for="field_level">Level</label>
-						<input class="form-control" name="level" ng-model="member.level" translate="crossfitApp.Level.{{member.level}}"
-							id="field_level" readonly>
+						<input class="form-control" name="level" ng-model="member.level" id="field_level" readonly>
 					</div>
 					<div class="form-group">
 						<label translate="crossfitApp.member.membershipType"
 							for="field_membershipType">membershipType</label> 
-						<input type="text" class="form-control" id="field_membershipType" name="membershipType" ng-model="member.membershipType" readonly>
+						<input type="text" class="form-control" id="field_membershipType" name="membershipType" ng-model="member.membershipType.name" readonly>
 					</div>
 					<div class="form-group">
 						<label translate="crossfitApp.member.membershipStartDate" for="field_membershipStartDate">MembershipStartDate</label> 

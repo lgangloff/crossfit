@@ -2,11 +2,17 @@
 
 angular.module('crossfitApp')
     .controller('MemberSettingsController', 
-    		['$scope', '$stateParams', '$state', 'CurrentMember', 'Member', 'User',
-    	        function($scope, $stateParams, $state, CurrentMember, Member, User) {
+    		['$scope', '$filter',  '$stateParams', '$state', 'CurrentMember', 'Member', 'User',
+    	        function($scope, $filter, $stateParams, $state, CurrentMember, Member, User) {
 		$scope.success = null;
         $scope.error = null;
     	$scope.member = CurrentMember.get();
+    	
+    	$scope.member.$promise.then(function(member) {
+    		member.level = $filter('translate')('crossfitApp.Level.'+member.level);
+    	});
+
+    	console.log($scope.member);
 
 
     	$scope.save = function () {

@@ -4,6 +4,7 @@ angular.module('crossfitApp').controller('TimeSlotDialogController',
     ['$scope', '$stateParams', '$modalInstance', 'entity', 'Booking', 'Availability', 'TimeSlot', 'DateUtils',
         function($scope, $stateParams, $modalInstance, entity, Booking, Availability, TimeSlot, DateUtils) {
 
+  
     	Availability.availability({id : entity.id, date : entity.date}, function(result) {
     		$scope.availability = result;
         });
@@ -15,7 +16,7 @@ angular.module('crossfitApp').controller('TimeSlotDialogController',
         };
 
         $scope.subscribe = function () {
-        	TimeSlot.booking({id: $stateParams.id, date : $stateParams.date}, onSaveFinished);
+        	TimeSlot.booking({id: entity.id, date : entity.date}, onSaveFinished);
         };
         
         $scope.unSubscribe = function (id) {

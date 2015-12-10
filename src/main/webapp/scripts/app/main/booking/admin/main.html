@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="alert alert-warning" ng-switch-when="false" translate="global.messages.info.authenticated">
-                    Vous devez vous <a href=\"#/login\">connecter</a> pour accéder à l'interface d'administration
+                    Vous devez vous <a href=\"#/login\">connecter</a> pour accï¿½der ï¿½ l'interface d'administration
                 </div>
             </div>
             
@@ -30,7 +30,7 @@
 									<div class="panel panel-default collapsed in">
 										<div class="panel-heading">
 										
-											<a href="#" ng-if="slot.validatedBookings.length" ng-click="slot.open = !slot.open" class="pull-left glyphicon" ng-class="{'glyphicon-plus': !slot.open, 'glyphicon-minus': slot.open}">
+											<a href="#/" ng-if="slot.validatedBookings.length" ng-click="slot.open = !slot.open" class="pull-left glyphicon" ng-class="{'glyphicon-plus': !slot.open, 'glyphicon-minus': slot.open}">
 											</a> &nbsp
 										
 											{{slot.requiredLevel}}. Inscrits: {{slot.validatedBookings.length}}/{{slot.maxAttendees}}. En liste d'attente: {{slot.waitingBookings.length}}

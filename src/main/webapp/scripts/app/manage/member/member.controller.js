@@ -7,6 +7,7 @@ angular.module('crossfitApp')
         $scope.loadAll = function() {
             Member.query({page: $scope.page, per_page: 20}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
+                $scope.totalMember = headers('X-Total-Count');
                 for (var i = 0; i < result.length; i++) {
                     $scope.members.push(result[i]);
                 }

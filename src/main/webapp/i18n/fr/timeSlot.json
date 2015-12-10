@@ -12,6 +12,9 @@
             "detail": {
                 "title": "Créneau horaire"
             },
+            "created": "Un nouveau créneau a été créé avec l'identifiant {{ param }}",
+            "updated": "Créneau avec l'identifiant {{ param }} mis à jour",
+            "deleted": "Créneau avec l'identifiant {{ param }} supprimé.",
             "dayOfWeek": "Jour de la semaine",
             "name": "Libellé",
             "startTime": "Heure de début",

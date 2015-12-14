@@ -17,6 +17,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.crossfit.app.domain.enumeration.Level;
+import org.crossfit.app.domain.enumeration.TimeSlotRecurrent;
+import org.crossfit.app.domain.util.CustomDateTimeDeserializer;
+import org.crossfit.app.domain.util.CustomDateTimeSerializer;
 import org.crossfit.app.domain.util.CustomLocalTimeDeserializer;
 import org.crossfit.app.domain.util.CustomLocalTimeSerializer;
 import org.hibernate.annotations.Cache;
@@ -40,16 +43,24 @@ public class TimeSlot implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    
-
     @Column(name = "name")
     private String name;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "recurrent", nullable = false)
+    private TimeSlotRecurrent recurrent;
+    
     @Min(value = 1)
     @Max(value = 7)        
     @Column(name = "day_of_week", nullable = false)
     private Integer dayOfWeek;
+          
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+    @Column(name = "date", nullable = true)
+    private DateTime date;
     
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalTimeAsTimestamp")
     @JsonSerialize(using = CustomLocalTimeSerializer.class)
@@ -138,8 +149,25 @@ public class TimeSlot implements Serializable {
     public void setBox(CrossFitBox crossFitBox) {
         this.box = crossFitBox;
     }
+    
 
-    @Override
+    public TimeSlotRecurrent getRecurrent() {
+		return recurrent;
+	}
+
+	public void setRecurrent(TimeSlotRecurrent recurrent) {
+		this.recurrent = recurrent;
+	}
+
+	public DateTime getDate() {
+		return date;
+	}
+
+	public void setDate(DateTime date) {
+		this.date = date;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

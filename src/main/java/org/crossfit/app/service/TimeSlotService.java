@@ -3,6 +3,7 @@ package org.crossfit.app.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import org.crossfit.app.domain.ClosedDay;
 import org.crossfit.app.domain.Member;
 import org.crossfit.app.domain.TimeSlot;
+import org.crossfit.app.domain.enumeration.TimeSlotRecurrent;
 import org.crossfit.app.repository.ClosedDayRepository;
 import org.crossfit.app.repository.TimeSlotRepository;
 import org.crossfit.app.web.rest.dto.CurrentTimeSlotInstanceDTO;
@@ -55,7 +57,7 @@ public class TimeSlotService {
 		while(!start.isAfter(end)){
 			final DateTime startF = start;
 			List<TimeSlotInstanceDTO> slotInstanceOfDay = allSlots.stream()
-				.filter( slot -> { return slot.getDayOfWeek() == startF.getDayOfWeek(); })
+				.filter( isSlotInDay(startF))
 				.map(slot -> {return new TimeSlotInstanceDTO(startF, slot);})
 				.collect(Collectors.toList());
 			
@@ -71,6 +73,12 @@ public class TimeSlotService {
 				.collect(Collectors.toList());
     	
     	return timeSlotInstanceWithoutClosedDay;
+	}
+
+	protected Predicate<? super TimeSlot> isSlotInDay(final DateTime startF) {
+		return slot -> { return 
+				slot.getRecurrent() == TimeSlotRecurrent.DAY_OF_WEEK ? 
+				slot.getDayOfWeek() == startF.getDayOfWeek() : slot.getDate().toLocalDate().equals(startF.toLocalDate()); };
 	}
 	
 	/**
@@ -93,7 +101,7 @@ public class TimeSlotService {
 		while(!start.isAfter(end)){
 			final DateTime startF = start;
 			List<CurrentTimeSlotInstanceDTO> slotInstanceOfDay = allSlots.stream()
-				.filter( slot -> { return slot.getDayOfWeek() == startF.getDayOfWeek(); })
+				.filter(isSlotInDay(startF))
 				.map(slot -> {return new CurrentTimeSlotInstanceDTO(startF, slot, member.getLevel());})
 				.collect(Collectors.toList());
 			

@@ -98,4 +98,21 @@ angular.module('crossfitApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pasca
         tmhDynamicLocaleProvider.useCookieStorage();
         tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
         
-    });
+    })
+    .filter('dayOfWeek', function($filter) {
+		return function(input) {
+			var d = new Date();
+			var currentDay = d.getDay();
+			var distance = input - currentDay;
+			d.setDate(d.getDate() + distance);
+		    return $filter('date')(d, 'EEEE');
+		};
+	})
+    .filter('hour', function($filter) {
+		return function(input) {
+			var parts = input.split(':');
+			var d = new Date();
+			d.setHours(parts[0], parts[1]);
+		    return $filter('date')(d, 'H:mm');
+		};
+	});

@@ -2,7 +2,9 @@ package org.crossfit.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.crossfit.app.domain.TimeSlot;
+import org.crossfit.app.domain.enumeration.TimeSlotRecurrent;
 import org.crossfit.app.repository.TimeSlotRepository;
+import org.crossfit.app.web.exception.BadRequestException;
 import org.crossfit.app.web.rest.util.HeaderUtil;
 import org.crossfit.app.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -45,13 +47,31 @@ public class TimeSlotResource {
         if (timeSlot.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new timeSlot cannot already have an ID").body(null);
         }
-        TimeSlot result = doSave(timeSlot);
+		
+        TimeSlot result;
+		try {
+			result = doSave(timeSlot);
+		} catch (BadRequestException e) {
+			 return ResponseEntity.badRequest().header("Failure", e.getMessage()).body(null);
+		}
+        
         return ResponseEntity.created(new URI("/api/timeSlots/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert("timeSlot", result.getId().toString()))
                 .body(result);
     }
 
-	protected TimeSlot doSave(TimeSlot timeSlot) {
+	protected TimeSlot doSave(TimeSlot timeSlot) throws BadRequestException {
+
+		if (timeSlot.getRecurrent() == TimeSlotRecurrent.DATE){
+			timeSlot.setDayOfWeek(null);
+		}
+		else if (timeSlot.getRecurrent() == TimeSlotRecurrent.DAY_OF_WEEK){
+			timeSlot.setDate(null);
+		}		
+		if (timeSlot.getDayOfWeek() == null && timeSlot.getDate() == null){
+			throw new BadRequestException("A new timeslot must have a date or a day of week");
+		}
+		
 		TimeSlot result = timeSlotRepository.save(timeSlot);
 		return result;
 	}
@@ -68,7 +88,12 @@ public class TimeSlotResource {
         if (timeSlot.getId() == null) {
             return create(timeSlot);
         }
-        TimeSlot result = doSave(timeSlot);
+        TimeSlot result;
+		try {
+			result = doSave(timeSlot);
+		} catch (BadRequestException e) {
+			 return ResponseEntity.badRequest().header("Failure", e.getMessage()).body(null);
+		}
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert("timeSlot", timeSlot.getId().toString()))
                 .body(result);

@@ -38,7 +38,10 @@ angular.module('crossfitApp')
                         size: 'lg',
                         resolve: {
                             entity: function () {
-                                return {dayOfWeek: parseInt($stateParams.dayOfWeek), startTime: $stateParams.start, endTime: $stateParams.end, maxAttendees: 12, requiredLevel: 'NOVICE', id: null};
+                            	var d = new Date($stateParams.startDate);
+                                d.setDate(d.getDate() + ($stateParams.dayOfWeek - 1));
+                                return {recurrent:'DAY_OF_WEEK', date: d, dayOfWeek: parseInt($stateParams.dayOfWeek), 
+                                	startTime: $stateParams.start, endTime: $stateParams.end, maxAttendees: 12, requiredLevel: 'NOVICE', id: null};
                             }
                         }
                     }).result.then(function(result) {

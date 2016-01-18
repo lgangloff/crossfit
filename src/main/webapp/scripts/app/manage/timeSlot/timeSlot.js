@@ -70,7 +70,28 @@ angular.module('crossfitApp')
                     }).result.then(function(result) {
                         $state.go('timeSlot', null, { reload: true });
                     }, function() {
-                        $state.go('^');
+                    })
+                }]
+            })
+            .state('timeSlot.delete', {
+                parent: 'timeSlot',
+                url: '/{id}/delete',
+                data: {
+                    roles: ['ROLE_MANAGER'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/manage/timeSlot/timeSlot-dialog-suppr.html',
+                        controller: 'TimeSlotDialogSupprController',
+                        size: 'lg',
+                        resolve: {
+                            entity: ['TimeSlot', function(TimeSlot) {
+                                return TimeSlot.get({id : $stateParams.id});
+                            }]
+                        }
+                    }).result.then(function(result) {
+                        $state.go('timeSlot', null, { reload: true });
+                    }, function() {
                     })
                 }]
             });

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('crossfitApp').controller('TimeSlotDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'TimeSlot',
-        function($scope, $stateParams, $modalInstance, entity, TimeSlot) {
+    ['$scope', '$stateParams', '$state', '$modalInstance', 'entity', 'TimeSlot',
+        function($scope, $stateParams, $state, $modalInstance, entity, TimeSlot) {
 
         $scope.timeSlot = entity;
         $scope.load = function(id) {
@@ -26,5 +26,10 @@ angular.module('crossfitApp').controller('TimeSlotDialogController',
 
         $scope.clear = function() {
             $modalInstance.dismiss('cancel');
+        };
+
+        $scope.delete = function () {	
+            $modalInstance.dismiss('cancel');
+        	$state.go('timeSlot.delete', {id:$scope.timeSlot.id});
         };
 }]);

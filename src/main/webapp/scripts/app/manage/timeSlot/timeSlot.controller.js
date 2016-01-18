@@ -100,22 +100,6 @@ angular.module('crossfitApp')
             $scope.loadAll();
         };
 
-        $scope.delete = function (id) {
-            TimeSlot.get({id: id}, function(result) {
-                $scope.timeSlot = result;
-                $('#deleteTimeSlotConfirmation').modal('show');
-            });
-        };
-
-        $scope.confirmDelete = function (id) {
-            TimeSlot.delete({id: id},
-                function () {
-                    $scope.reset();
-                    $('#deleteTimeSlotConfirmation').modal('hide');
-                    $scope.clear();
-                });
-        };
-
         $scope.refresh = function () {
             $scope.reset();
             $scope.clear();
@@ -124,4 +108,5 @@ angular.module('crossfitApp')
         $scope.clear = function () {
             $scope.timeSlot = {dayOfWeek: null, startTime: null, endTime: null, maxAttendees: null, requiredLevel: null, id: null};
         };
+        
     });

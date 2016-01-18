@@ -72,7 +72,12 @@
             	Tous les {{timeSlot.dayOfWeek | dayOfWeek}} de {{timeSlot.startTime | hour}} à {{timeSlot.endTime | hour}}</label>
         </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer">    
+        <button type="button"  ng-show="timeSlot.id != null" 
+                ng-click="delete(timeSlot.id)"
+                class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+        </button>
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
         </button>

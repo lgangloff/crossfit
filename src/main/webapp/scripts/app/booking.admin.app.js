@@ -110,6 +110,8 @@ angular.module('crossfitApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pasca
 	})
     .filter('hour', function($filter) {
 		return function(input) {
+			if (!input)
+				return;
 			var parts = input.split(':');
 			var d = new Date();
 			d.setHours(parts[0], parts[1]);

@@ -167,7 +167,6 @@ ul#strengthBar {
     opacity: 1;
 }
 
-.table-striped > tbody > tr.disabled{
-	background: gray;
-	color: white;
+.legende{
+	padding: 3px 6px;
 }

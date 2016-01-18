@@ -1,5 +1,7 @@
 package org.crossfit.app.web.rest.manage;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -142,7 +144,33 @@ public class CrossFitBoxMemberResource extends MemberResource {
 		
 			initAccountAndSendMail(member);
 
-			super.doSave(member);
+			try {
+				super.doSave(member);
+			} catch (Exception e) {
+				log.warn("Impossible d'envoyer le mail a {}", member.getUser().getEmail());
+			}
+		}
+		return ResponseEntity.ok().build();
+	}
+	@RequestMapping(value = "/members/massActivation", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public ResponseEntity<Void> massActivation() {
+		log.debug("Envoi du mail d'activation a tous les membres non actif");
+		
+		List<Member> allMembersNotActivated = memberRepository.findAllUserNotActivated(boxService.findCurrentCrossFitBox());
+		
+		for (Member member : allMembersNotActivated) {
+			
+			member.getUser().setLastModifiedBy(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+			member.getUser().setLastModifiedDate(DateTime.now());
+			
+			initAccountAndSendMail(member);
+			
+			try {
+				super.doSave(member);
+			} catch (Exception e) {
+				log.warn("Impossible d'envoyer le mail a {}", member.getUser().getEmail());
+			}
 		}
 		return ResponseEntity.ok().build();
 	}

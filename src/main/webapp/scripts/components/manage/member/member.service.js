@@ -28,6 +28,10 @@ angular.module('crossfitApp')
                 url: 'manage/members/:id/resetaccount', 
                 params : {id: '@id'}
             },
+            'massActivation' : {
+                method: 'PUT',
+                url: 'manage/members/massActivation'
+            },
             'save': {
                 method: 'POST',
                 transformRequest: function (data) {

@@ -39,7 +39,7 @@ angular.module('crossfitApp')
                     $scope.clear();
                 });
         };
-        
+
         $scope.resetAccount = function (id){
             Member.get({id: id}, function(result) {
                 $scope.member = result;
@@ -52,6 +52,18 @@ angular.module('crossfitApp')
                 function () {
                     $scope.reset();
                     $('#resetAccountMemberConfirmation').modal('hide');
+                    $scope.clear();
+                });
+        };
+        $scope.massActivation = function (){
+            $('#massActivationConfirmation').modal('show');
+        };
+        
+        $scope.confirmMassActivation = function () {
+            Member.massActivation({},
+                function () {
+                    $scope.reset();
+                    $('#massActivationConfirmation').modal('hide');
                     $scope.clear();
                 });
         };

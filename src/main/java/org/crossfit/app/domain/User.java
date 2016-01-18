@@ -1,6 +1,8 @@
 package org.crossfit.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
@@ -142,6 +144,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+    
+    public boolean getActivationKeySended(){
+    	return StringUtils.isNotBlank(getActivationKey());
     }
 
     public String getActivationKey() {

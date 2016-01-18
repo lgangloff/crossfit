@@ -4,11 +4,13 @@
             "home": {
                 "title": "Gestion des {{ size }}/{{ totalCount }} adhérents",
                 "createLabel": "Créer un nouvel adhérent",
+                "massActivationLabel": "Activer tous les utilisateurs",
                 "createOrEditLabel": "Créer ou éditer un adhérent"
             },
             "action" : {
             	"editMembership" : "Abo.",
             	"reset" : "Réinit.",
+            	"sendMassActivation" : "Envoyer le mail à tout le monde",
             	"date.reinittoday" : "Réinitialiser",
             	"date.addonemonth" : "+ 1 mois"
         	},
@@ -18,6 +20,11 @@
             "reset": {
                 "title": "Confirmer la réinitialisation du compte",
                 "question": "Etes-vous certain de vouloir réinitialiser le compte de l'adhérent {{ id }} ? (Un mail & un nouveau mot de passe lui seront envoyés)"
+                
+            },
+            "massActivation": {
+                "title": "Confirmer l'envoi du mail d'activation à tout le monde",
+                "question": "Etes-vous certain de vouloir envoyer le mail à TOUS les membres qui n'ont pas encore activé leur compte (également ceux en attente) ?"
                 
             },
             "detail": {
@@ -65,7 +72,7 @@
 	                }
 	            }
 	        },
-	        "firstNameLastName": "Prénom Nom",
+	        "firstNameLastName": "Membre",
 	        "updated" : "Vos modifications ont bien été prises en compte",
 	        "settings":{
 	        	"title": "Mon compte",

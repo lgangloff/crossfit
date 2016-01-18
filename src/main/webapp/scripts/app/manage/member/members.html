@@ -1,7 +1,9 @@
 <div class="row">
 	<div class="col-lg-12">
-            <h1 class="page-header" translate="crossfitApp.member.home.title" translate-values="{size: '{{members.length}}', totalCount: '{{totalMember}}'}">Members</h1>
-    <jh-alert></jh-alert>
+		<h1 class="page-header" translate="crossfitApp.member.home.title" 
+			translate-values="{size: '{{members.length}}', totalCount: '{{totalMember}}'}">Members</h1>
+    	
+    	<jh-alert></jh-alert>
     </div>
     </div>
     
@@ -10,7 +12,19 @@
         <div class="row">
             <div class="col-md-4">
                 <button class="btn btn-primary" ui-sref="member.new">
-                    <span class="glyphicon glyphicon-flash"></span> <span translate="crossfitApp.member.home.createLabel">Create a new Member</span>
+                    <span class="glyphicon glyphicon-flash"></span> 
+                    <span translate="crossfitApp.member.home.createLabel">Create a new Member</span>
+                </button>
+            </div>
+            <div class="col-md-4">
+	    		<span class="label alert-success">Actif</span>
+	    		<span class="label alert-warning">En attente</span>
+	    		<span class="label alert-danger">Inactif</span>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-warning" ng-click="massActivation()">
+                    <span class="glyphicon glyphicon-flash"></span> 
+                    <span translate="crossfitApp.member.home.massActivationLabel">Mass Activation</span>
                 </button>
             </div>
         </div>
@@ -67,25 +81,52 @@
             </div>
         </div>
     </div>
+    
+    
+    <div class="modal fade" id="massActivationConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="massActivationForm" ng-submit="confirmMassActivation()">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="crossfitApp.member.massActivation.title">Confirm Mass Activation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="crossfitApp.member.massActivation.question">Are you sure you want to send activation mail to all members ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit"class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="crossfitApp.member.action.sendMassActivation">Send</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th translate="crossfitApp.member.firstNameLastName">Nom / Pr�nom</th>
+                    <th translate="crossfitApp.member.firstNameLastName">Membre</th>
                     <th translate="crossfitApp.member.membershipStartDate">MembershipStartDate</th>
                     <th translate="crossfitApp.member.membershipEndDate">MembershipEndDate</th>
-                    <th translate="crossfitApp.member.level">Level</th>
                     <th translate="crossfitApp.member.membershipType">membershipType</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
-                <tr ng-repeat="member in members" ng-class="{'disabled': !member.user.activated}">
-                    <td>{{member.user.firstName}} {{member.user.lastName}}</td>
+                <tr ng-repeat="member in members" ng-class="{
+                'danger': !member.user.activated && !member.user.activationKeySended, 
+                'warning': !member.user.activated && member.user.activationKeySended, 
+                'success': member.user.activated}">
+                    <td>{{member.user.lastName}} {{member.user.firstName}}</td>
                     <td>{{member.membershipStartDate}}</td>
                     <td>{{member.membershipEndDate}}</td>
-                    <td><p translate="crossfitApp.Level.{{member.level}}"/></td>
                     <td>{{member.membershipType.name}}</td>
                     <td>
 <!--                         <button type="submit" -->

@@ -18,7 +18,7 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Query("select m from Member m where m.user.login = ?#{principal.username}")
     List<Member> findByUserIsCurrentUser();
 
-    @Query("select m from Member m where m.box = :box")
+    @Query("select m from Member m where m.box = :box order by m.user.activated DESC, m.user.activationKey DESC, m.user.lastName, m.user.firstName")
 	Page<Member> findAll(@Param("box") CrossFitBox box, Pageable pageable);
 
     @Query("select m from Member m where m.id = :id and m.box = :box")
@@ -29,6 +29,9 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 
     @Query("select m from Member m where m.user.login = :login and m.box = :box")
     Member findOneByLogin(@Param("login") String login, @Param("box") CrossFitBox currentCrossFitBox);
+
+    @Query("select m from Member m where m.box = :box and m.user.activated = false")
+    List<Member> findAllUserNotActivated(@Param("box") CrossFitBox box);
     
 
 }

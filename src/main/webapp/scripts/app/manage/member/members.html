@@ -11,22 +11,31 @@
     
         <div class="row">
             <div class="col-md-4">
-                <button class="btn btn-primary" ui-sref="member.new">
-                    <span class="glyphicon glyphicon-flash"></span> 
-                    <span translate="crossfitApp.member.home.createLabel">Create a new Member</span>
-                </button>
+                <div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Actions <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#" ui-sref="member.new">
+		                    <span class="glyphicon glyphicon-flash"></span> 
+		                    <span translate="crossfitApp.member.home.createLabel">Create a new Member</span>
+                  			</a></li>
+						
+						
+						<li><a href="#" ng-click="massActivation()" class="label-warning"> 
+		                    <span class="glyphicon glyphicon-flash"></span> 
+		                    <span translate="crossfitApp.member.home.massActivationLabel">Mass Activation</span>
+						</a></li>
+					</ul>
+            	</div>
             </div>
             <div class="col-md-4">
 	    		<span class="label alert-success">Actif</span>
 	    		<span class="label alert-warning">En attente</span>
 	    		<span class="label alert-danger">Inactif</span>
             </div>
-            <div class="col-md-4">
-                <button class="btn btn-warning" ng-click="massActivation()">
-                    <span class="glyphicon glyphicon-flash"></span> 
-                    <span translate="crossfitApp.member.home.massActivationLabel">Mass Activation</span>
-                </button>
-            </div>
+                
         </div>
 
 
@@ -129,32 +138,34 @@
                     <td>{{member.membershipEndDate}}</td>
                     <td>{{member.membershipType.name}}</td>
                     <td>
-<!--                         <button type="submit" -->
-<!--                                 ui-sref="member.detail({id:member.id})" -->
-<!--                                 class="btn btn-info btn-sm"> -->
-<!--                             <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span> -->
-<!--                         </button> -->
-                        <button type="submit"
-                                ui-sref="member.edit({id:member.id})"
-                                class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
-                        </button>
-                        <button type="submit"
-                                ui-sref="member.editMembership({id:member.id})"
-                                class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="crossfitApp.member.action.editMembership"> EditMembership</span>
-                        </button>
-                        <button type="submit"
-                                ng-click="delete(member.id)"
-                                class="btn btn-danger btn-sm">
-                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
-                        </button>
-                        <button type="submit"
-                                ng-click="resetAccount(member.id)"
-                                class="btn btn-danger btn-sm">
-                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="crossfitApp.member.action.reset"> Reset</span>
-                        </button>
-                    </td>
+	                    <div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Actions <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="#" ui-sref="member.edit({id:member.id})"><span
+										class="glyphicon glyphicon-pencil"></span>&nbsp;<span
+										translate="crossfitApp.member.action.edit"> Edit</span></a></li>
+								<li><a href="#"
+									ui-sref="member.editMembership({id:member.id})"><span
+										class="glyphicon glyphicon-pencil"></span>&nbsp;<span
+										translate="crossfitApp.member.action.editMembership">
+											EditMembership</span></a></li>
+																			
+								<li><a href="#" ng-click="resetAccount(member.id)"
+									class="label-warning"> <span
+										class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span
+										translate="crossfitApp.member.action.reset"> Reset</span>
+								</a></li>
+								
+								<li><a href="#" ng-click="delete(member.id)" class="label-danger"> <span
+										class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span
+										translate="crossfitApp.member.action.delete"> Delete</span>
+								</a></li>
+							</ul>
+						</div>
+				</td>
                 </tr>
             </tbody>
         </table>

@@ -8,8 +8,10 @@
                 "createOrEditLabel": "Créer ou éditer un adhérent"
             },
             "action" : {
-            	"editMembership" : "Abo.",
-            	"reset" : "Réinit.",
+            	"edit" : "Modifier",
+            	"delete" : "Supprimer",
+            	"editMembership" : "Abonnement",
+            	"reset" : "Réinitialiser",
             	"sendMassActivation" : "Envoyer le mail à tout le monde",
             	"date.reinittoday" : "Réinitialiser",
             	"date.addonemonth" : "+ 1 mois"

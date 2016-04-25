@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.crossfit.app.domain.Member;
-import org.crossfit.app.repository.AuthorityRepository;
 import org.crossfit.app.repository.MemberRepository;
 import org.crossfit.app.security.SecurityUtils;
 import org.crossfit.app.service.CrossFitBoxSerivce;
@@ -18,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,6 +74,21 @@ public class CrossFitBoxCurrentMemberResource extends MemberResource {
     
 	protected Member doGetCurrent() {
 		return memberRepository.findOneByLogin(SecurityUtils.getCurrentLogin(), boxService.findCurrentCrossFitBox());
+	}
+	
+	@RequestMapping(value = "/members/sickNoteValid", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public boolean isSickNoteValid(){
+		
+		Member membre = doGetCurrent();
+		if(membre.getSickNote() != null){
+			if(membre.getSickNoteEndDate().isAfter(DateTime.now().toLocalDate())){
+				return true;
+			}
+		}
+		
+		
+		return false;
 	}
 	
 }

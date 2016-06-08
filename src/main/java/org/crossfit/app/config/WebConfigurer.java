@@ -53,13 +53,10 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
         servletContext.addListener(RequestContextListener.class);
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-       
+
         initSubDomainFilter(servletContext, disps);
-        
-        if (!env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) {
-            initMetrics(servletContext, disps);
-        }
-        if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
+
+        if (env.acceptsProfiles(Constants.SPRING_PROFILE_OPENSHIFT)) {
             initCachingHttpHeadersFilter(servletContext, disps);
             initStaticResourcesProductionFilter(servletContext, disps);
             initGzipFilter(servletContext, disps);
@@ -79,14 +76,14 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         mappings.add("json", "text/html;charset=utf-8");
         container.setMimeMappings(mappings);
     }
-    
+
 
     private void initSubDomainFilter(ServletContext servletContext,
                                               EnumSet<DispatcherType> disps) {
         log.debug("Registering SubDomain Filter");
 
         //Spring security config
-        FilterRegistration.Dynamic springSecurityFilterChain = 
+        FilterRegistration.Dynamic springSecurityFilterChain =
         		servletContext.addFilter(
         				"securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"));
 
@@ -129,7 +126,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/booking.admin.html");
-        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/superadmin.html");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/booking.html");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");

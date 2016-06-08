@@ -26,15 +26,13 @@ public class SubDomainFilter implements Filter {
 
 	private static final String ADMIN_VIEW = "/booking.admin.html";
 	private static final String BOOKING_VIEW = "/booking.html";
-	private static final String ROOT_VIEW = "/superadmin.html";
-	
-	private static final String ROOT_SUBDOMAIN = "root";
+
 	private static final String BOOKING_SUBDOMAIN = "booking";
 	private static final String ADMIN_SUBDOMAIN = "admin";
-	
+
 	@Autowired
 	private CrossFitBoxSerivce boxService;
-	
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Nothing to initialize
@@ -52,7 +50,7 @@ public class SubDomainFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
         requestURI = StringUtils.substringAfter(requestURI, contextPath);
 
-		
+
         if (StringUtils.equals("/", requestURI)) {
 
         	CrossFitBox box = boxService.findCurrentCrossFitBox();
@@ -60,11 +58,11 @@ public class SubDomainFilter implements Filter {
                 chain.doFilter(request, response);
                 return;
         	}
-        	
+
             String[] domains = httpRequest.getServerName().split("\\.");
-            
+
 			String subdomain = domains.length > 0 ? domains[0] : httpRequest.getServerName();
-			
+
 			if (subdomain.equals(ADMIN_SUBDOMAIN) || box.getAdminwebsite().equals(httpRequest.getServerName())){
 	            request.getRequestDispatcher(ADMIN_VIEW).forward(request, response);
 	            return;
@@ -73,13 +71,9 @@ public class SubDomainFilter implements Filter {
 	            request.getRequestDispatcher(BOOKING_VIEW).forward(request, response);
 	            return;
 			}
-			else if(subdomain.equals(ROOT_SUBDOMAIN) || box.getRootwebsite().equals(httpRequest.getServerName())){
-	            request.getRequestDispatcher(ROOT_VIEW).forward(request, response);
-	            return;
-			}
 
         }
-        
+
         chain.doFilter(request, response);
     }
 }

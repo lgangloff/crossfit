@@ -30,22 +30,10 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-            
+
     thymeleaf:
         mode: XHTML
         cache: true
-
-metrics:
-    jmx.enabled: false
-    spark:
-        enabled: false
-        host: localhost
-        port: 9999
-    graphite:
-        enabled: false
-        host: localhost
-        port: 2003
-        prefix: crossfit
 
 http:
     cache:

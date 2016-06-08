@@ -1,18 +1,5 @@
 {
-    "main": {
-        "title": "Bienvenue, Super admin !",
-        "subtitle": "Ceci est l'interface d'administration de l'application",
-        "logged": {
-            "message": "Vous êtes connecté en tant que \"{{username}}\"."
-        },
-        "question": "Si vous avez des questions à propos de JHipster:",
-        "link": {
-            "homepage": "Page d'accuei"
-        },
-        "like": "Si vous aimez JHipster, donnez nous une étoile sur",
-        "github": "Github"
-    },
-    
+
     "booking": {
     	"main": {
 	        "title": "Bienvenue, {{prenom}} !",

@@ -1,9 +1,0 @@
-{
-    "crossfitApp": {
-        "BookingStatus" : {
-            "SELECT": "{VALUE, select, VALIDATED{VALIDATED} ON_WAINTING_LIST{ON_WAINTING_LIST} other{}}",
-            "VALIDATED": "VALIDATED",
-            "ON_WAINTING_LIST": "ON_WAINTING_LIST"
-        }
-    }
-}

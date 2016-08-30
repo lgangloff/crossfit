@@ -275,7 +275,11 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
     }
     
     protected boolean isAvailable(Booking booking){
-		List<Booking> memberBookings = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), booking.getStartAt(), booking.getEndAt());
+		List<Booking> findAll = bookingRepository.findAll(boxService.findCurrentCrossFitBox(), booking.getStartAt(), booking.getEndAt());
+		List<Booking> memberBookings = findAll.stream().filter(b->{
+			return b.getStartAt().getMillis() == booking.getStartAt().getMillis() 
+					&& b.getEndAt().getMillis() == booking.getEndAt().getMillis();
+		}).collect(Collectors.toList());
 		List<TimeSlotInstanceDTO> timeSlots = timeSlotService.findAllTimeSlotInstance(booking.getStartAt(), booking.getEndAt());
 		if(!timeSlots.isEmpty()){
 			return (timeSlots.get(0).getMaxAttendees() - memberBookings.size())>0;

@@ -7,18 +7,17 @@
         <h4 class="modal-title" id="myTimeSlotLabel" translate="crossfitApp.timeSlot.booking.title">Create or edit a TimeSlot</h4>
     </div>
     <div class="modal-body">
-    	Il reste {{availability.maxAttendees-availability.nbValidatedBookings}} place(s) sur {{availability.maxAttendees}}<br/>
-    	Il y a {{availability.nbWaitingBookings}} personne(s) en liste d'attente.
+    	Il reste {{availability.maxAttendees-availability.nbValidatedBookings}} place(s) sur {{availability.maxAttendees}}
     </div>
     <div class="modal-footer">
 	    <div class="btn-group" role="group">
 	        <button type="button" class="btn btn-default btn-block" data-dismiss="modal" ng-click="clear()">
 	            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
 	        </button>
-	        <button type="button" ng-disabled="((availability.validatedBooking || availability.waitingBooking) || !availability.levelAuthorized)" class="btn btn-default btn-block" data-dismiss="modal" ng-click="subscribe()">
+	        <button type="button" ng-disabled="availability.maxAttendees-availability.nbValidatedBookings == 0 ||(availability.validatedBooking || !availability.levelAuthorized)" class="btn btn-default btn-block" data-dismiss="modal" ng-click="subscribe()">
 	            <span class="glyphicon glyphicon-ok"></span>&nbsp;<span translate="crossfitApp.timeSlot.booking.subscribe">Réserver</span>
 	        </button>
-	        <button type="button" ng-disabled="!(availability.validatedBooking || availability.waitingBooking) || !availability.levelAuthorized" class="btn btn-default btn-block" data-dismiss="modal" ng-click="unSubscribe(availability.memberBooking.id)">
+	        <button type="button" ng-disabled="!availability.validatedBooking || !availability.levelAuthorized" class="btn btn-default btn-block" data-dismiss="modal" ng-click="unSubscribe(availability.memberBooking.id)">
 	            <span class="glyphicon glyphicon-remove"></span>&nbsp;<span translate="crossfitApp.timeSlot.booking.unSubscribe">Annuler la reservation</span>
 	        </button>
         </div>

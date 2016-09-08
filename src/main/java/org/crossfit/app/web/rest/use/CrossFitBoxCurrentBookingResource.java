@@ -267,7 +267,7 @@ public class CrossFitBoxCurrentBookingResource extends BookingResource {
         if(isAvailable(booking)){
         	booking.setStatus(BookingStatus.VALIDATED);
         }else{
-        	booking.setStatus(BookingStatus.ON_WAINTING_LIST);
+        	return ResponseEntity.badRequest().header("Failure", "Il n'y a plus de place pour ce créneau").body(null);
         }
         
         Booking result = bookingRepository.save(booking);

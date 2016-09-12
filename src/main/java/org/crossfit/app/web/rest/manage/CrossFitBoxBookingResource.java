@@ -68,8 +68,9 @@ public class CrossFitBoxBookingResource {
                                   @RequestParam(value = "per_page", required = false, defaultValue = "7") Integer limit)
         throws URISyntaxException {
         
-    	DateTime start = timeService.now().plusDays((offset < 0 ? 0 : offset) * limit);
-    	DateTime end = start.plusDays(limit <= 0 ? 1 : limit);
+    	DateTime start = timeService.now().plusDays((offset < 0 ? 0 : offset) * limit).withTime(0, 0, 0, 0);    	
+    	DateTime end = start.plusDays(limit <= 0 ? 1 : limit-1).withTime(23, 59, 59, 99);
+
     	
     	if (Days.daysBetween(start, end).getDays() > 7){
     		log.warn("Le nombre de jour recherche est trop important: " + Days.daysBetween(start, end).getDays());

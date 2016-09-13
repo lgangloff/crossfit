@@ -17,7 +17,7 @@
             
             <div ng-switch="isAuthenticated()">
                 <div class="planning" ng-switch-when="true">
-					<table  infinite-scroll="loadPage(page + 1)" class="table" cellspacing="0" cellpadding="0">
+					<table  infinite-scroll="loadPage(page + 1)" infinite-scroll-distance="1" class="table" cellspacing="0" cellpadding="0">
 						<tbody ng-repeat="day in planning">
 							<tr ng-repeat="slot in day.slots">
 								<th ng-if="!($index%day.slots.length)" rowspan="{{day.slots.length}}" width="30px">

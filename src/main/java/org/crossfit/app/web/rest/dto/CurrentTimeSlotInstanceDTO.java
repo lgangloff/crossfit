@@ -74,8 +74,8 @@ public class CurrentTimeSlotInstanceDTO extends TimeSlotInstanceDTO {
 			}	
 		}
 	}
-	private int getPercentFree(){
-		return 100-(Integer.divideUnsigned(100, this.getMaxAttendees())) * this.getValidatedBookings().size();
+	private float getPercentFree(){
+		return (float) (100 - (100f / this.getMaxAttendees() * this.getValidatedBookings().size()));
 	}
 	
 	public boolean isLevelAuthorized(){

@@ -16,7 +16,7 @@
             
             
             <div ng-switch="isAuthenticated()">
-                <div class="planning" infinite-scroll="loadPage(page + 1)" infinite-scroll-distance="0" ng-switch-when="true">
+                <div class="planning" ng-switch-when="true">
 					<table   class="table" cellspacing="0" cellpadding="0">
 						<tbody ng-repeat="day in planning">
 							<tr ng-repeat="slot in day.slots">

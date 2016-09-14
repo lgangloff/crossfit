@@ -12,7 +12,7 @@ angular.module('crossfitApp')
         
         
         $scope.loadAll = function() {
-            Planning.query({page: $scope.page, per_page: 7}, function(result, headers) {
+            Planning.query({page: $scope.page, per_page: 14}, function(result, headers) {
                 for (var i = 0; i < result.days.length; i++) {
                     $scope.planning.push(result.days[i]);
                 }
@@ -27,4 +27,8 @@ angular.module('crossfitApp')
             $scope.page = page;
             $scope.loadAll();
         };
+        
+        $scope.showMore = function(){
+        	$scope.$emit('list:loadmore');
+        }
     });

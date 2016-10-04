@@ -65,15 +65,15 @@ public class SubDomainFilter implements Filter {
             
 			String subdomain = domains.length > 0 ? domains[0] : httpRequest.getServerName();
 			
-			if (subdomain.equals(ADMIN_SUBDOMAIN) || box.getAdminwebsite().equals(httpRequest.getServerName())){
+			if (StringUtils.contains(subdomain, ADMIN_SUBDOMAIN) || box.getAdminwebsite().equals(httpRequest.getServerName())){
 	            request.getRequestDispatcher(ADMIN_VIEW).forward(request, response);
 	            return;
 			}
-			else if(subdomain.equals(BOOKING_SUBDOMAIN) || box.getBookingwebsite().equals(httpRequest.getServerName())){
+			else if(StringUtils.contains(subdomain, BOOKING_SUBDOMAIN) || box.getBookingwebsite().equals(httpRequest.getServerName())){
 	            request.getRequestDispatcher(BOOKING_VIEW).forward(request, response);
 	            return;
 			}
-			else if(subdomain.equals(ROOT_SUBDOMAIN) || box.getRootwebsite().equals(httpRequest.getServerName())){
+			else if(StringUtils.contains(subdomain, ROOT_SUBDOMAIN) || box.getRootwebsite().equals(httpRequest.getServerName())){
 	            request.getRequestDispatcher(ROOT_VIEW).forward(request, response);
 	            return;
 			}
